@@ -13,6 +13,12 @@ export const ProductGridItem: React.FC<Props> = ({ product }) => {
   let price = priceInMKD
   const variants = product.variants?.docs
 
+  let categoryTitle = 'PURE EXTRACT'
+  const firstCategory = product.categories?.[0]
+  if (firstCategory && typeof firstCategory === 'object' && firstCategory.title) {
+    categoryTitle = firstCategory.title
+  }
+
   if (variants && variants.length > 0) {
     const variant = variants[0]
     if (
@@ -33,24 +39,26 @@ export const ProductGridItem: React.FC<Props> = ({ product }) => {
   return (
     <Link href={`/products/${slug}`} className="group flex flex-col h-full w-full">
       {/* Image Container */}
-      <div className="relative overflow-hidden rounded-[2rem] bg-transparent mb-8 transition-transform duration-700 ease-out group-hover:scale-[1.02] flex items-center justify-center">
+      <div className="relative overflow-hidden rounded-[2rem] bg-black/5 mb-8 transition-transform duration-700 ease-out group-hover:scale-[1.02] w-full aspect-square">
         {image ? (
           <>
             <Media
-              className={`transition-opacity duration-700 ease-in-out ${secondImage ? 'group-hover:opacity-0' : ''}`}
-              imgClassName="w-full h-auto object-contain transition-transform duration-1000 ease-out group-hover:scale-110"
+              fill
+              className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${secondImage ? 'group-hover:opacity-0' : ''}`}
+              imgClassName="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
               resource={image}
             />
             {secondImage && (
               <Media
+                fill
                 className="absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
-                imgClassName="w-full h-auto object-contain transition-transform duration-1000 ease-out group-hover:scale-110"
+                imgClassName="object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
                 resource={secondImage}
               />
             )}
           </>
         ) : (
-          <div className="flex items-center justify-center bg-black/5 text-[10px] font-bold uppercase tracking-widest text-black/30 w-full aspect-[3/4]">
+          <div className="flex items-center justify-center bg-black/5 text-[10px] font-bold uppercase tracking-widest text-black/30 w-full h-full">
             No Image
           </div>
         )}
@@ -60,7 +68,7 @@ export const ProductGridItem: React.FC<Props> = ({ product }) => {
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 px-2">
         <div className="flex flex-col items-start">
           <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-2">
-            PURE EXTRACT
+            {categoryTitle}
           </span>
           <h3 className="font-display text-2xl md:text-3xl uppercase tracking-tighter text-black group-hover:text-black/70 transition-colors duration-300">
             {title}

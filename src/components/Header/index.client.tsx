@@ -12,8 +12,8 @@ import { Logo } from '@/components/Logo/Logo'
 import { Search } from '@/components/Search'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/cn'
-import { HugeiconsIcon } from '@hugeicons/react'
 import { UserIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { usePathname, useSearchParams } from 'next/navigation'
 
 type Props = {
@@ -26,7 +26,7 @@ export function HeaderClient({ header }: Props) {
   const searchParams = useSearchParams()
 
   return (
-    <div className="relative z-20 border-b bg-white">
+    <div className="z-20 border-b border-stone-100 sticky backdrop-blur-md bg-white/80">
       <nav className="flex items-center justify-between container h-16">
         <div className="block flex-none md:hidden">
           <Suspense fallback={null}>
@@ -51,8 +51,8 @@ export function HeaderClient({ header }: Props) {
                       {...item.link}
                       size={'clear'}
                       className={cn(
-                        'relative transition-all duration-300 hover:-translate-y-[3px] before:content-[""] before:absolute before:z-[-1] before:bottom-[-1px] before:left-0 before:right-0 before:h-[5px] before:bg-primary before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 hover:before:scale-y-100',
-                        'hover:text-primary text-stone-600 dark:text-stone-400',
+                        'relative transition-colors duration-300 after:content-[""] after:absolute after:-bottom-1 after:left-0 after:w-full after:h-[2px] after:bg-primary after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 after:ease-out',
+                        'hover:text-primary text-black font-bold font-display dark:text-stone-400',
                         {
                           'text-primary font-extrabold':
                             item.link.url && item.link.url !== '/'
@@ -75,7 +75,7 @@ export function HeaderClient({ header }: Props) {
                       <Link
                         href={url}
                         className={cn(
-                          'relative flex items-center px-2 transition-all duration-300 hover:-translate-y-[3px] before:content-[""] before:absolute before:z-[-1] before:bottom-[-1px] before:left-0 before:right-0 before:h-[5px] before:bg-primary before:scale-y-0 before:origin-bottom before:transition-transform before:duration-300 hover:before:scale-y-100',
+                          'relative flex items-center px-2 transition-colors duration-300 after:content-[""] after:absolute after:-bottom-1 after:left-2 after:right-2 after:h-[2px] after:bg-primary after:origin-bottom-right after:scale-x-0 hover:after:origin-bottom-left hover:after:scale-x-100 after:transition-transform after:duration-300 after:ease-out',
                           'hover:text-primary text-stone-600 dark:text-stone-400 font-mono tracking-widest text-xs uppercase',
                           {
                             'text-primary font-extrabold': isActive,

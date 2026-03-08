@@ -120,7 +120,7 @@ export default async function ProductPage({ params }: Args) {
         }}
         type="application/ld+json"
       />
-      <div className="container pt-12 md:pt-24 pb-32">
+      <div className="container pt-12 pb-32">
         <TrackProductView product={product} />
         <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out">
           <Link href="/shop" className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-black/40 hover:text-black transition-colors mb-12 group">

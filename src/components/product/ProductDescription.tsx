@@ -7,9 +7,9 @@ import { RichText } from '@/components/RichText'
 import { Suspense } from 'react'
 
 import { StockIndicator } from '@/components/product/StockIndicator'
-import { useCurrency } from '@payloadcms/plugin-ecommerce/client/react'
-import { HugeiconsIcon } from '@hugeicons/react'
 import { DeliveryTruck01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { useCurrency } from '@payloadcms/plugin-ecommerce/client/react'
 import { VariantSelector } from './VariantSelector'
 import { WishlistButton } from './WishlistButton'
 
@@ -99,7 +99,6 @@ export function ProductDescription({ product }: { product: Product }) {
           <Suspense fallback={null}>
             <VariantSelector product={product} />
           </Suspense>
-          <div className="h-px bg-border/60" />
         </>
       )}
 

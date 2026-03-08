@@ -9,9 +9,9 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
-import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
-import { HugeiconsIcon } from '@hugeicons/react'
 import { CreditCardIcon, ShoppingCart01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -186,7 +186,7 @@ export function CartModal({ className }: { className?: string }) {
 
               <div className="px-4">
                 <div className="py-4 text-sm text-neutral-500 dark:text-neutral-400">
-                  <div className="mb-6 rounded-xl border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-900">
+                  {/* <div className="mb-6 rounded-xl border border-neutral-200 bg-neutral-50 p-4 dark:border-neutral-800 dark:bg-neutral-900">
                     <div className="mb-3 text-center text-sm font-medium text-black dark:text-white">
                       {cartTotalMKD >= 3000 ? (
                         <span className="text-green-600 dark:text-green-400">Честитки! Имате бесплатна достава! 🎉</span>
@@ -202,7 +202,7 @@ export function CartModal({ className }: { className?: string }) {
                         style={{ width: `${Math.min((cartTotalMKD / 3000) * 100, 100)}%` }}
                       />
                     </div>
-                  </div>
+                  </div> */}
 
                   {typeof cart?.subtotal === 'number' && (
                     <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 dark:border-neutral-700">
