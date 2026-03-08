@@ -549,46 +549,7 @@ export interface Page {
   /**
    * Додадете различни блокови на содржина за да ја изградите вашата страница.
    */
-  layout: (
-    | ContentBlock
-    | CarouselBlock
-    | {
-        title?: string | null;
-        subtitle?: string | null;
-        items: {
-          /**
-           * Please upload a PNG image without background.
-           */
-          image: string | Media;
-          category: string | Category;
-          id?: string | null;
-        }[];
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'categories';
-      }
-    | {
-        title: string;
-        description: string;
-        avatars?: (string | Media)[] | null;
-        /**
-         * The text to show in the last circle (e.g., 4k+)
-         */
-        avatarCountLabel?: string | null;
-        /**
-         * The text to show below the avatars (e.g., Happy Kids)
-         */
-        avatarBottomLabel?: string | null;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'about';
-      }
-    | ThreeItemGridBlock
-    | FormBlock
-    | ProductCarouselBlock
-    | InstagramBlock
-    | ProductFeatureBlock
-  )[];
+  layout: (ContentBlock | FormBlock | InstagramBlock | ProductFeatureBlock)[];
   meta?: {
     title?: string | null;
     /**
@@ -605,66 +566,6 @@ export interface Page {
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CarouselBlock".
- */
-export interface CarouselBlock {
-  populateBy?: ('collection' | 'selection') | null;
-  relationTo?: 'products' | null;
-  categories?: (string | Category)[] | null;
-  limit?: number | null;
-  selectedDocs?:
-    | {
-        relationTo: 'products';
-        value: string | Product;
-      }[]
-    | null;
-  /**
-   * This field is auto-populated after-read
-   */
-  populatedDocs?:
-    | {
-        relationTo: 'products';
-        value: string | Product;
-      }[]
-    | null;
-  /**
-   * This field is auto-populated after-read
-   */
-  populatedDocsTotal?: number | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'carousel';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
- */
-export interface Category {
-  id: string;
-  /**
-   * Внесете го името на категоријата (на пр. Маички, Панталони). Ова име ќе се појавува во менито за филтрирање.
-   */
-  title: string;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ThreeItemGridBlock".
- */
-export interface ThreeItemGridBlock {
-  products?: (string | Product)[] | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'threeItemGrid';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -868,26 +769,6 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ProductCarouselBlock".
- */
-export interface ProductCarouselBlock {
-  title?: string | null;
-  subtitle?: string | null;
-  populateBy?: ('category' | 'selection') | null;
-  categories?: (string | Category)[] | null;
-  limit?: number | null;
-  selectedDocs?:
-    | {
-        relationTo: 'products';
-        value: string | Product;
-      }[]
-    | null;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'productCarousel';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "InstagramBlock".
  */
 export interface InstagramBlock {
@@ -965,6 +846,24 @@ export interface Variant {
   createdAt: string;
   deletedAt?: string | null;
   _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: string;
+  /**
+   * Внесете го името на категоријата (на пр. Маички, Панталони). Ова име ќе се појавува во менито за филтрирање.
+   */
+  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * Преглед на сите финансиски трансакции и плаќања.
@@ -1297,36 +1196,7 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         content?: T | ContentBlockSelect<T>;
-        carousel?: T | CarouselBlockSelect<T>;
-        categories?:
-          | T
-          | {
-              title?: T;
-              subtitle?: T;
-              items?:
-                | T
-                | {
-                    image?: T;
-                    category?: T;
-                    id?: T;
-                  };
-              id?: T;
-              blockName?: T;
-            };
-        about?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              avatars?: T;
-              avatarCountLabel?: T;
-              avatarBottomLabel?: T;
-              id?: T;
-              blockName?: T;
-            };
-        threeItemGrid?: T | ThreeItemGridBlockSelect<T>;
         formBlock?: T | FormBlockSelect<T>;
-        productCarousel?: T | ProductCarouselBlockSelect<T>;
         instagram?: T | InstagramBlockSelect<T>;
         productFeature?: T | ProductFeatureBlockSelect<T>;
       };
@@ -1371,50 +1241,12 @@ export interface ContentBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "CarouselBlock_select".
- */
-export interface CarouselBlockSelect<T extends boolean = true> {
-  populateBy?: T;
-  relationTo?: T;
-  categories?: T;
-  limit?: T;
-  selectedDocs?: T;
-  populatedDocs?: T;
-  populatedDocsTotal?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ThreeItemGridBlock_select".
- */
-export interface ThreeItemGridBlockSelect<T extends boolean = true> {
-  products?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "FormBlock_select".
  */
 export interface FormBlockSelect<T extends boolean = true> {
   form?: T;
   enableIntro?: T;
   introContent?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "ProductCarouselBlock_select".
- */
-export interface ProductCarouselBlockSelect<T extends boolean = true> {
-  title?: T;
-  subtitle?: T;
-  populateBy?: T;
-  categories?: T;
-  limit?: T;
-  selectedDocs?: T;
   id?: T;
   blockName?: T;
 }

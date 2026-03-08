@@ -1,27 +1,17 @@
-import { AboutBlock } from '@/blocks/About/Component'
-import { CarouselBlock } from '@/blocks/Carousel/Component'
-import { CategoriesBlock } from '@/blocks/Categories/Component'
 import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { InstagramBlock } from '@/blocks/Instagram/Component'
-import { ProductCarouselBlock } from '@/blocks/ProductCarousel/Component'
 import { ProductFeatureBlock } from '@/blocks/ProductFeature/Component'
-import { ThreeItemGridBlock } from '@/blocks/ThreeItemGrid/Component'
 import { toKebabCase } from '@/utilities/toKebabCase'
 import React, { Fragment } from 'react'
 
 import type { Page } from '../payload-types'
 
 const blockComponents = {
-  about: AboutBlock,
-  carousel: CarouselBlock,
-  categories: CategoriesBlock,
   content: ContentBlock,
   formBlock: FormBlock,
   instagram: InstagramBlock,
-  productCarousel: ProductCarouselBlock,
   productFeature: ProductFeatureBlock,
-  threeItemGrid: ThreeItemGridBlock,
 }
 
 export const RenderBlocks: React.FC<{
