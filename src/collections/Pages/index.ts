@@ -8,6 +8,7 @@ import { Instagram } from '@/blocks/Instagram/config'
 import { CallToAction } from '@/blocks/CallToAction/config'
 import { HowItWorks } from '@/blocks/HowItWorks/config'
 import { ProductFeature } from '@/blocks/ProductFeature/config'
+import { ProductVariantsFeature } from '@/blocks/ProductVariantsFeature/config'
 import { hero } from '@/heros/config'
 import { formatSlugCollectionHook } from '@/hooks/formatSlug'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
@@ -98,7 +99,7 @@ export const Pages: CollectionConfig = {
               name: 'layout',
               type: 'blocks',
               label: 'Распоред на содржина (Layout)',
-              blocks: [Content, FormBlock, Instagram, ProductFeature, CallToAction, HowItWorks],
+              blocks: [Content, FormBlock, Instagram, ProductFeature, CallToAction, HowItWorks, ProductVariantsFeature],
               required: true,
               admin: {
                 description: 'Додадете различни блокови на содржина за да ја изградите вашата страница.',

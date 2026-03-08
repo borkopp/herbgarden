@@ -2,6 +2,7 @@ import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { InstagramBlock } from '@/blocks/Instagram/Component'
 import { ProductFeatureBlock } from '@/blocks/ProductFeature/Component'
+import { ProductVariantsFeatureBlock } from '@/blocks/ProductVariantsFeature/Component'
 import { CallToActionBlockComponent } from '@/blocks/CallToAction/Component'
 import { HowItWorksBlockComponent } from '@/blocks/HowItWorks/Component'
 import { toKebabCase } from '@/utilities/toKebabCase'
@@ -14,6 +15,7 @@ const blockComponents = {
   formBlock: FormBlock,
   instagram: InstagramBlock,
   productFeature: ProductFeatureBlock,
+  productVariantsFeature: ProductVariantsFeatureBlock,
   callToAction: CallToActionBlockComponent,
   howItWorks: HowItWorksBlockComponent,
 }

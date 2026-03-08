@@ -549,7 +549,15 @@ export interface Page {
   /**
    * Додадете различни блокови на содржина за да ја изградите вашата страница.
    */
-  layout: (ContentBlock | FormBlock | InstagramBlock | ProductFeatureBlock | CallToActionBlock | HowItWorksBlock)[];
+  layout: (
+    | ContentBlock
+    | FormBlock
+    | InstagramBlock
+    | ProductFeatureBlock
+    | CallToActionBlock
+    | HowItWorksBlock
+    | ProductVariantsFeatureBlock
+  )[];
   meta?: {
     title?: string | null;
     /**
@@ -865,6 +873,44 @@ export interface HowItWorksBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'howItWorks';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductVariantsFeatureBlock".
+ */
+export interface ProductVariantsFeatureBlock {
+  product: string | Product;
+  /**
+   * Overrides the default product image
+   */
+  customImage?: (string | null) | Media;
+  tag?: string | null;
+  /**
+   * Overrides the default product title
+   */
+  title?: string | null;
+  /**
+   * Overrides the default product description
+   */
+  description?: string | null;
+  features?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Hex code for the highlight color representing the product accents (e.g., #FF7F7F)
+   */
+  highlightColor?: string | null;
+  priceLabel?: string | null;
+  /**
+   * Overrides the default product price. Example: $52.00
+   */
+  customPrice?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'productVariantsFeature';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1240,6 +1286,7 @@ export interface PagesSelect<T extends boolean = true> {
         productFeature?: T | ProductFeatureBlockSelect<T>;
         callToAction?: T | CallToActionBlockSelect<T>;
         howItWorks?: T | HowItWorksBlockSelect<T>;
+        productVariantsFeature?: T | ProductVariantsFeatureBlockSelect<T>;
       };
   meta?:
     | T
@@ -1368,6 +1415,28 @@ export interface HowItWorksBlockSelect<T extends boolean = true> {
         description?: T;
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductVariantsFeatureBlock_select".
+ */
+export interface ProductVariantsFeatureBlockSelect<T extends boolean = true> {
+  product?: T;
+  customImage?: T;
+  tag?: T;
+  title?: T;
+  description?: T;
+  features?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  highlightColor?: T;
+  priceLabel?: T;
+  customPrice?: T;
   id?: T;
   blockName?: T;
 }

@@ -52,7 +52,7 @@ export const HowItWorksBlockComponent: React.FC<HowItWorksBlock> = (props) => {
                   <Media
                     resource={step.image}
                     fill
-                    imgClassName="object-contain rounded-2xl mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
+                    imgClassName="object-cover rounded-2xl mix-blend-multiply transition-transform duration-700 group-hover:scale-105"
                   />
                 ) : (
                   <span className="text-black/30 text-xs tracking-widest uppercase">No Image</span>
