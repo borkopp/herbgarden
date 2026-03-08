@@ -5,6 +5,8 @@ import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
 import { Content } from '@/blocks/Content/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { Instagram } from '@/blocks/Instagram/config'
+import { CallToAction } from '@/blocks/CallToAction/config'
+import { HowItWorks } from '@/blocks/HowItWorks/config'
 import { ProductFeature } from '@/blocks/ProductFeature/config'
 import { hero } from '@/heros/config'
 import { formatSlugCollectionHook } from '@/hooks/formatSlug'
@@ -96,7 +98,7 @@ export const Pages: CollectionConfig = {
               name: 'layout',
               type: 'blocks',
               label: 'Распоред на содржина (Layout)',
-              blocks: [Content, FormBlock, Instagram, ProductFeature],
+              blocks: [Content, FormBlock, Instagram, ProductFeature, CallToAction, HowItWorks],
               required: true,
               admin: {
                 description: 'Додадете различни блокови на содржина за да ја изградите вашата страница.',
@@ -148,4 +150,3 @@ export const Pages: CollectionConfig = {
     maxPerDoc: 50,
   },
 }
-

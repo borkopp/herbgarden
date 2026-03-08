@@ -1,8 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { toast } from 'sonner';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import { sendContactEmail } from './actions';
 
 export default function ContactPage() {
@@ -36,14 +36,14 @@ export default function ContactPage() {
         <main className="min-h-screen flex flex-col bg-white">
             {/* Top Section */}
             <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
                     <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-6 block">SENSORY ENHANCEMENT LABORATORY</span>
                     <h1 className="font-display text-5xl md:text-7xl lg:text-[7rem] leading-[0.85] tracking-tighter text-black uppercase">
-                        BOTANICAL<br/>
+                        BOTANICAL<br />
                         <span className="text-transparent" style={{ WebkitTextStroke: '2px #e5e5e5' }}>ESSENCE</span>
                     </h1>
                     <p className="mt-8 text-black/60 text-xs md:text-sm leading-relaxed max-w-lg font-medium">
@@ -55,7 +55,7 @@ export default function ContactPage() {
             {/* Middle Section (Philosophy & Badge) */}
             <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center border-t border-black/5 pt-16">
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
@@ -76,7 +76,7 @@ export default function ContactPage() {
                         </div>
                     </motion.div>
 
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
@@ -85,7 +85,7 @@ export default function ContactPage() {
                     >
                         <div className="w-48 h-48 rounded-full bg-black flex items-center justify-center p-6 text-center text-white shadow-xl shadow-black/10">
                             <span className="text-[9px] font-bold tracking-[0.2em] uppercase leading-[2.5]">
-                                PURE <br/>•<br/> BOTANICAL <br/>•<br/> ESSENCE
+                                PURE <br />•<br /> BOTANICAL <br />•<br /> ESSENCE
                             </span>
                         </div>
                     </motion.div>
@@ -96,7 +96,7 @@ export default function ContactPage() {
             <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full mb-20 border-t border-black/5">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20">
                     {/* Left Info */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -121,13 +121,13 @@ export default function ContactPage() {
                             </div>
                             <div>
                                 <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 block mb-1">Location</span>
-                                <p className="font-bold text-black text-xs md:text-sm leading-relaxed">Ilindenska 24<br/>Prilep 7500</p>
+                                <p className="font-bold text-black text-xs md:text-sm leading-relaxed">Ilindenska 24<br />Prilep 7500</p>
                             </div>
                         </div>
                     </motion.div>
 
                     {/* Right Form */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
@@ -137,7 +137,7 @@ export default function ContactPage() {
                         <h3 className="text-lg font-display uppercase tracking-widest text-black mb-10">Send a message</h3>
                         <form className="space-y-8" onSubmit={handleSubmit}>
                             <div className="relative">
-                                <input 
+                                <input
                                     required
                                     name="name"
                                     type="text"
@@ -146,7 +146,7 @@ export default function ContactPage() {
                                 />
                             </div>
                             <div className="relative">
-                                <input 
+                                <input
                                     required
                                     name="email"
                                     type="email"
@@ -155,7 +155,7 @@ export default function ContactPage() {
                                 />
                             </div>
                             <div className="relative">
-                                <textarea 
+                                <textarea
                                     required
                                     name="message"
                                     rows={2}
@@ -164,7 +164,7 @@ export default function ContactPage() {
                                 />
                             </div>
                             <div className="pt-2">
-                                <button 
+                                <button
                                     type="submit"
                                     disabled={isSubmitting}
                                     className="bg-black text-white px-8 py-3 rounded-full text-[9px] md:text-[10px] font-bold uppercase tracking-widest hover:bg-black/80 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:hover:scale-100 disabled:hover:bg-black w-fit"

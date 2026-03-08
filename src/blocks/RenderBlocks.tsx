@@ -2,6 +2,8 @@ import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { InstagramBlock } from '@/blocks/Instagram/Component'
 import { ProductFeatureBlock } from '@/blocks/ProductFeature/Component'
+import { CallToActionBlockComponent } from '@/blocks/CallToAction/Component'
+import { HowItWorksBlockComponent } from '@/blocks/HowItWorks/Component'
 import { toKebabCase } from '@/utilities/toKebabCase'
 import React, { Fragment } from 'react'
 
@@ -12,6 +14,8 @@ const blockComponents = {
   formBlock: FormBlock,
   instagram: InstagramBlock,
   productFeature: ProductFeatureBlock,
+  callToAction: CallToActionBlockComponent,
+  howItWorks: HowItWorksBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{

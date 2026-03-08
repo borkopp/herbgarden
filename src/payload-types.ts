@@ -549,7 +549,7 @@ export interface Page {
   /**
    * Додадете различни блокови на содржина за да ја изградите вашата страница.
    */
-  layout: (ContentBlock | FormBlock | InstagramBlock | ProductFeatureBlock)[];
+  layout: (ContentBlock | FormBlock | InstagramBlock | ProductFeatureBlock | CallToActionBlock | HowItWorksBlock)[];
   meta?: {
     title?: string | null;
     /**
@@ -826,6 +826,45 @@ export interface ProductFeatureBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'productFeature';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToActionBlock".
+ */
+export interface CallToActionBlock {
+  image: string | Media;
+  title: string;
+  text: string;
+  link: {
+    type?: ('reference' | 'custom') | null;
+    newTab?: boolean | null;
+    reference?: {
+      relationTo: 'pages';
+      value: string | Page;
+    } | null;
+    url?: string | null;
+    label: string;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'callToAction';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HowItWorksBlock".
+ */
+export interface HowItWorksBlock {
+  title: string;
+  steps: {
+    image: string | Media;
+    tagline: string;
+    title: string;
+    description: string;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'howItWorks';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1199,6 +1238,8 @@ export interface PagesSelect<T extends boolean = true> {
         formBlock?: T | FormBlockSelect<T>;
         instagram?: T | InstagramBlockSelect<T>;
         productFeature?: T | ProductFeatureBlockSelect<T>;
+        callToAction?: T | CallToActionBlockSelect<T>;
+        howItWorks?: T | HowItWorksBlockSelect<T>;
       };
   meta?:
     | T
@@ -1289,6 +1330,44 @@ export interface ProductFeatureBlockSelect<T extends boolean = true> {
   highlightColor?: T;
   priceLabel?: T;
   customPrice?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CallToActionBlock_select".
+ */
+export interface CallToActionBlockSelect<T extends boolean = true> {
+  image?: T;
+  title?: T;
+  text?: T;
+  link?:
+    | T
+    | {
+        type?: T;
+        newTab?: T;
+        reference?: T;
+        url?: T;
+        label?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "HowItWorksBlock_select".
+ */
+export interface HowItWorksBlockSelect<T extends boolean = true> {
+  title?: T;
+  steps?:
+    | T
+    | {
+        image?: T;
+        tagline?: T;
+        title?: T;
+        description?: T;
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }

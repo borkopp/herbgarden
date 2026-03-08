@@ -101,7 +101,7 @@ export const ProductFeature: Block = {
     {
       name: 'priceLabel',
       type: 'text',
-      defaultValue: 'INVESTMENT',
+      defaultValue: 'PRICE',
       label: 'Price Label',
     },
     {

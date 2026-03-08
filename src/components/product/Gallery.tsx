@@ -104,10 +104,10 @@ export const Gallery: React.FC<Props> = ({ gallery }) => {
         onClick={() => setIsOpen(true)}
       >
         <Lens
-            hovering={isHoveringLens}
-            setHovering={setIsHoveringLens}
-            zoomFactor={2}
-            lensSize={200}
+          hovering={isHoveringLens}
+          setHovering={setIsHoveringLens}
+          zoomFactor={2}
+          lensSize={450}
         >
           <Media
             resource={gallery[current].image}

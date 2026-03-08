@@ -1,26 +1,16 @@
-import type { Product } from '@/payload-types'
-
 import { Media } from '@/components/Media'
-import { Price } from '@/components/Price'
-import { WishlistButton } from '@/components/product/WishlistButton'
+import type { Product } from '@/payload-types'
 import Link from 'next/link'
 import React from 'react'
-import { QuickAddToCartButton } from './QuickAddToCartButton'
-import { HugeiconsIcon } from '@hugeicons/react'
-import { Image01Icon } from '@hugeicons/core-free-icons'
 
 type Props = {
   product: Partial<Product>
 }
 
 export const ProductGridItem: React.FC<Props> = ({ product }) => {
-  const { gallery, priceInMKD, title, categories } = product
-  const badgeText = (product as any).badgeText
-  const badgeColor = (product as any).badgeColor || 'bg-white/90 text-muted-foreground'
-
+  const { gallery, priceInMKD, title, slug } = product
 
   let price = priceInMKD
-
   const variants = product.variants?.docs
 
   if (variants && variants.length > 0) {
@@ -37,81 +27,57 @@ export const ProductGridItem: React.FC<Props> = ({ product }) => {
 
   const image =
     gallery?.[0]?.image && typeof gallery[0]?.image !== 'string' ? gallery[0]?.image : false
-
-  // Second image
   const secondImage =
     gallery?.[1]?.image && typeof gallery[1]?.image !== 'string' ? gallery[1]?.image : false
 
   return (
-    <div className="group relative flex flex-col h-full w-full">
+    <Link href={`/products/${slug}`} className="group flex flex-col h-full w-full">
       {/* Image Container */}
-      <div className="relative aspect-square overflow-hidden rounded-3xl bg-[#f8f5f1] transition-all duration-300 ease-out">
-        <Link href={`/products/${product.slug}`} className="absolute inset-0 z-10 block">
-          {image ? (
-            <>
-              <Media
-                className={`absolute inset-0 flex items-center justify-center p-6 transition-opacity duration-500 ease-in-out ${secondImage ? 'group-hover:opacity-0' : ''}`}
-                imgClassName="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-110"
-                resource={image}
-                width={400}
-                height={400}
-              />
-              {secondImage && (
-                <Media
-                  className="absolute inset-0 flex items-center justify-center p-6 opacity-0 transition-opacity duration-500 ease-in-out group-hover:opacity-100"
-                  imgClassName="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-110"
-                  resource={secondImage}
-                  width={400}
-                  height={400}
-                />
-              )}
-            </>
-          ) : (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <HugeiconsIcon icon={Image01Icon} size={64} className="text-muted-foreground/20" strokeWidth={1} />
-            </div>
-          )}
-        </Link>
-
-        {/* Category Badge */}
-        {badgeText && (
-          <span className={`absolute top-3 left-3 px-3 py-1.5 rounded-full shadow-sm text-xs font-medium backdrop-blur-sm z-20 ${badgeColor}`}>
-            {badgeText}
-          </span>
-        )}
-
-        {/* Floating Actions Overlay */}
-        <div className="absolute inset-0 z-20 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-t from-black/20 to-transparent flex flex-col justify-between p-3">
-          <div className="flex justify-end pointer-events-auto">
-            <WishlistButton
-              product={product as Product}
-              className="h-10 w-10 border-none shadow-md bg-white/90 hover:bg-white text-muted-foreground backdrop-blur-sm"
+      <div className="relative overflow-hidden rounded-[2rem] bg-transparent mb-8 transition-transform duration-700 ease-out group-hover:scale-[1.02] flex items-center justify-center">
+        {image ? (
+          <>
+            <Media
+              className={`transition-opacity duration-700 ease-in-out ${secondImage ? 'group-hover:opacity-0' : ''}`}
+              imgClassName="w-full h-auto object-contain transition-transform duration-1000 ease-out group-hover:scale-110"
+              resource={image}
             />
+            {secondImage && (
+              <Media
+                className="absolute inset-0 opacity-0 transition-opacity duration-700 ease-in-out group-hover:opacity-100"
+                imgClassName="w-full h-auto object-contain transition-transform duration-1000 ease-out group-hover:scale-110"
+                resource={secondImage}
+              />
+            )}
+          </>
+        ) : (
+          <div className="flex items-center justify-center bg-black/5 text-[10px] font-bold uppercase tracking-widest text-black/30 w-full aspect-[3/4]">
+            No Image
           </div>
-          <div className="pointer-events-auto translate-y-4 group-hover:translate-y-0 transition-all duration-300 delay-75 mb-2 px-2">
-            <QuickAddToCartButton product={product} />
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Product Info */}
-      <div className="flex flex-col justify-center items-center mt-4 px-1">
-        <Link href={`/products/${product.slug}`} className="flex-1">
-          <h3 className="text-md font-medium text-foreground/80 group-hover:text-foreground transition-colors duration-200 line-clamp-2">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 px-2">
+        <div className="flex flex-col items-start">
+          <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-2">
+            PURE EXTRACT
+          </span>
+          <h3 className="font-display text-2xl md:text-3xl uppercase tracking-tighter text-black group-hover:text-black/70 transition-colors duration-300">
             {title}
           </h3>
-        </Link>
+        </div>
 
         {typeof price === 'number' && (
-          <div className="pl-2">
-            <Price
-              amount={price}
-              className="text-sm font-semibold text-foreground whitespace-nowrap"
-              as="span"
-            />
+          <div className="flex flex-col items-start sm:items-end">
+            <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-1">
+              PRICE
+            </span>
+            <span className="font-sans text-lg font-bold text-black border-b border-black/10 pb-1 pr-1">
+              {price} ДЕН
+            </span>
           </div>
         )}
       </div>
-    </div>
+    </Link>
   )
 }

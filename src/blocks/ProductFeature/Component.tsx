@@ -253,7 +253,7 @@ export const ProductFeatureBlock: React.FC<ProductFeatureProps> = (props) => {
 
             <div className={`flex flex-col items-center ${isImageRight ? 'lg:items-start' : 'lg:items-end'} min-w-[120px]`}>
               <span className="text-[10px] text-muted-foreground tracking-widest uppercase font-semibold">
-                {priceLabel || 'INVESTMENT'}
+                {priceLabel || 'PRICE'}
               </span>
               <span className="text-3xl font-sans font-bold text-black mt-1">
                 {finalPrice}
