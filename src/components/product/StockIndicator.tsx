@@ -50,7 +50,7 @@ export const StockIndicator: React.FC<Props> = ({ product }) => {
           <span className="absolute inline-flex h-full w-full rounded-full bg-red-400/40" />
           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500" />
         </span>
-        <span className="text-sm font-medium text-red-600/80">Нема на залиха</span>
+        <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-red-600/80">Нема на залиха</span>
       </div>
     )
   }
@@ -62,7 +62,7 @@ export const StockIndicator: React.FC<Props> = ({ product }) => {
           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400/60" />
           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500" />
         </span>
-        <span className="text-sm font-medium text-amber-600/80">
+        <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-amber-600/80">
           Само {stockQuantity} останати
         </span>
       </div>
@@ -74,7 +74,7 @@ export const StockIndicator: React.FC<Props> = ({ product }) => {
       <span className="relative flex h-2.5 w-2.5">
         <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
       </span>
-      <span className="text-sm font-medium text-emerald-600/80">На залиха</span>
+      <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-emerald-600/80">На залиха</span>
     </div>
   )
 }

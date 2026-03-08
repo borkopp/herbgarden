@@ -12,7 +12,8 @@ import { Logo } from '@/components/Logo/Logo'
 import { Search } from '@/components/Search'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/cn'
-import { User } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { UserIcon } from '@hugeicons/core-free-icons'
 import { usePathname, useSearchParams } from 'next/navigation'
 
 type Props = {
@@ -103,7 +104,7 @@ export function HeaderClient({ header }: Props) {
                 className="flex items-center justify-center hover:cursor-pointer p-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
               >
                 <Link href="/account">
-                  <User className="size-5 text-stone-700 dark:text-stone-300" />
+                  <HugeiconsIcon icon={UserIcon} size={20} className="text-stone-700 dark:text-stone-300" strokeWidth={1.5} />
                 </Link>
               </Button>
               <Suspense fallback={<OpenCartButton />}>

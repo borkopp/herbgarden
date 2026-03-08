@@ -7,7 +7,8 @@ import { Order } from '@/payload-types'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import configPromise from '@payload-config'
-import { ArrowRight } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { ArrowRight01Icon } from '@hugeicons/core-free-icons'
 import { headers as getHeaders } from 'next/headers.js'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -67,7 +68,7 @@ export default async function AccountPage() {
           </div>
           <Link href="/orders" className="text-primary hover:text-primary/80 font-bold text-sm flex items-center gap-1 transition-colors">
             Види ги сите
-            <ArrowRight className="size-[18px]" />
+            <HugeiconsIcon icon={ArrowRight01Icon} size={18} strokeWidth={1.5} />
           </Link>
         </div>
 

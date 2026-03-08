@@ -3,7 +3,8 @@
 import { ProductGridItem } from '@/components/ProductGridItem'
 import { Button } from '@/components/ui/button'
 import { useWishlist } from '@/providers/Wishlist'
-import { HeartOff } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { HeartRemoveIcon } from '@hugeicons/core-free-icons'
 import Link from 'next/link'
 import React from 'react'
 
@@ -22,7 +23,7 @@ export const WishlistClient: React.FC = () => {
         return (
             <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-sm p-12 flex flex-col items-center justify-center text-center gap-4">
                 <div className="size-16 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-400">
-                    <HeartOff className="size-8" />
+                    <HugeiconsIcon icon={HeartRemoveIcon} size={32} strokeWidth={1.5} />
                 </div>
                 <div>
                     <h3 className="text-lg font-medium text-stone-900 dark:text-stone-100">Вашата листа е празна</h3>
@@ -51,7 +52,7 @@ export const WishlistClient: React.FC = () => {
                             className="absolute top-3 right-3 z-10 size-8 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-sm flex items-center justify-center text-stone-400 hover:text-rose-500 hover:bg-white dark:hover:bg-stone-800 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 shadow-sm"
                             title="Отстрани"
                         >
-                            <HeartOff className="size-4" />
+                            <HugeiconsIcon icon={HeartRemoveIcon} size={16} strokeWidth={1.5} />
                         </button>
                     </div>
                 )

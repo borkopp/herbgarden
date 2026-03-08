@@ -10,7 +10,8 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog'
 import { Address } from '@/payload-types'
-import { Edit2, Plus } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { PencilEdit01Icon, PlusSignIcon } from '@hugeicons/core-free-icons'
 import { DefaultDocumentIDType } from 'payload'
 import React, { useState } from 'react'
 
@@ -57,7 +58,7 @@ export const CreateAddressModal: React.FC<Props> = ({
           variant={'secondary'}
           className="flex items-center gap-2 px-6 py-2 bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl text-sm font-bold hover:bg-stone-200 dark:hover:bg-stone-700 transition-all text-stone-900 dark:text-stone-100 shadow-sm"
         >
-          {addressID ? <Edit2 className="size-[18px]" /> : <Plus className="size-[18px]" />}
+          {addressID ? <HugeiconsIcon icon={PencilEdit01Icon} size={18} strokeWidth={1.5} /> : <HugeiconsIcon icon={PlusSignIcon} size={18} strokeWidth={1.5} />}
           {buttonText}
         </Button>
       </DialogTrigger>

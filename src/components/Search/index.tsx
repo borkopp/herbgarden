@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/utilities/cn'
 import { createUrl } from '@/utilities/createUrl'
 import { AnimatePresence, motion } from 'framer-motion'
-import { SearchIcon, X } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Search01Icon, Cancel01Icon } from '@hugeicons/core-free-icons'
 import { useRouter, useSearchParams } from 'next/navigation'
 import React, { useEffect, useRef, useState } from 'react'
 
@@ -70,7 +71,7 @@ export const Search: React.FC<Props> = ({ className }) => {
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center justify-center hover:cursor-pointer p-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
       >
-        <SearchIcon className="size-5 text-stone-700 dark:text-stone-300" />
+        <HugeiconsIcon icon={Search01Icon} size={20} className="text-stone-700 dark:text-stone-300" strokeWidth={1.5} />
       </Button>
 
       <AnimatePresence>
@@ -84,7 +85,7 @@ export const Search: React.FC<Props> = ({ className }) => {
           >
             <div className="container mx-auto">
               <form onSubmit={onSubmit} className="relative flex items-center w-full max-w-3xl mx-auto">
-                <SearchIcon className="absolute left-4 h-5 w-5 text-stone-400" />
+                <HugeiconsIcon icon={Search01Icon} size={20} className="absolute left-4 text-stone-400" strokeWidth={1.5} />
                 <input
                   ref={inputRef}
                   autoComplete="off"
@@ -102,7 +103,7 @@ export const Search: React.FC<Props> = ({ className }) => {
                   onClick={() => setIsOpen(false)}
                   className="absolute right-2 text-stone-400 hover:text-stone-600 dark:hover:text-stone-200"
                 >
-                  <X className="h-5 w-5" />
+                  <HugeiconsIcon icon={Cancel01Icon} size={20} strokeWidth={1.5} />
                 </Button>
               </form>
             </div>

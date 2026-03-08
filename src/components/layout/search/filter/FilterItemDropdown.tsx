@@ -1,6 +1,7 @@
 'use client'
 
-import { ChevronDownIcon } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { ArrowDown01Icon } from '@hugeicons/core-free-icons'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 
@@ -46,7 +47,7 @@ export function FilterItemDropdown({ list }: { list: ListItem[] }) {
         }}
       >
         <div>{active || 'Сортирај'}</div>
-        <ChevronDownIcon className={`ml-2 h-4 w-4 text-muted-foreground transition-transform duration-200 ${openSelect ? 'rotate-180' : ''}`} />
+        <HugeiconsIcon icon={ArrowDown01Icon} size={16} className={`ml-2 text-muted-foreground transition-transform duration-200 ${openSelect ? 'rotate-180' : ''}`} strokeWidth={1.5} />
       </div>
       {openSelect && (
         <div

@@ -8,6 +8,8 @@ import configPromise from '@payload-config'
 import { Metadata } from 'next'
 import Link from 'next/link'
 import { getPayload } from 'payload'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Search01Icon } from '@hugeicons/core-free-icons'
 import { Suspense } from 'react'
 
 export const metadata: Metadata = {
@@ -123,9 +125,7 @@ export default async function ShopPage({ searchParams }: Props) {
         {products.docs?.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-24 text-center">
             <div className="w-20 h-20 rounded-full bg-muted/40 flex items-center justify-center mb-6">
-              <svg className="w-10 h-10 text-muted-foreground/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+              <HugeiconsIcon icon={Search01Icon} size={40} className="text-muted-foreground/40" strokeWidth={1.5} />
             </div>
             <h3 className="text-lg font-medium text-foreground mb-2">Не се пронајдени продукти</h3>
             <p className="text-muted-foreground text-sm max-w-sm">

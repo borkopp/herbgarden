@@ -1,6 +1,7 @@
 'use client'
 
-import { MapPin, Phone, User } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { MapPinIcon, CallIcon, UserIcon } from '@hugeicons/core-free-icons'
 import React from 'react'
 
 import { CreateAddressModal } from '@/components/addresses/CreateAddressModal'
@@ -42,7 +43,7 @@ export const AddressItem: React.FC<Props> = ({
       <div className="space-y-3">
         <div className="flex items-center gap-3">
           <div className="size-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-            <User className="size-4 text-primary" />
+            <HugeiconsIcon icon={UserIcon} size={16} className="text-primary" strokeWidth={1.5} />
           </div>
           <p className="font-bold text-stone-900 dark:text-stone-100">
             {address.firstName} {address.lastName}
@@ -51,7 +52,7 @@ export const AddressItem: React.FC<Props> = ({
 
         <div className="space-y-2 pl-11">
           <div className="flex items-start gap-2 text-stone-600 dark:text-stone-400 text-sm">
-            <MapPin className="size-3.5 mt-0.5 shrink-0" />
+            <HugeiconsIcon icon={MapPinIcon} size={14} className="mt-0.5 shrink-0" strokeWidth={1.5} />
             <div className="flex flex-col">
               <span>{address.addressLine1}</span>
               <span>
@@ -65,7 +66,7 @@ export const AddressItem: React.FC<Props> = ({
 
           {address.phone && (
             <div className="flex items-center gap-2 text-stone-600 dark:text-stone-400 text-sm">
-              <Phone className="size-3.5" />
+              <HugeiconsIcon icon={CallIcon} size={14} strokeWidth={1.5} />
               <span>{address.phone}</span>
             </div>
           )}

@@ -32,7 +32,7 @@ export function VariantSelector({ product }: { product: Product }) {
 
         return (
           <dl key={type.id}>
-            <dt className="text-sm font-medium text-foreground mb-3">{type.label}</dt>
+            <dt className="text-[10px] font-bold tracking-[0.15em] uppercase text-black/50 mb-4">{type.label}</dt>
             <dd className="flex flex-wrap gap-2">
               {options?.map((option) => {
                 if (!option || typeof option !== 'object') {
@@ -86,12 +86,12 @@ export function VariantSelector({ product }: { product: Product }) {
                   <button
                     aria-disabled={!isAvailableForSale}
                     className={`
-                      relative px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200
+                      relative px-6 py-3 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 border
                       ${isActive
-                        ? 'bg-foreground text-background shadow-md'
+                        ? 'bg-black text-white border-black shadow-md'
                         : isAvailableForSale
-                          ? 'bg-muted/60 text-foreground hover:bg-muted border border-transparent hover:border-border/50'
-                          : 'bg-muted/30 text-muted-foreground/40 cursor-not-allowed line-through'
+                          ? 'bg-transparent text-black border-black/10 hover:border-black/30 hover:bg-stone-50'
+                          : 'bg-transparent text-black/20 border-black/5 cursor-not-allowed line-through'
                       }
                     `}
                     disabled={!isAvailableForSale}

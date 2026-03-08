@@ -4,9 +4,11 @@ import { Media } from '@/components/Media'
 import { Button } from '@/components/ui/button'
 import type { Page, Product } from '@/payload-types'
 import { trackGAEvent } from '@/utilities/analytics'
+import { ArrowRight01Icon, Tick01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
 import { motion, Variants } from 'framer-motion'
-import { ArrowRight, Check } from 'lucide-react'
+import Link from 'next/link'
 import posthog from 'posthog-js'
 import React, { useCallback } from 'react'
 import { toast } from 'sonner'
@@ -77,7 +79,7 @@ function FeatureAddToCart({ product }: { product: Product }) {
       disabled={disabled || isLoading}
       className="rounded-full bg-black text-white hover:bg-black/80 py-7 text-xs sm:text-sm font-bold tracking-wider gap-3 transition-transform hover:scale-105 active:scale-95"
     >
-      <ArrowRight className="w-4 h-4" />
+      <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={2} />
       {disabled && !isLoading ? 'OUT OF STOCK' : isLoading ? 'ADDING...' : 'BUY NOW'}
     </Button>
   )
@@ -216,7 +218,7 @@ export const ProductFeatureBlock: React.FC<ProductFeatureProps> = (props) => {
                       className="rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0"
                       style={{ backgroundColor: highlightColor || '#FF7F7F' }}
                     >
-                      <Check className="w-3 h-3 text-white" strokeWidth={3} />
+                      <HugeiconsIcon icon={Tick01Icon} size={16} color="white" strokeWidth={2} />
                     </div>
                   )}
                   <span className="font-semibold text-sm md:text-base">{feature.label}</span>
@@ -225,17 +227,29 @@ export const ProductFeatureBlock: React.FC<ProductFeatureProps> = (props) => {
                       className="rounded-full w-5 h-5 flex items-center justify-center flex-shrink-0"
                       style={{ backgroundColor: highlightColor || '#FF7F7F' }}
                     >
-                      <Check className="w-3 h-3 text-white" strokeWidth={3} />
+                      <HugeiconsIcon icon={Tick01Icon} size={16} color="white" strokeWidth={2} />
                     </div>
                   )}
                 </div>
               ))}
+
+              <Link
+                href={`/products/${product.slug}`}
+                className="mt-4 relative font-body uppercase tracking-widest font-bold text-[10px] pt-4 text-black/40 hover:text-black overflow-hidden group transition-colors"
+              >
+                <span className="relative inline-block">
+                  View Details
+                  <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black transform translate-y-[2px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out" />
+                </span>
+              </Link>
             </motion.div>
           )}
 
           {/* CTA & Price Action Area */}
-          <motion.div variants={itemVariants} className={`flex flex-col-reverse sm:flex-row items-center gap-8 mt-4 pt-8 border-t border-muted-foreground/10 lg:w-full ${isImageRight ? 'lg:justify-start flex-row-reverse' : 'lg:justify-end'}`}>
-            <FeatureAddToCart product={product} />
+          <motion.div variants={itemVariants} className={`flex flex-col-reverse sm:flex-row items-center gap-10 pt-8 border-t border-muted-foreground/10 lg:w-full ${isImageRight ? 'lg:justify-start flex-row-reverse' : 'lg:justify-end'}`}>
+            <div className={`flex flex-col sm:flex-row items-center gap-10 ${isImageRight ? 'flex-row-reverse' : ''}`}>
+              <FeatureAddToCart product={product} />
+            </div>
 
             <div className={`flex flex-col items-center ${isImageRight ? 'lg:items-start' : 'lg:items-end'} min-w-[120px]`}>
               <span className="text-[10px] text-muted-foreground tracking-widest uppercase font-semibold">

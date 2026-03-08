@@ -2,7 +2,8 @@
 
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/providers/Auth'
-import { Pencil } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { PencilEdit01Icon } from '@hugeicons/core-free-icons'
 import Link from 'next/link'
 import React from 'react'
 
@@ -25,7 +26,7 @@ export const EditProductButton: React.FC<{ productId: string | number }> = ({ pr
         size="lg"
       >
         <Link href={editUrl}>
-          <Pencil className="size-5" />
+          <HugeiconsIcon icon={PencilEdit01Icon} size={20} strokeWidth={1.5} />
           <span className="font-semibold text-base">Измени</span>
         </Link>
       </Button>

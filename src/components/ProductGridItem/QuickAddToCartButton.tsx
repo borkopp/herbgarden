@@ -3,7 +3,8 @@
 import { Button } from '@/components/ui/button'
 import { Product } from '@/payload-types'
 import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
-import { ShoppingBag } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { ShoppingBag01Icon } from '@hugeicons/core-free-icons'
 import Link from 'next/link'
 import posthog from 'posthog-js'
 import { useCallback, useState } from 'react'
@@ -69,7 +70,7 @@ export function QuickAddToCartButton({ product }: { product: Partial<Product> })
             disabled={isAddingOrLoading || isOutOfStock}
             className="w-full rounded-2xl bg-white/90 text-black hover:bg-white hover:text-black shadow-lg backdrop-blur-sm transition-transform duration-300 hover:scale-105"
         >
-            <ShoppingBag className="w-4 h-4 mr-2 text-primary" />
+            <HugeiconsIcon icon={ShoppingBag01Icon} size={16} className="mr-2 text-primary" strokeWidth={1.5} />
             {isOutOfStock ? 'Нема на залиха' : (isAddingOrLoading ? 'Додавање...' : 'Додај во кошничка')}
         </Button>
     )

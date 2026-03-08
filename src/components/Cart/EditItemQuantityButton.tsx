@@ -3,7 +3,8 @@
 import { CartItem } from '@/components/Cart'
 import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
 import clsx from 'clsx'
-import { MinusIcon, PlusIcon } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { MinusSignIcon, PlusSignIcon } from '@hugeicons/core-free-icons'
 import React, { useMemo } from 'react'
 
 export function EditItemQuantityButton({ type, item }: { item: CartItem; type: 'minus' | 'plus' }) {
@@ -59,9 +60,9 @@ export function EditItemQuantityButton({ type, item }: { item: CartItem; type: '
         type="button"
       >
         {type === 'plus' ? (
-          <PlusIcon className="h-4 w-4 dark:text-neutral-500 hover:text-blue-300" />
+          <HugeiconsIcon icon={PlusSignIcon} size={16} className="dark:text-neutral-500 hover:text-blue-300" strokeWidth={2} />
         ) : (
-          <MinusIcon className="h-4 w-4 dark:text-neutral-500 hover:text-blue-300" />
+          <HugeiconsIcon icon={MinusSignIcon} size={16} className="dark:text-neutral-500 hover:text-blue-300" strokeWidth={2} />
         )}
       </button>
     </form>

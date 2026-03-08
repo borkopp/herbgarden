@@ -31,8 +31,8 @@ export const CheckoutAddresses: React.FC<Props> = ({
 
   if (!addresses || addresses.length === 0) {
     return (
-      <div className="bg-stone-50 dark:bg-stone-900 border border-stone-100 dark:border-stone-800 rounded-2xl p-8 text-center flex flex-col items-center gap-4">
-        <p className="text-stone-500">Не се пронајдени адреси. Ве молиме додајте адреса.</p>
+      <div className="bg-[#f6f6f6] dark:bg-stone-900 border-0 rounded-2xl p-8 text-center flex flex-col items-center gap-4">
+        <p className="text-black/50 text-[10px] uppercase tracking-widest font-bold">Не се пронајдени адреси</p>
 
         <CreateAddressModal />
       </div>
@@ -69,10 +69,9 @@ const AddressesModal: React.FC<Props> = ({ setAddressAction }) => {
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button
-          variant={'secondary'}
-          className="rounded-xl px-8 shadow-sm bg-stone-100 dark:bg-stone-800 text-stone-900 dark:text-stone-100 border border-stone-200 dark:border-stone-700 hover:bg-stone-200 dark:hover:bg-stone-700 transition-all font-bold"
+          className="rounded-full px-8 py-3 h-auto uppercase text-[10px] tracking-widest bg-black text-white hover:bg-black/90 transition-all font-bold"
         >
-          {'Изберете адреса'}
+          Изберете адреса
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-2xl">

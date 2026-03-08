@@ -4,9 +4,9 @@ import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { GridTileImage } from '@/components/Grid/tile'
 import { Gallery } from '@/components/product/Gallery'
 import { ProductDescription } from '@/components/product/ProductDescription'
-import { Button } from '@/components/ui/button'
+import { ArrowLeft01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import configPromise from '@payload-config'
-import { ChevronLeftIcon } from 'lucide-react'
 import { Metadata } from 'next'
 import { draftMode } from 'next/headers'
 import Link from 'next/link'
@@ -120,27 +120,27 @@ export default async function ProductPage({ params }: Args) {
         }}
         type="application/ld+json"
       />
-      <div className="container pt-8 pb-32">
+      <div className="container pt-12 md:pt-24 pb-32">
         <TrackProductView product={product} />
-        <Button asChild variant="ghost" className="mb-6">
-          <Link href="/shop">
-            <ChevronLeftIcon />
+        <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out">
+          <Link href="/shop" className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-black/40 hover:text-black transition-colors mb-12 group">
+            <HugeiconsIcon icon={ArrowLeft01Icon} size={16} strokeWidth={2} className="group-hover:-translate-x-1 transition-transform" />
             Сите производи
           </Link>
-        </Button>
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
-          <div className="h-full w-full basis-full lg:basis-1/2">
-            <Suspense
-              fallback={
-                <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden rounded-3xl bg-[#f8f5f1]" />
-              }
-            >
-              {Boolean(gallery?.length) && <Gallery gallery={gallery} />}
-            </Suspense>
-          </div>
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
+            <div className="h-full w-full basis-full lg:basis-1/2">
+              <Suspense
+                fallback={
+                  <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden rounded-[2rem] bg-stone-50 shadow-xl" />
+                }
+              >
+                {Boolean(gallery?.length) && <Gallery gallery={gallery} />}
+              </Suspense>
+            </div>
 
-          <div className="basis-full lg:basis-1/2 lg:py-4">
-            <ProductDescription product={product} />
+            <div className="basis-full lg:basis-1/2 lg:py-8">
+              <ProductDescription product={product} />
+            </div>
           </div>
         </div>
       </div>
@@ -164,9 +164,11 @@ function RelatedProducts({ products }: { products: Product[] }) {
   if (!products.length) return null
 
   return (
-    <div className="py-8">
-      <h2 className="mb-4 text-2xl font-bold">Related Products</h2>
-      <ul className="flex w-full gap-4 overflow-x-auto pt-1">
+    <div className="py-24">
+      <h2 className="text-[10px] font-black tracking-[0.3em] uppercase text-stone-900 text-center mb-12">
+        Слични производи
+      </h2>
+      <ul className="flex w-full gap-4 overflow-x-auto pt-1 pb-4 snap-x">
         {products.map((product) => (
           <li
             className="aspect-square w-full flex-none min-[475px]:w-1/2 sm:w-1/3 md:w-1/4 lg:w-1/5"

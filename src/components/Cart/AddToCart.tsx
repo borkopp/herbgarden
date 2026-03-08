@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button'
 import type { Product, Variant } from '@/payload-types'
 
 import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
-import { ShoppingBag } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { ShoppingBag01Icon } from '@hugeicons/core-free-icons'
 import { useSearchParams } from 'next/navigation'
 import { trackGAEvent } from '@/utilities/analytics'
 import posthog from 'posthog-js'
@@ -122,13 +123,13 @@ export function AddToCart({ product }: Props) {
   return (
     <Button
       aria-label="Add to cart"
-      className="w-full h-14 rounded-full text-base font-medium gap-3 bg-primary text-background hover:bg-primary/90 shadow-lg hover:shadow-xl transition-all duration-300"
+      className="w-full h-14 rounded-full text-xs sm:text-sm tracking-wider uppercase font-bold gap-3 bg-black text-white hover:bg-black/80 transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
       disabled={disabled || isLoading}
       onClick={addToCart}
       type="submit"
       size="lg"
     >
-      <ShoppingBag className="w-5 h-5" />
+      <HugeiconsIcon icon={ShoppingBag01Icon} size={18} strokeWidth={2} />
       {disabled && !isLoading ? 'Нема на залиха' : isLoading ? 'Додавање...' : 'Додај во кошничка'}
     </Button>
   )

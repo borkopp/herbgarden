@@ -10,7 +10,8 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet'
 import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
-import { CreditCard, ShoppingCart } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { CreditCardIcon, ShoppingCart01Icon } from '@hugeicons/core-free-icons'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
@@ -74,7 +75,7 @@ export function CartModal({ className }: { className?: string }) {
 
         {!cart || cart?.items?.length === 0 ? (
           <div className="text-center flex flex-col items-center gap-2">
-            <ShoppingCart className="h-16" />
+            <HugeiconsIcon icon={ShoppingCart01Icon} size={64} strokeWidth={1} />
             <p className="text-center text-2xl font-bold">Вашата кошничка е празна.</p>
           </div>
         ) : (
@@ -225,7 +226,7 @@ export function CartModal({ className }: { className?: string }) {
                         })
                       }}
                     >
-                      <CreditCard className='w-5 h-5' />
+                      <HugeiconsIcon icon={CreditCardIcon} size={20} strokeWidth={1.5} />
                       Продолжи кон плаќање
                     </Link>
                   </Button>

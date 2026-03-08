@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button'
 import { Product } from '@/payload-types'
 import { useWishlist } from '@/providers/Wishlist'
 import { cn } from '@/utilities/cn'
-import { Heart } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { FavouriteIcon } from '@hugeicons/core-free-icons'
 import posthog from 'posthog-js'
 import React, { useState } from 'react'
 
@@ -35,10 +36,10 @@ export const WishlistButton: React.FC<{
             variant="outline"
             size="icon"
             className={cn(
-                'shrink-0 h-14 w-14 rounded-full border-border/60 transition-all duration-300',
+                'shrink-0 h-14 w-14 rounded-full transition-all duration-300',
                 isWishlisted
-                    ? 'bg-rose-50 border-rose-200 text-rose-500 hover:bg-rose-100 hover:border-rose-300 dark:bg-rose-500/10 dark:border-rose-500/20 dark:hover:bg-rose-500/20'
-                    : 'hover:border-rose-200 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 dark:hover:border-rose-500/20',
+                    ? 'bg-black border-black text-white hover:bg-black/90 hover:border-black/90'
+                    : 'bg-transparent border border-black/10 text-black hover:border-black/30 hover:bg-stone-50',
                 className
             )}
             onClick={handleToggle}
@@ -46,11 +47,14 @@ export const WishlistButton: React.FC<{
             onMouseLeave={() => setIsHovered(false)}
             title={isWishlisted ? 'Отстрани од омилени' : 'Додај во омилени'}
         >
-            <Heart
+            <HugeiconsIcon
+                icon={FavouriteIcon}
+                size={20}
+                strokeWidth={1.5}
                 className={cn(
-                    'size-5 transition-all duration-300',
+                    'transition-all duration-300',
                     isWishlisted || isHovered ? 'scale-110' : 'scale-100',
-                    isWishlisted ? 'fill-current text-rose-500' : 'text-stone-400 dark:text-stone-500'
+                    isWishlisted ? 'fill-current text-white' : 'text-black/40'
                 )}
             />
             <span className='md:hidden block text-foreground'>Додај во омилени</span>

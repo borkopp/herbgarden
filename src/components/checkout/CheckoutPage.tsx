@@ -19,28 +19,24 @@ import { LoadingSpinner } from '@/components/LoadingSpinner'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Address, Product } from '@/payload-types'
 import { cn } from '@/utilities/cn'
+import {
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  CreditCardIcon,
+  InformationCircleIcon,
+  Mail01Icon,
+  MapPinIcon,
+  Shield01Icon,
+  ShoppingBag01Icon
+} from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { useAddresses, useCart, usePayments } from '@payloadcms/plugin-ecommerce/client/react'
 import { AnimatePresence, motion } from 'framer-motion'
-import {
-  ArrowLeft,
-  ChevronRight,
-  CreditCard,
-  Info,
-  Mail,
-  MapPin,
-  Package,
-  ShieldCheck,
-  ShoppingBag,
-  Truck
-} from 'lucide-react'
 import { toast } from 'sonner'
 
 const StepHeader = ({
-  number,
   title,
   active,
-  completed,
-  icon: Icon
 }: {
   number: number,
   title: string,
@@ -48,28 +44,13 @@ const StepHeader = ({
   completed?: boolean,
   icon: any
 }) => (
-  <div className="flex items-center gap-4 mb-6">
-    <div className={cn(
-      "flex items-center justify-center w-10 h-10 rounded-2xl transition-all duration-300 shadow-sm",
-      active ? "bg-primary text-primary-foreground scale-110 shadow-primary/20" :
-        completed ? "bg-green-500 text-white" : "bg-stone-100 dark:bg-stone-800 text-stone-400"
+  <div className="mb-6">
+    <h2 className={cn(
+      "font-display text-2xl md:text-3xl uppercase tracking-tighter transition-colors",
+      active ? "text-black" : "text-black/40"
     )}>
-      {completed ? <ShieldCheck className="w-5 h-5" /> : <Icon className="w-5 h-5" />}
-    </div>
-    <div>
-      <p className={cn(
-        "text-xs font-bold uppercase tracking-wider mb-0.5 transition-colors",
-        active ? "text-primary" : "text-stone-400"
-      )}>
-        Чекор {number}
-      </p>
-      <h2 className={cn(
-        "font-bold text-xl transition-colors",
-        active ? "text-stone-900 dark:text-stone-50" : "text-stone-500"
-      )}>
-        {title}
-      </h2>
-    </div>
+      {title}
+    </h2>
   </div>
 )
 
@@ -216,7 +197,7 @@ export const CheckoutPage: React.FC = () => {
     return (
       <div className="max-w-md mx-auto py-32 flex flex-col items-center text-center gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="w-24 h-24 rounded-full bg-stone-100 dark:bg-stone-900 flex items-center justify-center">
-          <ShoppingBag className="w-10 h-10 text-stone-400" />
+          <HugeiconsIcon icon={ShoppingBag01Icon} size={40} className="text-stone-400" strokeWidth={1.5} />
         </div>
         <div className="space-y-2">
           <h2 className="text-2xl font-bold">Вашата кошничка е празна</h2>
@@ -236,13 +217,11 @@ export const CheckoutPage: React.FC = () => {
         <div className="lg:col-span-12 xl:col-span-7 space-y-12">
           {/* ─── HEADER ─── */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 animate-in fade-in slide-in-from-top-4 duration-700">
-            <div className="space-y-2">
-              <Link href="/cart" className="inline-flex items-center text-stone-400 hover:text-primary transition-colors text-sm font-medium mb-2">
-                <ArrowLeft className="w-4 h-4 mr-1" />
+            <div className="space-y-4">
+              <Link href="/cart" className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-black/40 hover:text-black transition-colors mb-2 group">
+                <HugeiconsIcon icon={ArrowLeft01Icon} size={16} strokeWidth={2} className="group-hover:-translate-x-1 transition-transform" />
                 Назад во кошничка
               </Link>
-              <h1 className="text-4xl font-extrabold tracking-tight">Верификација</h1>
-              <p className="text-stone-500 text-lg">Завршете ја вашата нарачка во неколку лесни чекори.</p>
             </div>
 
             {/* ── Mobile Stepper Indicator ── */}
@@ -272,12 +251,12 @@ export const CheckoutPage: React.FC = () => {
               title="Информации за контакт"
               active={currentStep === 1}
               completed={currentStep > 1}
-              icon={Mail}
+              icon={Mail01Icon}
             />
 
             <div className={cn(
-              "rounded-3xl border transition-all duration-500 bg-white dark:bg-black/20 overflow-hidden",
-              currentStep === 1 ? "border-primary/20 shadow-2xl shadow-primary/5 ring-1 ring-primary/5" : "border-stone-100 dark:border-stone-800 opacity-75"
+              "transition-all duration-500 overflow-hidden",
+              currentStep === 1 ? "" : "opacity-75"
             )}>
               {currentStep === 1 ? (
                 <div className="p-8 space-y-8">
@@ -348,7 +327,7 @@ export const CheckoutPage: React.FC = () => {
                         <FormItem>
                           <Label htmlFor="email" className="font-bold text-stone-600 dark:text-stone-400 mb-3 block">Вашата е-пошта</Label>
                           <div className="relative">
-                            <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-stone-400" />
+                            <HugeiconsIcon icon={Mail01Icon} size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" strokeWidth={1.5} />
                             <Input
                               id="email"
                               name="email"
@@ -361,7 +340,7 @@ export const CheckoutPage: React.FC = () => {
                             />
                           </div>
                           <p className="text-xs text-stone-400 mt-2 ml-1 flex items-center gap-1.5">
-                            <Info className="w-3.5 h-3.5" />
+                            <HugeiconsIcon icon={InformationCircleIcon} size={14} strokeWidth={1.5} />
                             Таму ќе го добиете бројот на нарачката и потврдата.
                           </p>
                         </FormItem>
@@ -371,7 +350,7 @@ export const CheckoutPage: React.FC = () => {
                           onClick={(e) => { e.preventDefault(); setEmailSubmitted(true) }}
                         >
                           Продолжи
-                          <ChevronRight className="ml-2 w-5 h-5" />
+                          <HugeiconsIcon icon={ArrowRight01Icon} size={20} className="ml-2" strokeWidth={1.5} />
                         </Button>
                       </motion.div>
                     )}
@@ -381,7 +360,7 @@ export const CheckoutPage: React.FC = () => {
                 <div className="p-8 flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
-                      <ShieldCheck className="w-5 h-5 text-green-500" />
+                      <HugeiconsIcon icon={Shield01Icon} size={20} className="text-green-500" strokeWidth={1.5} />
                     </div>
                     <div>
                       <p className="text-sm font-bold text-stone-900 dark:text-stone-100">{user ? user.email : email}</p>
@@ -416,12 +395,12 @@ export const CheckoutPage: React.FC = () => {
               title="Адреса за достава"
               active={currentStep === 2}
               completed={currentStep > 2}
-              icon={MapPin}
+              icon={MapPinIcon}
             />
 
             <div className={cn(
-              "rounded-3xl border transition-all duration-500 bg-white dark:bg-black/20 overflow-hidden",
-              currentStep === 2 ? "border-primary/20 shadow-2xl shadow-primary/5 ring-1 ring-primary/5" : "border-stone-100 dark:border-stone-800 opacity-75"
+              "transition-all duration-500 overflow-hidden",
+              currentStep === 2 ? "" : "opacity-75"
             )}>
               {currentStep >= 2 ? (
                 <div className="p-8">
@@ -506,7 +485,7 @@ export const CheckoutPage: React.FC = () => {
                       ) : (
                         <div className="flex flex-col items-center gap-6 py-8">
                           <div className="w-20 h-20 rounded-full bg-primary/5 flex items-center justify-center">
-                            <MapPin className="w-8 h-8 text-primary" />
+                            <HugeiconsIcon icon={MapPinIcon} size={32} className="text-primary" strokeWidth={1.5} />
                           </div>
                           <div className="text-center space-y-2">
                             <h3 className="text-xl font-bold">Каде да ја испратиме вашата нарачка?</h3>
@@ -542,51 +521,38 @@ export const CheckoutPage: React.FC = () => {
               title="Начин на плаќање"
               active={currentStep === 3}
               completed={currentStep > 3}
-              icon={CreditCard}
+              icon={CreditCardIcon}
             />
 
             <div className={cn(
-              "rounded-3xl border transition-all duration-500 bg-white dark:bg-black/20 overflow-hidden",
-              currentStep === 3 ? "border-primary/20 shadow-2xl shadow-primary/5 ring-1 ring-primary/5" : "border-stone-100 dark:border-stone-800 opacity-75"
+              "transition-all duration-500 overflow-hidden pb-12",
+              currentStep === 3 ? "" : "opacity-75"
             )}>
               {currentStep >= 3 ? (
-                <div className="p-8">
-                  <div className="bg-primary/5 border-2 border-primary/20 rounded-3xl p-6 flex flex-col md:flex-row items-center md:items-start gap-5 relative overflow-hidden group">
-                    <div className="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-colors" />
-
-                    <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-primary text-white shrink-0 shadow-lg shadow-primary/20 relative z-10">
-                      <Truck className="w-7 h-7" />
-                    </div>
-
-                    <div className="relative z-10 text-center md:text-left">
-                      <div className="flex items-center justify-center md:justify-start gap-2 mb-1.5">
-                        <p className="font-extrabold text-lg text-stone-900 dark:text-stone-100 uppercase tracking-tight">Плаќање при достава</p>
-                        <ShieldCheck className="w-4 h-4 text-green-500" />
+                <div className="py-8">
+                  <div className="space-y-4">
+                    <label className="flex items-center justify-between p-5 rounded-3xl border-2 border-black bg-white cursor-pointer group transition-all">
+                      <div className="flex items-center gap-4">
+                        <div className="flex-shrink-0 w-5 h-5 rounded-full border border-black flex items-center justify-center">
+                          <div className="w-2.5 h-2.5 rounded-full bg-black" />
+                        </div>
+                        <span className="font-bold text-xs tracking-widest uppercase">Плаќање при достава</span>
                       </div>
-                      <p className="text-stone-500 text-[13px] font-medium leading-relaxed mb-4 max-w-xl">
-                        Платете во готово на курирот кога ќе го примите пакетот на вашата адреса. Ова е најбезбедниот начин на купување.
-                      </p>
-
-                      <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        {[
-                          'Без онлајн трансакции',
-                          'Плаќање само на примање',
-                          'Директна достава до врата',
-                          'Проверка на пратката'
-                        ].map((item, i) => (
-                          <li key={i} className="flex items-center gap-2.5 text-xs font-bold text-stone-700 dark:text-stone-300">
-                            <div className="w-4 h-4 rounded-full bg-green-500/10 flex items-center justify-center">
-                              <div className="w-1 h-1 rounded-full bg-green-500" />
-                            </div>
-                            {item}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    </label>
+                    <label className="flex items-center justify-between p-5 rounded-3xl border border-stone-200 bg-stone-50 cursor-not-allowed opacity-50">
+                      <div className="flex items-center gap-4">
+                        <div className="flex-shrink-0 w-5 h-5 rounded-full border border-stone-300" />
+                        <span className="font-bold text-xs tracking-widest uppercase text-stone-600">Кредитна Картичка</span>
+                      </div>
+                      <div className="flex gap-1.5 opacity-50">
+                        <div className="w-8 h-5 bg-stone-200 rounded-sm" />
+                        <div className="w-8 h-5 bg-stone-200 rounded-sm" />
+                      </div>
+                    </label>
                   </div>
                 </div>
               ) : (
-                <div className="p-8 text-stone-400 italic font-medium">
+                <div className="py-8 text-stone-400 italic font-medium">
                   Завршете ги претходните чекори за да го изберете начинот на плаќање.
                 </div>
               )}
@@ -601,38 +567,23 @@ export const CheckoutPage: React.FC = () => {
               className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 rounded-3xl p-6 flex gap-4 items-center"
             >
               <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center shrink-0">
-                <Info className="w-6 h-6 text-red-600 dark:text-red-400" />
+                <HugeiconsIcon icon={InformationCircleIcon} size={24} className="text-red-600 dark:text-red-400" strokeWidth={1.5} />
               </div>
               <p className="text-red-600 dark:text-red-400 font-bold text-lg">{error}</p>
             </motion.div>
           )}
-
-          {/* ── CTA BUTTON (Desktop) ── */}
-          <div className="hidden xl:block pt-4">
-            <Button
-              className="w-full h-14 font-serif font-black rounded-3xl shadow-2xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-[0.98] hover:shadow-primary/30 disabled:opacity-50 disabled:hover:scale-100 group"
-              disabled={!canPlaceOrder}
-              onClick={(e) => { e.preventDefault(); void handlePlaceOrder() }}
-            >
-              <Package className="mr-2 group-hover:rotate-12 transition-transform" />
-              ПОТВРДИ НАРАЧКА
-            </Button>
-            <p className="text-center text-stone-400 text-sm mt-4 font-medium italic">
-              Ве молиме проверете ги сите податоци пред да ја потврдите нарачката.
-            </p>
-          </div>
         </div>
 
         {/* ─── RIGHT: SIDEBAR SUMMARY ─── */}
         <div className="lg:col-span-12 xl:col-span-5 lg:sticky lg:top-16 space-y-8">
-          <div className="bg-stone-50 dark:bg-stone-900/40 border border-stone-200/60 dark:border-stone-800 rounded-[3rem] overflow-hidden flex flex-col shadow-2xl shadow-stone-200/40 dark:shadow-none">
+          <div className="bg-[#f6f6f6] dark:bg-stone-900 rounded-[2rem] flex flex-col">
             {/* ── SUMMARY HEADER ── */}
             <div className="p-10 pb-6">
-              <div className="flex items-center justify-between mb-10">
-                <h3 className="text-xl font-medium tracking-tight font-serif text-stone-900 dark:text-stone-100">Кошничка</h3>
-                <span className="bg-primary/10 text-primary px-5 py-2 rounded-full text-xs font-black uppercase tracking-widest">
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="text-xl font-display text-base uppercase tracking-widest text-black">Преглед на нарачка</h3>
+                {/* <span className="text-black/50 text-[10px] font-bold uppercase tracking-widest">
                   {cart?.items?.length} {cart?.items?.length === 1 ? 'Производ' : 'Производи'}
-                </span>
+                </span> */}
               </div>
 
               {/* ── SHIPPING PROGRESS ── */}
@@ -716,25 +667,23 @@ export const CheckoutPage: React.FC = () => {
                         initial={{ opacity: 0, x: 15 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.05, duration: 0.4 }}
-                        className="flex gap-6 group"
+                        className="flex items-center gap-6"
                         key={index}
                       >
-                        <div className="relative w-24 h-24 rounded-[1.75rem] bg-white dark:bg-stone-800 border border-stone-100 dark:border-stone-700 p-2 shrink-0 transition-all duration-500 group-hover:scale-105 group-hover:shadow-xl group-hover:shadow-stone-200/40 dark:group-hover:shadow-none">
-                          <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-inner">
-                            {image && typeof image !== 'string' && (
-                              <Media fill imgClassName="object-cover transition-transform duration-700 group-hover:scale-110" resource={image} />
-                            )}
-                          </div>
-                          <div className="absolute -top-3 -right-3 w-8 h-8 bg-stone-900 border-2 border-white dark:border-stone-800 rounded-full flex items-center justify-center shadow-lg group-hover:bg-primary transition-colors">
-                            <span className="text-[11px] text-white font-black">{quantity}</span>
+                        <div className="relative w-20 h-20 rounded-[1.5rem] bg-[#ececec] overflow-hidden shrink-0">
+                          {image && typeof image !== 'string' && (
+                            <Media fill imgClassName="object-cover" resource={image} />
+                          )}
+                          <div className="absolute top-0 right-0 m-1 w-5 h-5 bg-black rounded-full flex items-center justify-center">
+                            <span className="text-[9px] text-white font-bold">{quantity}</span>
                           </div>
                         </div>
-                        <div className="flex-1 py-1 flex flex-col justify-center gap-2">
-                          <h4 className="text-[13px] font-extrabold text-stone-900 dark:text-stone-100 line-clamp-2 leading-tight transition-colors group-hover:text-primary">
+                        <div className="flex-1 py-1 flex flex-col justify-center gap-1.5">
+                          <h4 className="text-[11px] font-bold text-black uppercase tracking-widest line-clamp-2 leading-tight">
                             {title}
                           </h4>
                           {variant && typeof variant === 'object' && (
-                            <p className="text-[9px] font-black uppercase tracking-[0.15em] text-primary/70 bg-primary/5 w-fit px-2 py-0.5 rounded-md">
+                            <p className="text-[9px] font-bold uppercase tracking-widest text-black/50">
                               {(variant as any).options
                                 ?.map((option: any) => {
                                   if (typeof option === 'object') return option.label
@@ -744,7 +693,7 @@ export const CheckoutPage: React.FC = () => {
                             </p>
                           )}
                           <div className="flex justify-between items-center mt-1">
-                            <Price as="span" className="text-[13px] font-black tracking-tight" amount={price || 0} />
+                            <Price as="span" className="text-[11px] font-bold text-black" amount={price || 0} />
                           </div>
                         </div>
                       </motion.div>
@@ -756,31 +705,30 @@ export const CheckoutPage: React.FC = () => {
             </div>
 
             {/* ── SUMMARY DASHBOARD ── */}
-            <div className="mt-6 p-10 bg-white dark:bg-black/50 border-t border-stone-100 dark:border-stone-800 space-y-6">
-              <div className="flex justify-between items-center text-stone-400 font-bold text-xs uppercase tracking-widest">
+            <div className="px-10 pb-10 space-y-4">
+              <div className="flex justify-between items-center text-black/50 font-bold text-[10px] uppercase tracking-widest">
                 <span>Производи</span>
-                <Price amount={cartTotalMKD} className="font-exrabold text-sm text-stone-900 dark:text-stone-100" />
+                <Price amount={cartTotalMKD} className="font-bold text-black" />
               </div>
-              <div className="flex justify-between items-center text-stone-400 font-bold text-xs uppercase tracking-widest">
+              <div className="flex justify-between items-center text-black/50 font-bold text-[10px] uppercase tracking-widest">
                 <span>Достава до адреса</span>
                 {cartTotalMKD >= 3000 ? (
-                  <span className="text-green-500 font-black tracking-[0.1em] bg-green-500/5 px-3 py-1 rounded-full text-[10px]">БЕСПЛАТНА</span>
+                  <span className="text-black font-bold text-[10px]">БЕСПЛАТНА</span>
                 ) : (
-                  <span className="font-extrabold text-stone-900 dark:text-stone-100">150 ден</span>
+                  <Price amount={150} className="font-bold text-black" />
                 )}
               </div>
 
-              <div className="pt-8 mt-4 border-t-2 border-stone-50 dark:border-stone-800/50">
-                <div className="flex justify-between items-end">
-                  <div className="space-y-2">
-                    <p className="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400">Вкупно за плаќање</p>
-                    <p className="text-stone-400 text-[10px] font-medium leading-none flex items-center gap-1.5">
-                      <ShieldCheck className="w-3 h-3 text-green-500" />
-                      Вклучен ДДВ и достава
-                    </p>
-                  </div>
-                  <Price as="span" className="text-4xl font-bold font-serif tracking-tighter" amount={cartTotalMKD + (cartTotalMKD >= 3000 ? 0 : 150)} />
+              <div className="pt-8 mt-4 border-t border-black/5">
+                <div className="flex justify-between items-center text-xl font-display text-black uppercase tracking-widest">
+                  <span>Вкупно</span>
+                  <Price as="span" amount={cartTotalMKD + (cartTotalMKD >= 3000 ? 0 : 150)} />
                 </div>
+              </div>
+              <div className="mt-8 p-6 bg-white rounded-2xl">
+                <p className="text-[10px] uppercase tracking-widest text-black/40 leading-relaxed text-center font-bold">
+                  Вашата нарачка ќе биде процесирана во нашата лабораторија во рок од 24 часа. Безбедното пакување гарантира интегритет на производите за време на доставата.
+                </p>
               </div>
             </div>
           </div>
@@ -793,19 +741,15 @@ export const CheckoutPage: React.FC = () => {
             <div className="space-y-1.5">
               <p className="text-base font-black text-stone-800 dark:text-stone-200 uppercase tracking-tight">Безбедна Нарачка</p>
               <p className="text-sm text-stone-400 font-medium leading-relaxed">Вашите податоци се заштитени со најновата 256-битна SSL енкрипција.</p>
-            </div>
-          </div> */}
-
-          {/* ── MOBILE PLACE ORDER ── */}
-          <div className="xl:hidden pb-12">
-            <Button
-              className="w-full h-16 text-lg font-serif font-semibold rounded-3xl shadow-2xl shadow-primary/20 transition-all active:scale-95 group"
-              disabled={!canPlaceOrder}
+          {/* ── CTA BUTTON (Unified under summary) ── */}
+          <div className="pb-12 mt-4">
+            <button
+              className="w-full h-14 rounded-full bg-black text-white text-[10px] font-bold uppercase tracking-widest hover:bg-black/80 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:hover:scale-100 disabled:hover:bg-black flex items-center justify-center gap-2"
+              disabled={!canPlaceOrder || isPlacingOrder}
               onClick={(e) => { e.preventDefault(); void handlePlaceOrder() }}
             >
-              <Package className="mr-2 h-16 w-16" />
-              ПОТВРДИ НАРАЧКА
-            </Button>
+              ПОТВРДИ НАРАЧКА — <Price as="span" amount={cartTotalMKD + (cartTotalMKD >= 3000 ? 0 : 150)} />
+            </button>
           </div>
         </div>
       </div>

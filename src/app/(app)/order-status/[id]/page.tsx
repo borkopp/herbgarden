@@ -6,7 +6,8 @@ import { Button } from '@/components/ui/button'
 import { Address } from '@/payload-types'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import configPromise from '@payload-config'
-import { CheckCircle2, MapPin, Package, ShoppingBag, Truck } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { CheckmarkCircle01Icon, MapPinIcon, Package01Icon, ShoppingBag01Icon, DeliveryTruck01Icon } from '@hugeicons/core-free-icons'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -55,7 +56,7 @@ export default async function OrderStatusPage({ params }: PageProps) {
                 {/* Header Section */}
                 <div className="text-center mb-12 space-y-4">
                     <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-green-100 dark:bg-green-900/30 text-green-600 mb-6 shadow-xl shadow-green-500/10">
-                        <CheckCircle2 className="w-12 h-12" />
+                        <HugeiconsIcon icon={CheckmarkCircle01Icon} size={48} strokeWidth={1.5} />
                     </div>
                     <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight text-stone-900 dark:text-stone-50">
                         Ви благодариме!
@@ -92,7 +93,7 @@ export default async function OrderStatusPage({ params }: PageProps) {
                         {/* Products List */}
                         <div className="p-8 md:p-10 flex flex-col gap-6">
                             <div className="flex items-center gap-3 text-stone-900 dark:text-stone-100">
-                                <ShoppingBag className="w-6 h-6 text-primary" />
+                                <HugeiconsIcon icon={ShoppingBag01Icon} size={24} className="text-primary" strokeWidth={1.5} />
                                 <h3 className="text-xl font-bold">Производи</h3>
                             </div>
                             <ul className="space-y-6">
@@ -114,7 +115,7 @@ export default async function OrderStatusPage({ params }: PageProps) {
                                                     <Media resource={image} fill imgClassName="object-cover" />
                                                 ) : (
                                                     <div className="w-full h-full flex items-center justify-center text-stone-400">
-                                                        <Package className="w-6 h-6" />
+                                                        <HugeiconsIcon icon={Package01Icon} size={24} strokeWidth={1.5} />
                                                     </div>
                                                 )}
                                                 <span className="absolute -top-2 -right-2 bg-primary text-white text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center shadow-md">
@@ -161,7 +162,7 @@ export default async function OrderStatusPage({ params }: PageProps) {
                         <div className="p-8 md:p-10 flex flex-col gap-10 bg-stone-50/50 dark:bg-stone-900/50">
                             <div className="space-y-4">
                                 <div className="flex items-center gap-3 text-stone-900 dark:text-stone-100">
-                                    <MapPin className="w-6 h-6 text-primary" />
+                                    <HugeiconsIcon icon={MapPinIcon} size={24} className="text-primary" strokeWidth={1.5} />
                                     <h3 className="text-xl font-bold">Адреса за достава</h3>
                                 </div>
                                 {shippingAddress ? (
@@ -183,7 +184,7 @@ export default async function OrderStatusPage({ params }: PageProps) {
 
                             <div className="space-y-4">
                                 <div className="flex items-center gap-3 text-stone-900 dark:text-stone-100">
-                                    <Truck className="w-6 h-6 text-primary" />
+                                    <HugeiconsIcon icon={DeliveryTruck01Icon} size={24} className="text-primary" strokeWidth={1.5} />
                                     <h3 className="text-xl font-bold">Начин на плаќање</h3>
                                 </div>
                                 <div className="bg-white dark:bg-stone-950 p-6 rounded-2xl border border-stone-100 dark:border-stone-800 shadow-sm">

@@ -13,7 +13,8 @@ import type { Header } from '@/payload-types'
 import { useAuth } from '@/providers/Auth'
 import { cn } from '@/utilities/cn'
 import { motion } from 'framer-motion'
-import { ChevronRight, LogIn, LogOut, MapPin, MenuIcon, Package, Settings, UserPlus } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { ArrowRight01Icon, Login03Icon, Logout03Icon, MapPinIcon, Menu01Icon, PackageIcon, Settings02Icon, UserAdd01Icon } from '@hugeicons/core-free-icons'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -53,7 +54,7 @@ export function MobileMenu({ menu, categories }: Props) {
   return (
     <Sheet onOpenChange={setIsOpen} open={isOpen}>
       <SheetTrigger className="relative flex h-10 w-10 items-center justify-center rounded-full hover:bg-stone-100 transition-colors text-black dark:text-white focus:outline-none">
-        <MenuIcon className="h-6 w-6" />
+        <HugeiconsIcon icon={Menu01Icon} size={24} strokeWidth={1.5} />
         <span className="sr-only">Отвори мени</span>
       </SheetTrigger>
 
@@ -97,7 +98,7 @@ export function MobileMenu({ menu, categories }: Props) {
                           )}
                         >
                           <span className="flex-1 text-left">{item.link.label}</span>
-                          <ChevronRight className={cn("size-4 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0", isActive && "opacity-100 translate-x-0")} />
+                          <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={1.5} className={cn("opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0", isActive && "opacity-100 translate-x-0")} />
                         </CMSLink>
                       </motion.li>
                     )
@@ -136,7 +137,7 @@ export function MobileMenu({ menu, categories }: Props) {
                           )}
                         >
                           <span className="flex-1 text-left">{category.title}</span>
-                          <ChevronRight className={cn("size-4 opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0", isActive && "opacity-100 translate-x-0")} />
+                          <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={1.5} className={cn("opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0", isActive && "opacity-100 translate-x-0")} />
                         </Link>
                       </motion.li>
                     )
@@ -152,14 +153,14 @@ export function MobileMenu({ menu, categories }: Props) {
               </h3>
               {user ? (
                 <div className="space-y-1">
-                  <MenuEntry href="/orders" icon={Package} label="Нарачки" />
-                  <MenuEntry href="/account/addresses" icon={MapPin} label="Адреси" />
-                  <MenuEntry href="/account" icon={Settings} label="Управувај со сметка" />
+                  <MenuEntry href="/orders" icon={PackageIcon} label="Нарачки" />
+                  <MenuEntry href="/account/addresses" icon={MapPinIcon} label="Адреси" />
+                  <MenuEntry href="/account" icon={Settings02Icon} label="Управувај со сметка" />
 
                   <div className="pt-6 px-2 mt-4">
                     <Button asChild variant="outline" className="w-full justify-start gap-3 border-stone-200 hover:bg-red-50 hover:text-red-600 hover:border-red-100 dark:border-stone-800 transition-colors rounded-2xl h-12 px-4 shadow-sm active:scale-[0.98]">
                       <Link href="/logout">
-                        <LogOut className="size-4" />
+                        <HugeiconsIcon icon={Logout03Icon} size={16} strokeWidth={1.5} />
                         <span className="font-semibold">Одјави се</span>
                       </Link>
                     </Button>
@@ -169,13 +170,13 @@ export function MobileMenu({ menu, categories }: Props) {
                 <div className="grid grid-cols-1 gap-3 px-2 pt-2">
                   <Button asChild variant="secondary" className="w-full justify-center gap-2 h-12 rounded-2xl border border-stone-100 dark:border-stone-800 bg-stone-50 dark:bg-stone-900 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all active:scale-[0.98]">
                     <Link href="/login">
-                      <LogIn className="size-4" />
+                      <HugeiconsIcon icon={Login03Icon} size={16} strokeWidth={1.5} />
                       Најави се
                     </Link>
                   </Button>
                   <Button asChild className="w-full justify-center gap-2 h-12 rounded-2xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
                     <Link href="/create-account" className="font-bold">
-                      <UserPlus className="size-4" />
+                      <HugeiconsIcon icon={UserAdd01Icon} size={16} strokeWidth={1.5} />
                       Регистрирај се
                     </Link>
                   </Button>
@@ -217,10 +218,10 @@ function MenuEntry({ href, icon: Icon, label }: { href: string, icon: any, label
         "flex items-center justify-center size-9 rounded-xl transition-all",
         isActive ? "bg-white text-primary shadow-sm scale-110" : "bg-stone-100 group-hover:bg-white dark:bg-stone-800 dark:group-hover:bg-stone-700 shadow-none group-hover:shadow-sm"
       )}>
-        <Icon className="size-4.5" />
+        <HugeiconsIcon icon={Icon} size={18} strokeWidth={1.5} />
       </div>
       <span className="flex-1 font-medium">{label}</span>
-      <ChevronRight className={cn("size-4 opacity-0 -translate-x-2 transition-all group-hover:opacity-30 group-hover:translate-x-0 font-bold", isActive && "opacity-100 translate-x-0")} />
+      <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={1.5} className={cn("opacity-0 -translate-x-2 transition-all group-hover:opacity-30 group-hover:translate-x-0 font-bold", isActive && "opacity-100 translate-x-0")} />
     </Link>
   )
 }

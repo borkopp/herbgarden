@@ -6,7 +6,8 @@ import { Price } from '@/components/Price'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import configPromise from '@payload-config'
-import { DollarSign, Package, TrendingUp } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Dollar01Icon, Package01Icon, ArrowUp01Icon } from '@hugeicons/core-free-icons'
 import { headers as getHeaders } from 'next/headers'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
@@ -144,7 +145,7 @@ export default async function Orders() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
         <div className="bg-white dark:bg-stone-900 p-6 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-sm flex items-center gap-4">
           <div className="size-12 rounded-xl bg-orange-100 dark:bg-orange-900/30 text-primary flex items-center justify-center">
-            <Package className="size-[28px]" />
+            <HugeiconsIcon icon={Package01Icon} size={28} strokeWidth={1.5} />
           </div>
           <div>
             <p className="text-sm text-stone-500">Вкупно нарачки</p>
@@ -153,7 +154,7 @@ export default async function Orders() {
         </div>
         <div className="bg-white dark:bg-stone-900 p-6 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-sm flex items-center gap-4">
           <div className="size-12 rounded-xl bg-green-100 dark:bg-green-900/30 text-green-600 flex items-center justify-center">
-            <DollarSign className="size-[28px]" />
+            <HugeiconsIcon icon={Dollar01Icon} size={28} strokeWidth={1.5} />
           </div>
           <div>
             <p className="text-sm text-stone-500">Вкупно потрошено</p>
@@ -162,7 +163,7 @@ export default async function Orders() {
         </div>
         <div className="bg-white dark:bg-stone-900 p-6 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-sm flex items-center gap-4">
           <div className="size-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 flex items-center justify-center">
-            <TrendingUp className="size-[28px]" />
+            <HugeiconsIcon icon={ArrowUp01Icon} size={28} strokeWidth={1.5} />
           </div>
           <div>
             <p className="text-sm text-stone-500">Просечна вредност</p>

@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import configPromise from '@payload-config'
-import { ChevronLeftIcon, PackageIcon, TruckIcon } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { ArrowLeft01Icon, Package01Icon, DeliveryTruck01Icon } from '@hugeicons/core-free-icons'
 import { headers as getHeaders } from 'next/headers.js'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -113,7 +114,7 @@ export default async function Order({ params, searchParams }: PageProps) {
           {user && (
             <Button asChild variant="ghost" className="-ml-3 text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 flex items-center justify-start max-w-fit mb-2">
               <Link href="/orders">
-                <ChevronLeftIcon className="w-4 h-4 mr-1" />
+                <HugeiconsIcon icon={ArrowLeft01Icon} size={16} strokeWidth={1.5} className="mr-1" />
                 Сите нарачки
               </Link>
             </Button>
@@ -137,7 +138,7 @@ export default async function Order({ params, searchParams }: PageProps) {
         <div className="lg:col-span-2 flex flex-col gap-8">
           <div className="p-6 md:p-8 bg-white border border-stone-200 rounded-3xl">
             <div className="flex items-center gap-3 mb-8 pb-4 border-b border-stone-200">
-              <PackageIcon className="w-6 h-6 text-primary/70" />
+              <HugeiconsIcon icon={Package01Icon} size={24} className="text-primary/70" strokeWidth={1.5} />
               <h2 className="text-xl font-bold text-stone-900">Производи</h2>
             </div>
 
@@ -193,7 +194,7 @@ export default async function Order({ params, searchParams }: PageProps) {
             <div className="p-6 md:p-8 bg-white border border-stone-200 rounded-3xl">
               <div className="flex flex-col gap-5">
                 <div className="flex items-center gap-3">
-                  <TruckIcon className="w-5 h-5 text-primary/70" />
+                  <HugeiconsIcon icon={DeliveryTruck01Icon} size={20} className="text-primary/70" strokeWidth={1.5} />
                   <h2 className="text-lg font-bold text-stone-900">Достава до</h2>
                 </div>
                 {/* @ts-expect-error - address issues */}

@@ -1,7 +1,8 @@
 import React from 'react'
 import { cn } from '@/utilities/cn'
 import { VariantProps, cva } from 'class-variance-authority'
-import { Loader2 } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Loading01Icon } from '@hugeicons/core-free-icons'
 
 const spinnerVariants = cva('flex-col items-center justify-center', {
   variants: {
@@ -38,7 +39,7 @@ interface SpinnerContentProps
 export function LoadingSpinner({ size, show, children, className }: SpinnerContentProps) {
   return (
     <span className={spinnerVariants({ show })}>
-      <Loader2 className={cn(loaderVariants({ size }), className)} />
+      <HugeiconsIcon icon={Loading01Icon} size={size === 'small' ? 24 : size === 'large' ? 48 : 32} className={cn(loaderVariants({ size }), className)} strokeWidth={1.5} />
       {children}
     </span>
   )

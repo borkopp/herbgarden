@@ -8,7 +8,8 @@ import { Suspense } from 'react'
 
 import { StockIndicator } from '@/components/product/StockIndicator'
 import { useCurrency } from '@payloadcms/plugin-ecommerce/client/react'
-import { Truck } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { DeliveryTruck01Icon } from '@hugeicons/core-free-icons'
 import { VariantSelector } from './VariantSelector'
 import { WishlistButton } from './WishlistButton'
 
@@ -60,44 +61,37 @@ export function ProductDescription({ product }: { product: Product }) {
       .map((cat) => (typeof cat === 'object' ? cat.title : '')) || []
 
   return (
-    <div className="flex flex-col gap-8">
-      {/* Category breadcrumb */}
-      {/* {categories.length > 0 && (
-        <div className="flex flex-wrap gap-2">
-          {categories.map((cat, i) => (
-            <span
-              key={i}
-              className="text-xs font-medium text-muted-foreground bg-muted/50 px-3 py-1 rounded-full"
-            >
-              {cat}
-            </span>
-          ))}
-        </div>
-      )} */}
+    <div className="flex flex-col">
+      {/* Category Tag */}
+      {categories.length > 0 && (
+        <span className="font-bold text-[10px] tracking-widest uppercase text-black/40 block mb-4">
+          {categories.join(' • ')}
+        </span>
+      )}
 
-      {/* Title & Price */}
-      <div className="flex justify-between gap-3">
-        <h1 className="text-3xl md:text-4xl font-medium tracking-tight text-foreground">
-          {product.title}
-        </h1>
-        <div className="text-2xl font-semibold text-foreground/80">
-          {hasVariants ? (
-            <Price highestAmount={highestAmount} lowestAmount={lowestAmount} />
-          ) : (
-            <Price amount={amount} />
-          )}
-        </div>
+      {/* Title */}
+      <h1 className="text-4xl md:text-6xl font-display font-medium leading-[0.9] tracking-tighter uppercase text-black mb-6">
+        {product.title}
+      </h1>
+
+      {/* Price */}
+      <div className="text-3xl font-sans font-bold text-black mb-8">
+        {hasVariants ? (
+          <Price highestAmount={highestAmount} lowestAmount={lowestAmount} />
+        ) : (
+          <Price amount={amount} />
+        )}
       </div>
 
       {/* Description */}
       {product.description ? (
-        <div className="text-muted-foreground leading-relaxed">
+        <div className="text-muted-foreground leading-relaxed md:text-lg mb-10 font-body">
           <RichText data={product.description} enableGutter={false} />
         </div>
       ) : null}
 
       {/* Divider */}
-      <div className="h-px bg-border/60" />
+      <div className="h-px bg-border/60 mb-8" />
 
       {/* Variant Selector */}
       {hasVariants && (
@@ -116,15 +110,15 @@ export function ProductDescription({ product }: { product: Product }) {
 
       {/* Add to Cart */}
       <Suspense fallback={null}>
-        <div className="flex flex-col sm:flex-row gap-3 items-stretch">
+        <div className="flex flex-col sm:flex-row gap-4 items-stretch mt-8 mb-6">
           <div className="flex-1">
             <AddToCart product={product} />
           </div>
           <WishlistButton product={product} className="w-full sm:w-14" />
         </div>
-        <div className="flex items-center justify-center -mt-2 sm:mt-0 text-neutral-400 gap-2">
-          <Truck className="size-5 shrink-0" />
-          <p className="text-xs leading-relaxed">
+        <div className="flex items-center justify-center text-black/50 gap-3 pt-6 border-t border-border/60">
+          <HugeiconsIcon icon={DeliveryTruck01Icon} size={18} className="shrink-0" strokeWidth={1.5} />
+          <p className="text-[10px] tracking-widest uppercase font-semibold">
             Бесплатна достава за нарачки над 3000 денари
           </p>
         </div>

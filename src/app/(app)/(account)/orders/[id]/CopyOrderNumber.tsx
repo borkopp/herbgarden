@@ -1,7 +1,8 @@
 'use client'
 
 import { cn } from '@/utilities/cn'
-import { CheckIcon, CopyIcon } from 'lucide-react'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { Tick01Icon, Copy01Icon } from '@hugeicons/core-free-icons'
 import React, { useState } from 'react'
 import { toast } from 'sonner'
 
@@ -34,9 +35,9 @@ export const CopyOrderNumber: React.FC<Props> = ({ orderId, className }) => {
         >
             <span>Нарачка #{orderId}</span>
             {copied ? (
-                <CheckIcon className="w-4 h-4 text-green-500 scale-in" />
+                <HugeiconsIcon icon={Tick01Icon} size={16} className="text-green-500 scale-in" strokeWidth={1.5} />
             ) : (
-                <CopyIcon className="w-4 h-4 text-stone-400 group-hover:text-primary transition-colors" />
+                <HugeiconsIcon icon={Copy01Icon} size={16} className="text-stone-400 group-hover:text-primary transition-colors" strokeWidth={1.5} />
             )}
         </button>
     )
