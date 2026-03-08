@@ -5,6 +5,7 @@ import { ContentBlock } from '@/blocks/Content/Component'
 import { FormBlock } from '@/blocks/Form/Component'
 import { InstagramBlock } from '@/blocks/Instagram/Component'
 import { ProductCarouselBlock } from '@/blocks/ProductCarousel/Component'
+import { ProductFeatureBlock } from '@/blocks/ProductFeature/Component'
 import { ThreeItemGridBlock } from '@/blocks/ThreeItemGrid/Component'
 import { toKebabCase } from '@/utilities/toKebabCase'
 import React, { Fragment } from 'react'
@@ -19,6 +20,7 @@ const blockComponents = {
   formBlock: FormBlock,
   instagram: InstagramBlock,
   productCarousel: ProductCarouselBlock,
+  productFeature: ProductFeatureBlock,
   threeItemGrid: ThreeItemGridBlock,
 }
 

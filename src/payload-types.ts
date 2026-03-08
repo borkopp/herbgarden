@@ -587,6 +587,7 @@ export interface Page {
     | FormBlock
     | ProductCarouselBlock
     | InstagramBlock
+    | ProductFeatureBlock
   )[];
   meta?: {
     title?: string | null;
@@ -898,6 +899,52 @@ export interface InstagramBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'instagram';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductFeatureBlock".
+ */
+export interface ProductFeatureBlock {
+  product: string | Product;
+  /**
+   * Choose which side the image should be displayed on desktop
+   */
+  alignment?: ('image-left' | 'image-right') | null;
+  /**
+   * Overrides the default product image
+   */
+  customImage?: (string | null) | Media;
+  ingredientFocus?: {
+    subtitle?: string | null;
+    title?: string | null;
+  };
+  tag?: string | null;
+  /**
+   * Overrides the default product title
+   */
+  title?: string | null;
+  /**
+   * Overrides the default product description
+   */
+  description?: string | null;
+  features?:
+    | {
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Hex code for the highlight color representing the product accents (e.g., #FF7F7F)
+   */
+  highlightColor?: string | null;
+  priceLabel?: string | null;
+  /**
+   * Overrides the default product price. Example: $52.00
+   */
+  customPrice?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'productFeature';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1281,6 +1328,7 @@ export interface PagesSelect<T extends boolean = true> {
         formBlock?: T | FormBlockSelect<T>;
         productCarousel?: T | ProductCarouselBlockSelect<T>;
         instagram?: T | InstagramBlockSelect<T>;
+        productFeature?: T | ProductFeatureBlockSelect<T>;
       };
   meta?:
     | T
@@ -1380,6 +1428,35 @@ export interface InstagramBlockSelect<T extends boolean = true> {
   handle?: T;
   profileLink?: T;
   postCount?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ProductFeatureBlock_select".
+ */
+export interface ProductFeatureBlockSelect<T extends boolean = true> {
+  product?: T;
+  alignment?: T;
+  customImage?: T;
+  ingredientFocus?:
+    | T
+    | {
+        subtitle?: T;
+        title?: T;
+      };
+  tag?: T;
+  title?: T;
+  description?: T;
+  features?:
+    | T
+    | {
+        label?: T;
+        id?: T;
+      };
+  highlightColor?: T;
+  priceLabel?: T;
+  customPrice?: T;
   id?: T;
   blockName?: T;
 }

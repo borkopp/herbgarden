@@ -9,6 +9,7 @@ import { Content } from '@/blocks/Content/config'
 import { FormBlock } from '@/blocks/Form/config'
 import { Instagram } from '@/blocks/Instagram/config'
 import { ProductCarousel } from '@/blocks/ProductCarousel/config'
+import { ProductFeature } from '@/blocks/ProductFeature/config'
 import { ThreeItemGrid } from '@/blocks/ThreeItemGrid/config'
 import { hero } from '@/heros/config'
 import { formatSlugCollectionHook } from '@/hooks/formatSlug'
@@ -100,7 +101,7 @@ export const Pages: CollectionConfig = {
               name: 'layout',
               type: 'blocks',
               label: 'Распоред на содржина (Layout)',
-              blocks: [Content, Carousel, Categories, About, ThreeItemGrid, FormBlock, ProductCarousel, Instagram],
+              blocks: [Content, Carousel, Categories, About, ThreeItemGrid, FormBlock, ProductCarousel, Instagram, ProductFeature],
               required: true,
               admin: {
                 description: 'Додадете различни блокови на содржина за да ја изградите вашата страница.',
