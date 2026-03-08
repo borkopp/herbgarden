@@ -508,21 +508,15 @@ export interface Page {
   publishedOn?: string | null;
   hero: {
     contentAlignment: 'left' | 'center' | 'right';
-    richText?: {
-      root: {
-        type: string;
-        children: {
-          type: any;
-          version: number;
-          [k: string]: unknown;
-        }[];
-        direction: ('ltr' | 'rtl') | null;
-        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-        indent: number;
-        version: number;
-      };
-      [k: string]: unknown;
-    } | null;
+    /**
+     * The small text above the title
+     */
+    subtitle?: string | null;
+    title?: string | null;
+    /**
+     * The text below the title
+     */
+    description?: string | null;
     links?:
       | {
           link: {
@@ -1230,7 +1224,9 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         contentAlignment?: T;
-        richText?: T;
+        subtitle?: T;
+        title?: T;
+        description?: T;
         links?:
           | T
           | {

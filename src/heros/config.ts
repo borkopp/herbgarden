@@ -38,19 +38,25 @@ export const hero: Field = {
       }
     },
     {
-      name: 'richText',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [
-            ...rootFeatures,
-            HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
-            FixedToolbarFeature(),
-            InlineToolbarFeature(),
-          ]
-        },
-      }),
-      label: false,
+      name: 'subtitle',
+      type: 'text',
+      label: 'Subtitle',
+      admin: {
+        description: 'The small text above the title',
+      },
+    },
+    {
+      name: 'title',
+      type: 'text',
+      label: 'Title',
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      label: 'Description',
+      admin: {
+        description: 'The text below the title',
+      },
     },
     linkGroup({
       overrides: {

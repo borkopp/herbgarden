@@ -13,16 +13,6 @@ export const generateMeta = async (args: { doc: Page | Product }): Promise<Metad
     'url' in doc.meta.image &&
     `${process.env.NEXT_PUBLIC_SERVER_URL}${doc.meta.image.url}`
 
-  const category = 'categories' in doc && Array.isArray(doc.categories) && doc.categories.length > 0
-    ? doc.categories[0]
-    : undefined
-
-  const categoryTitle = typeof category === 'object' && category !== null && 'title' in category
-    ? category.title
-    : undefined
-
-  const title = doc?.meta?.title || (categoryTitle ? `${doc?.title} - ${categoryTitle}` : doc?.title) || 'Herb Garden'
-
   return {
     description: doc?.meta?.description,
     openGraph: mergeOpenGraph({
@@ -38,9 +28,9 @@ export const generateMeta = async (args: { doc: Page | Product }): Promise<Metad
           },
         ]
         : undefined,
-      title,
+      title: doc?.meta?.title || doc?.title || 'Herb Garden',
       url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
     }),
-    title,
+    title: doc?.meta?.title || doc?.title || 'Herb Garden',
   }
 }

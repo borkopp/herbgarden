@@ -102,8 +102,11 @@ export default {
         },
       }),
       fontFamily: {
-        mono: ['var(--font-geist-mono)'],
-        sans: ['var(--font-geist-sans)'],
+        display: ['var(--font-comfortaa)', 'cursive'],
+        body: ['var(--font-nunito)', 'sans-serif'],
+      },
+      lineHeight: {
+        'relaxed-extra': '1.8',
       },
       keyframes: {
         fadeIn: {

@@ -90,8 +90,8 @@ export default buildConfig({
     },
   }),
   email: resendAdapter({
-    defaultFromAddress: process.env.RESEND_DEFAULT_FROM_ADDRESS || 'hello@yourdomain.com',
-    defaultFromName: process.env.RESEND_DEFAULT_FROM_NAME || 'My Company',
+    defaultFromAddress: process.env.RESEND_DEFAULT_FROM_ADDRESS || 'hello@herbgarden.mk',
+    defaultFromName: process.env.RESEND_DEFAULT_FROM_NAME || 'Herb Garden',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
   endpoints: [],

@@ -5,7 +5,7 @@ import { getPayload } from 'payload'
 import { WishlistClient } from './page.client'
 
 export const metadata: Metadata = {
-    title: 'Омилени производи | TinyMe',
+    title: 'Омилени производи | Herb Garden',
     description: 'Погледнете ги вашите омилени производи.',
 }
 

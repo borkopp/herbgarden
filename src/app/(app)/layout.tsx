@@ -8,7 +8,7 @@ import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { Metadata } from 'next'
-import { M_PLUS_Rounded_1c, Playfair_Display, Roboto } from 'next/font/google'
+import { Comfortaa, Nunito } from 'next/font/google'
 import { Suspense } from 'react'
 import './globals.css'
 
@@ -31,28 +31,22 @@ export const metadata: Metadata = {
   },
 }
 
-const mPlusRounded1c = M_PLUS_Rounded_1c({
+const comfortaa = Comfortaa({
   subsets: ['latin'],
-  variable: '--font-m-plus-rounded-1c',
-  weight: ['800', '700', '500', '400', '300', '100']
+  variable: '--font-comfortaa',
+  display: 'swap',
 })
 
-const roboto = Roboto({
+const nunito = Nunito({
   subsets: ['latin'],
-  variable: '--font-roboto',
-  weight: ['800', '700', '500', '400', '300', '100']
-})
-
-const playfairDisplay = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-playfair-display',
-  weight: ['800', '700', '500', '400']
+  variable: '--font-nunito',
+  display: 'swap',
 })
 
 export default async function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
-      className={`${mPlusRounded1c.variable} ${roboto.variable} ${playfairDisplay.variable}`}
+      className={`${comfortaa.variable} ${nunito.variable}`}
       lang="en"
       suppressHydrationWarning
     >

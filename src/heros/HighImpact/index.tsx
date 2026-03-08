@@ -6,79 +6,75 @@ import React, { useEffect } from 'react'
 import type { Page } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
-import { Media } from '@/components/Media'
-import { RichText } from '@/components/RichText'
 
-export const HighImpactHero: React.FC<Page['hero'] & { textColor?: string | null, overlayOpacity?: number | null }> = ({ links, media, richText, contentAlignment = 'center', textColor = '#FFFFFF', overlayOpacity = 20 }) => {
+export const HighImpactHero: React.FC<Page['hero']> = ({ links, subtitle, title, description }) => {
   const { setHeaderTheme } = useHeaderTheme()
 
   useEffect(() => {
-    setHeaderTheme('dark')
+    // Current design is light background, so we want the header to be 'light' (dark text)
+    setHeaderTheme('light')
   })
 
+  const words = (title || 'PURE BOTANICAL ESSENCE').split(' ')
+
   return (
-    <div
-      className="relative flex items-center justify-center text-white"
-      data-theme="dark"
-      style={{ color: textColor || '#000000' }}
-    >
-      <div className={`container mb-8 z-10 relative flex items-center ${contentAlignment === 'left' ? 'justify-start' :
-        contentAlignment === 'right' ? 'justify-end' :
-          'justify-center'
-        }`}>
-        <div className={`max-w-[40.5rem] ${contentAlignment === 'left' ? 'text-left' :
-          contentAlignment === 'right' ? 'text-right' :
-            'text-center'
-          }`}>
-          {richText && (
-            <motion.div
-              initial={{ opacity: 0, filter: "blur(10px)", y: 10 }}
-              animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2 }}
-            >
-              <RichText className="mb-6 font-playfair" data={richText} enableGutter={false} />
-            </motion.div>
+    <section className="min-h-[calc(100vh-100px)] flex items-center justify-center  px-6 relative overflow-hidden bg-white">
+      {/* Background Accents */}
+      <div className="absolute top-1/4 -left-20 w-96 h-96 bg-[#4ADE80] opacity-[0.03] blur-[100px] rounded-full" />
+      <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#FB7185] opacity-[0.03] blur-[100px] rounded-full" />
+
+      <div className="max-w-4xl mx-auto text-center relative z-10">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <span className="font-display text-xs tracking-[0.4em] text-black/30 uppercase mb-8 block">
+            {subtitle}
+          </span>
+          <h1 className="text-7xl font-display md:text-9xl font-semibold leading-[0.85] tracking-tighter mb-12 text-black">
+            {words.map((word, i) => (
+              <React.Fragment key={i}>
+                <span className={i === 1 ? 'text-black/10' : ''}>{word}</span>
+                {i < words.length - 1 && <br />}
+              </React.Fragment>
+            ))}
+          </h1>
+          {description && (
+            <p className="font-body text-lg md:text-2xl text-black/60 leading-relaxed-extra max-w-2xl mx-auto mb-12 whitespace-pre-line">
+              {description}
+            </p>
           )}
           {Array.isArray(links) && links.length > 0 && (
-            <motion.ul
-              initial={{ opacity: 0, filter: "blur(10px)", y: 10 }}
-              animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-              transition={{ duration: 0.4, delay: 0.4 }}
-              className={`flex gap-4 ${contentAlignment === 'left' ? 'justify-start' :
-                contentAlignment === 'right' ? 'justify-end' :
-                  'justify-center'
-                }`}
-            >
-              {links.map(({ link }, i) => {
-                return (
-                  <li key={i}>
-                    <CMSLink size={'lg'} className='rounded-full text-md transition-transform hover:scale-105' {...link} />
-                  </li>
-                )
-              })}
-            </motion.ul>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
+              {links.map(({ link }, i) => (
+                <CMSLink
+                  key={i}
+                  {...link}
+                  appearance="inline"
+                  className="relative font-body uppercase tracking-widest font-bold text-sm pb-1 text-black overflow-hidden group"
+                  label={null}
+                >
+                  <span className="relative inline-block">
+                    {link.label}
+                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-black transform translate-y-[2px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out" />
+                  </span>
+                </CMSLink>
+              ))}
+            </div>
           )}
-        </div>
+        </motion.div>
       </div>
-      <div className="absolute inset-0 pointer-events-none bg-black z-0" style={{ opacity: (overlayOpacity ?? 20) / 100 }} />
-      <div
-        className="min-h-[80vh] select-none"
+
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1, duration: 1 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
-        {media && typeof media === 'object' && (
-          <Media fill imgClassName="-z-10 object-cover" priority resource={media} />
-        )}
-      </div>
-      <div className="absolute bottom-0 w-full overflow-hidden leading-[0] transform translate-y-[1px] z-20 text-white">
-        <svg
-          data-name="Layer 1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-          className="relative block w-full h-[60px] md:h-[100px] fill-[#FAF9F6] rotate-180"
-        >
-          <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" />
-        </svg>
-      </div>
-    </div>
+        <span className="font-display text-[10px] tracking-widest text-black/20 uppercase">Scroll</span>
+        <div className="w-[1px] h-12 bg-gradient-to-b from-black/20 to-transparent" />
+      </motion.div>
+    </section>
   )
 }

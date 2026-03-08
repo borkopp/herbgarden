@@ -43,9 +43,9 @@
   --breakpoint-lg: 64rem;
   --breakpoint-xl: 80rem;
   --breakpoint-2xl: 86rem;
-  --font-sans: var(--font-m-plus-rounded-1c);
-  --font-serif: var(--font-roboto);
-  --font-playfair: var(--font-playfair-display);
+  --font-display: var(--font-comfortaa);
+  --font-body: var(--font-nunito);
+  --font-sans: var(--font-nunito);
 }
 
 @layer utilities {
