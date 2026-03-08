@@ -120,7 +120,13 @@ export const ProductFeatureBlock: React.FC<ProductFeatureProps> = (props) => {
           className={`relative w-full max-w-xl mx-auto lg:max-w-none ${isImageRight ? 'lg:order-last' : ''}`}
         >
           {/* Subtle staggered backdrop */}
-          <div className="absolute -inset-4 bg-red-50/60 rounded-[2.5rem] -z-10 translate-x-2 translate-y-4 md:translate-x-6 md:translate-y-8" />
+          <div
+            className="absolute -inset-4 rounded-[2.5rem] -z-10 translate-x-2 translate-y-4 md:translate-x-6 md:translate-y-8"
+            style={{
+              backgroundColor: highlightColor || '#FF7F7F',
+              opacity: 0.08
+            }}
+          />
 
           <div className="relative aspect-square md:aspect-[4/4] rounded-[2rem] overflow-hidden bg-muted/20 shadow-xl">
             {displayImage && typeof displayImage === 'object' ? (
@@ -235,7 +241,7 @@ export const ProductFeatureBlock: React.FC<ProductFeatureProps> = (props) => {
               <span className="text-[10px] text-muted-foreground tracking-widest uppercase font-semibold">
                 {priceLabel || 'INVESTMENT'}
               </span>
-              <span className="text-3xl font-display font-bold text-black mt-1">
+              <span className="text-3xl font-sans font-bold text-black mt-1">
                 {finalPrice}
               </span>
             </div>
