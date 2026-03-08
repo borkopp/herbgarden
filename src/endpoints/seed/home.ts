@@ -47,7 +47,7 @@ export const homePageData: (args: ProductArgs) => RequiredDataFromCollectionSlug
                   format: 0,
                   mode: 'normal',
                   style: '',
-                  text: 'Tiny Me - by Pepelashka',
+                  text: 'Herb Garden',
                   version: 1,
                 },
               ],
@@ -513,7 +513,7 @@ export const homePageData: (args: ProductArgs) => RequiredDataFromCollectionSlug
       description: 'An open-source ecommerce site built with Payload and Next.js.',
       // @ts-ignore
       image: metaImage,
-      title: 'Tiny Me - by Pepelashka',
+      title: 'Herb Garden',
     },
     title: 'Home',
   }

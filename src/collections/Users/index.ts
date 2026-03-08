@@ -45,11 +45,11 @@ export const Users: CollectionConfig = {
           <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
             <h1 style="color: #1c1917; margin-bottom: 24px;">Ресетирање на лозинка</h1>
             <p style="color: #444; line-height: 1.5;">Здраво, ${user?.name || 'кориснику'},</p>
-            <p style="color: #444; line-height: 1.5;">Добивме барање за ресетирање на вашата лозинка за вашата сметка на <strong>Tiny Me</strong>. Кликнете на копчето подолу за да поставите нова лозинка:</p>
+            <p style="color: #444; line-height: 1.5;">Добивме барање за ресетирање на вашата лозинка за вашата сметка на <strong>Herb Garden</strong>. Кликнете на копчето подолу за да поставите нова лозинка:</p>
             <a href="${resetPasswordURL}" style="display: inline-block; background-color: #d39d1f; color: white; padding: 12px 24px; text-decoration: none; border-radius: 99px; font-weight: bold; margin-top: 24px;">Ресетирај лозинка</a>
             <p style="color: #888; font-size: 14px; margin-top: 32px;">Доколку не сте побарале ресетирање на лозинката, можете слободно да ја игнорирате оваа е-пошта.</p>
             <div style="border-top: 1px solid #eee; margin-top: 40px; padding-top: 20px; font-size: 12px; color: #aaa;">
-              © ${new Date().getFullYear()} Tiny Me. Сите права се задржани.
+              © ${new Date().getFullYear()} Herb Garden. Сите права се задржани.
             </div>
           </div>
         `

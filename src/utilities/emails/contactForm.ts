@@ -1,25 +1,25 @@
 import {
-    EMAIL_MUTED_COLOR,
-    EMAIL_TEXT_COLOR,
-    shell,
+  EMAIL_MUTED_COLOR,
+  EMAIL_TEXT_COLOR,
+  shell,
 } from './_shared'
 
 export const subject = (name: string, subject: string) => {
-    return `📩 Нова порака од ${name}: ${subject} | Tiny Me`
+  return `📩 Нова порака од ${name}: ${subject} | Herb Garden`
 }
 
 export const render = ({
-    name,
-    email,
-    subject,
-    message
+  name,
+  email,
+  subject,
+  message
 }: {
-    name: string,
-    email: string,
-    subject: string,
-    message: string
+  name: string,
+  email: string,
+  subject: string,
+  message: string
 }): string => {
-    const body = `
+  const body = `
     <p style="margin:0 0 10px;font-size:18px;font-weight:700;color:${EMAIL_TEXT_COLOR};">
       📩 Нова порака преку контакт форма
     </p>
@@ -48,5 +48,5 @@ export const render = ({
     </div>
     `
 
-    return shell()(body)
+  return shell()(body)
 }

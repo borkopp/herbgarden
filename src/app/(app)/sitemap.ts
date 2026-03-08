@@ -5,7 +5,7 @@ import { getPayload } from 'payload'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const payload = await getPayload({ config: configPromise })
-    const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://tinyme.mk'
+    const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || 'https://herbgarden.mk'
 
     // Fetch all published products
     const products = await payload.find({

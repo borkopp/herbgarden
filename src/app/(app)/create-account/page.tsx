@@ -28,7 +28,7 @@ export default async function CreateAccount() {
           </Link>
           <h1 className="text-2xl font-medium tracking-tight">Креирај сметка</h1>
           <p className="text-sm text-muted-foreground mt-2 text-center">
-            Регистрирајте се за да станете дел од Tiny Me
+            Регистрирајте се за да станете дел од Herb Garden
           </p>
         </div>
         <CreateAccountForm />

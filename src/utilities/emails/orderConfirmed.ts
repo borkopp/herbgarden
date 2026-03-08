@@ -1,27 +1,27 @@
 import {
-    EMAIL_BORDER_COLOR,
-    EMAIL_CONTACT_EMAIL,
-    EMAIL_MUTED_COLOR,
-    EMAIL_PRIMARY_COLOR,
-    EMAIL_SURFACE_COLOR,
-    EMAIL_TEXT_COLOR,
-    addressBlock,
-    calcTotals,
-    fmt,
-    itemsTable,
-    shell,
-    type Order,
+  EMAIL_BORDER_COLOR,
+  EMAIL_CONTACT_EMAIL,
+  EMAIL_MUTED_COLOR,
+  EMAIL_PRIMARY_COLOR,
+  EMAIL_SURFACE_COLOR,
+  EMAIL_TEXT_COLOR,
+  addressBlock,
+  calcTotals,
+  fmt,
+  itemsTable,
+  shell,
+  type Order,
 } from './_shared'
 
 export const subject = (order: Order) =>
-    `✅ Нарачка потврдена — #${order.id} | Tiny Me`
+  `✅ Нарачка потврдена — #${order.id} | Herb Garden`
 
 export const render = (order: Order): string => {
-    const firstName = order.shippingAddress?.firstName || ''
-    const greeting = firstName ? `Здраво, ${firstName}!` : 'Здраво!'
-    const { grandTotal, isFree } = calcTotals(order)
+  const firstName = order.shippingAddress?.firstName || ''
+  const greeting = firstName ? `Здраво, ${firstName}!` : 'Здраво!'
+  const { grandTotal, isFree } = calcTotals(order)
 
-    const body = `
+  const body = `
     <!-- Greeting -->
     <p style="margin:0 0 6px;font-size:22px;font-weight:800;color:${EMAIL_TEXT_COLOR};">
       ${greeting} 🎉
@@ -61,5 +61,5 @@ export const render = (order: Order): string => {
       — со задоволство помагаме. 💛
     </p>`
 
-    return shell()(body)
+  return shell()(body)
 }

@@ -117,7 +117,7 @@ export function MobileMenu({ menu, categories }: Props) {
                     if (typeof category !== 'object') return null
                     const href = `/shop?category=${category.id}`
                     const isActive = pathname === '/shop' && searchParams.get('category') === category.id
-                    
+
                     return (
                       <motion.li
                         key={category.id}
@@ -187,7 +187,7 @@ export function MobileMenu({ menu, categories }: Props) {
           {/* Footer Info */}
           <div className="p-8 border-t border-stone-100 dark:border-stone-900 bg-stone-50/50 dark:bg-stone-900/50 mt-auto">
             <p className="text-center text-[10px] font-bold text-stone-400 uppercase tracking-[0.25em]">
-              © {new Date().getFullYear()} Tiny Me
+              © {new Date().getFullYear()} Herb Garden
             </p>
             <p className="text-center text-[9px] text-stone-400 uppercase tracking-widest mt-1">
               Премиум опрема за бебиња

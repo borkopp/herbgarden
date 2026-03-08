@@ -23,14 +23,14 @@ export const Instagram: Block = {
         {
             name: 'handle',
             type: 'text',
-            label: 'Instagram Handle (e.g. @tinyme.mk)',
-            defaultValue: '@tinyme.mk',
+            label: 'Instagram Handle (e.g. @herbgarden.mk)',
+            defaultValue: '@herbgarden.mk',
         },
         {
             name: 'profileLink',
             type: 'text',
             label: 'Instagram Profile URL',
-            defaultValue: 'https://www.instagram.com/tinyme.mk',
+            defaultValue: 'https://www.instagram.com/herbgarden.mk',
         },
         {
             name: 'postCount',

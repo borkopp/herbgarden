@@ -29,11 +29,11 @@ test.describe('Frontend', () => {
   test('can go on homepage', async ({ page }) => {
     await page.goto(baseURL)
 
-    await expect(page).toHaveTitle(/Tiny Me - by Pepelashka/)
+    await expect(page).toHaveTitle(/Herb Garden/)
 
     const heading = page.locator('h1').first()
 
-    await expect(heading).toHaveText('Tiny Me - by Pepelashka')
+    await expect(heading).toHaveText('Herb Garden')
   })
 
   test('can sign up and subsequently login', async ({ page }) => {

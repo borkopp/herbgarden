@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 
 import { AdminBar } from '@/components/AdminBar'
+import { GoogleAnalytics } from '@/components/Analytics/GoogleAnalytics'
 import { Footer } from '@/components/Footer'
 import { Header } from '@/components/Header'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
@@ -9,21 +10,20 @@ import { InitTheme } from '@/providers/Theme/InitTheme'
 import { Metadata } from 'next'
 import { M_PLUS_Rounded_1c, Playfair_Display, Roboto } from 'next/font/google'
 import { Suspense } from 'react'
-import { GoogleAnalytics } from '@/components/Analytics/GoogleAnalytics'
 import './globals.css'
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || 'https://yourdomain.com'),
   title: {
-    default: 'Tiny Me - by Pepelashka',
-    template: '%s | Tiny Me - by Pepelashka',
+    default: 'Herb Garden',
+    template: '%s | Herb Garden',
   },
   description: 'Најубавата облека и додатоци за вашите најмили.',
   openGraph: {
     type: 'website',
     locale: 'mk_MK',
     url: '/',
-    siteName: 'Tiny Me',
+    siteName: 'Herb Garden',
   },
   robots: {
     index: true,

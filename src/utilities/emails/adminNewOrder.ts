@@ -1,35 +1,35 @@
 import {
-    EMAIL_BORDER_COLOR,
-    EMAIL_MUTED_COLOR,
-    EMAIL_PRIMARY_COLOR,
-    EMAIL_STORE_URL,
-    EMAIL_SURFACE_COLOR,
-    EMAIL_TEXT_COLOR,
-    addressBlock,
-    calcTotals,
-    fmt,
-    itemsTable,
-    shell,
-    type Order,
+  EMAIL_BORDER_COLOR,
+  EMAIL_MUTED_COLOR,
+  EMAIL_PRIMARY_COLOR,
+  EMAIL_STORE_URL,
+  EMAIL_SURFACE_COLOR,
+  EMAIL_TEXT_COLOR,
+  addressBlock,
+  calcTotals,
+  fmt,
+  itemsTable,
+  shell,
+  type Order,
 } from './_shared'
 
 export const subject = (order: Order) => {
-    const name = [order.shippingAddress?.firstName, order.shippingAddress?.lastName]
-        .filter(Boolean)
-        .join(' ')
-    return `🛍 Нова нарачка${name ? ` од ${name}` : ''} — #${order.id} | Tiny Me Админ`
+  const name = [order.shippingAddress?.firstName, order.shippingAddress?.lastName]
+    .filter(Boolean)
+    .join(' ')
+  return `🛍 Нова нарачка${name ? ` од ${name}` : ''} — #${order.id} | Herb Garden Админ`
 }
 
 export const render = (order: Order): string => {
-    const firstName = order.shippingAddress?.firstName || ''
-    const lastName = order.shippingAddress?.lastName || ''
-    const fullName = [firstName, lastName].filter(Boolean).join(' ')
-    const email = order.customerEmail || '—'
-    const phone = order.shippingAddress?.phone || '—'
-    const city = order.shippingAddress?.city || '—'
-    const { subtotal, shipping, grandTotal, isFree } = calcTotals(order)
+  const firstName = order.shippingAddress?.firstName || ''
+  const lastName = order.shippingAddress?.lastName || ''
+  const fullName = [firstName, lastName].filter(Boolean).join(' ')
+  const email = order.customerEmail || '—'
+  const phone = order.shippingAddress?.phone || '—'
+  const city = order.shippingAddress?.city || '—'
+  const { subtotal, shipping, grandTotal, isFree } = calcTotals(order)
 
-    const body = `
+  const body = `
     <p style="margin:0 0 6px;font-size:20px;font-weight:800;color:${EMAIL_TEXT_COLOR};">
       🛍 Нова нарачка${fullName ? ` — ${fullName}` : ''}
     </p>
@@ -106,5 +106,5 @@ export const render = (order: Order): string => {
       </a>
     </div>`
 
-    return shell()(body)
+  return shell()(body)
 }

@@ -49,7 +49,7 @@ const GridIcon = () => (
 /* ─── Placeholder skeleton cell ───────────────────────────────────── */
 const SkeletonPost = ({ index }: { index: number }) => (
     <motion.a
-        href="https://www.instagram.com/tinyme.mk"
+        href="https://www.instagram.com/herbgarden.mk"
         target="_blank"
         rel="noopener noreferrer"
         initial={{ opacity: 0, scale: 0.95 }}
@@ -165,7 +165,7 @@ export const InstagramClient: React.FC<InstagramClientProps> = ({
                         <InstagramIcon className="w-3.5 h-3.5 text-white" />
                     </span>
                     <span className="text-sm font-semibold text-zinc-700 dark:text-zinc-300 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">
-                        {handle ?? '@tinyme.mk'}
+                        {handle ?? '@herbgarden.mk'}
                     </span>
                 </a>
 

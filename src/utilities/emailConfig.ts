@@ -4,8 +4,8 @@
  */
 
 // ─── Store Branding ───────────────────────────────────────────────────────────
-export const EMAIL_STORE_NAME = 'Tiny Me'
-export const EMAIL_STORE_TAGLINE = 'by Pepelashka'
+export const EMAIL_STORE_NAME = 'Herb Garden'
+export const EMAIL_STORE_TAGLINE = 'Традиција. Контрола. Квалитет.'
 
 /**
  * Publicly accessible logo URL shown at the top of every email.
@@ -15,8 +15,8 @@ export const EMAIL_STORE_TAGLINE = 'by Pepelashka'
 export const EMAIL_LOGO_URL: string | null = null
 
 /** Where customers can reach you */
-export const EMAIL_CONTACT_EMAIL = 'info@tinyme.mk'
-export const EMAIL_STORE_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'https://tinyme.mk'
+export const EMAIL_CONTACT_EMAIL = 'info@herbgarden.mk'
+export const EMAIL_STORE_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'https://herbgarden.mk'
 
 // ─── Shipping ─────────────────────────────────────────────────────────────────
 /** Orders with an `amount` below this threshold incur a flat shipping fee. */
@@ -33,13 +33,13 @@ export const SHIPPING_COST = 150 // MKD
  * Example for Hetzner:
  *   S3_ENDPOINT = https://nbg1.your-objectstorage.com
  *   S3_BUCKET   = digilence
- *   prefix      = tinyme
- *  → https://digilence.nbg1.your-objectstorage.com/tinyme
+ *   prefix      = herbgarden
+ *  → https://digilence.nbg1.your-objectstorage.com/herbgarden
  */
 export const getS3MediaBaseUrl = (): string => {
     const endpoint = process.env.S3_ENDPOINT || '' // e.g. https://nbg1.your-objectstorage.com
     const bucket = process.env.S3_BUCKET || ''
-    const prefix = 'tinyme'
+    const prefix = 'herbgarden'
 
     if (!endpoint || !bucket) return ''
 

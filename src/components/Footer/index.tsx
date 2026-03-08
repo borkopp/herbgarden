@@ -68,12 +68,12 @@ export function Footer() {
               <h4 className="text-xs font-bold tracking-[0.2em] uppercase text-primary">Социјални мрежи</h4>
               <ul className="space-y-4">
                 <li>
-                  <Link href="https://instagram.com/tinymebypepelashka/" className="text-neutral-900 hover:text-primary transition-colors text-sm font-bold">
+                  <Link href="https://instagram.com/herbgardenbypepelashka/" className="text-neutral-900 hover:text-primary transition-colors text-sm font-bold">
                     Instagram
                   </Link>
                 </li>
                 <li>
-                  <Link href="https://facebook.com/tinymebypepelashka/" className="text-neutral-900 hover:text-primary transition-colors text-sm font-bold">
+                  <Link href="https://facebook.com/herbgardenbypepelashka/" className="text-neutral-900 hover:text-primary transition-colors text-sm font-bold">
                     Facebook
                   </Link>
                 </li>
@@ -93,8 +93,8 @@ export function Footer() {
               </li>
               <li className="flex items-center gap-3 group col-span-1">
                 <Mail className="size-4 text-neutral-900 group-hover:text-primary transition-colors" />
-                <a href="mailto:contact@tinyme.mk" className="text-neutral-900 hover:text-primary transition-colors text-sm font-bold">
-                  contact@tinyme.mk
+                <a href="mailto:contact@herbgarden.mk" className="text-neutral-900 hover:text-primary transition-colors text-sm font-bold">
+                  contact@herbgarden.mk
                 </a>
               </li>
               <li className="flex items-start gap-3 group col-span-2 md:col-span-1">
@@ -110,7 +110,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-[10px] font-bold tracking-[0.1em] text-neutral-900 transition-colors text-sm leading-tight font-medium">
-            © {currentYear} TINY ME By Pepelashka. Сите права се задржани.
+            © {currentYear} Herb Garden. Сите права се задржани.
           </p>
           <div className="flex gap-8">
             <Link href="/privacy" className="text-[10px] font-bold tracking-[0.1em] text-neutral-900 transition-colors text-sm leading-tight font-medium">

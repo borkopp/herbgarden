@@ -19,7 +19,7 @@ export const homeStaticData: () => RequiredDataFromCollectionSlug<'pages'> = () 
                   format: 0,
                   mode: 'normal',
                   style: '',
-                  text: 'Tiny Me - by Pepelashka',
+                  text: 'Herb Garden',
                   version: 1,
                 },
               ],
@@ -82,7 +82,7 @@ export const homeStaticData: () => RequiredDataFromCollectionSlug<'pages'> = () 
     layout: [],
     meta: {
       description: 'An open-source ecommerce site built with Payload and Next.js.',
-      title: 'Tiny Me - by Pepelashka',
+      title: 'Herb Garden',
     },
     title: 'Home',
   }

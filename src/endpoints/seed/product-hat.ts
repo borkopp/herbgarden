@@ -18,7 +18,7 @@ export const productHatData: (args: ProductArgs) => RequiredDataFromCollectionSl
 }) => {
   return {
     meta: {
-      title: 'Hat | Tiny Me - by Pepelashka',
+      title: 'Hat | Herb Garden',
       image: metaImage,
       description:
         'Top off your look with our classic hat, crafted for style and comfort. Made with breathable, high-quality materials and an adjustable strap for the perfect fit.',

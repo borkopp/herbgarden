@@ -21,7 +21,7 @@ export const generateMeta = async (args: { doc: Page | Product }): Promise<Metad
     ? category.title
     : undefined
 
-  const title = doc?.meta?.title || (categoryTitle ? `${doc?.title} - ${categoryTitle}` : doc?.title) || 'Tiny Me - by Pepelashka'
+  const title = doc?.meta?.title || (categoryTitle ? `${doc?.title} - ${categoryTitle}` : doc?.title) || 'Herb Garden'
 
   return {
     description: doc?.meta?.description,

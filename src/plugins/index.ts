@@ -106,7 +106,7 @@ const sendOrderEmailNotifications: CollectionAfterChangeHook = async ({
 }
 
 const generateTitle: GenerateTitle<Product | Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Tiny Me - by Pepelashka` : 'Tiny Me - by Pepelashka'
+  return doc?.title ? `${doc.title} | Herb Garden` : 'Herb Garden'
 }
 
 const generateURL: GenerateURL<Product | Page> = ({ doc }) => {
@@ -250,7 +250,7 @@ export const plugins: Plugin[] = [
   s3Storage({
     collections: {
       media: {
-        prefix: 'tinyme',
+        prefix: 'herbgarden',
       },
     },
     bucket: process.env.S3_BUCKET || '',

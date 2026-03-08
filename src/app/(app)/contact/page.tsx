@@ -52,7 +52,7 @@ export default function ContactPage() {
                                 <span className="text-sm font-semibold tracking-widest uppercase text-primary mb-2 block">Нашата приказна</span>
                                 <h2 className="font-serif text-3xl text-foreground mb-6">Создадено со љубов за вашите најмали</h2>
                                 <p className="text-muted-foreground leading-relaxed mb-6">
-                                    Tiny Me започна како мал семеен сон – желба да им понудиме на нашите деца нешто повеќе од обични производи. Сакавме нежност, чистота и етика во секој бод.
+                                    Herb Garden започна како мал семеен сон – желба да им понудиме на нашите деца нешто повеќе од обични производи. Сакавме нежност, чистота и етика во секој бод.
                                 </p>
                                 <p className="text-muted-foreground leading-relaxed">
                                     Денес, ние сме заедница која верува во моќта на квалитетните материјали и безвременскиот дизајн. Секој производ во нашата продавница е внимателно изработен или одбран за да обезбеди најдобар почеток за вашето бебе.
@@ -66,7 +66,7 @@ export default function ContactPage() {
                                     </div>
                                     <div>
                                         <h4 className="font-medium text-foreground mb-1">Пишете ни</h4>
-                                        <p className="text-sm text-muted-foreground">contact@tinyme.mk</p>
+                                        <p className="text-sm text-muted-foreground">contact@herbgarden.mk</p>
                                     </div>
                                 </div>
                                 <div className="flex items-start gap-4">
@@ -186,7 +186,7 @@ export default function ContactPage() {
                             referrerPolicy="no-referrer-when-downgrade"
                         ></iframe>
                         <div className="absolute bottom-8 left-8 bg-background/80 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-border max-w-xs hidden md:block">
-                            <h4 className="font-serif text-lg text-foreground mb-2">Tiny Me</h4>
+                            <h4 className="font-serif text-lg text-foreground mb-2">Herb Garden</h4>
                             <p className="text-sm text-muted-foreground mb-4">Нашиот простор е дизајниран да биде топло катче за сите родители и нивните најмили.</p>
                             <a
                                 href="https://www.google.com/maps/dir/?api=1&destination=Ilindenska+24,+Prilep"

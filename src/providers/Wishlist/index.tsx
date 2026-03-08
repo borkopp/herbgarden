@@ -14,7 +14,7 @@ type WishlistContextType = {
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined)
 
-const LOCAL_STORAGE_KEY = 'tinyme_wishlist'
+const LOCAL_STORAGE_KEY = 'herbgarden_wishlist'
 
 export const WishlistProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { user } = useAuth()

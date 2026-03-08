@@ -347,7 +347,7 @@ export const renderStatusChangeEmail = (order: Order, status: string) => {
         `${hey}Вашата нарачка е успешно доставена — се надеваме дека ќе ви се допадне! 🎁 ` +
         `Ако имате какви било прашања или коментари за производот, само пишете ни на ` +
         `<a href="mailto:${EMAIL_CONTACT_EMAIL}" style="color: ${EMAIL_PRIMARY_COLOR}; text-decoration: none;">${EMAIL_CONTACT_EMAIL}</a>. ` +
-        `Ви благодариме за довербата и очекуваме да ве видиме повторно во <strong>Tiny Me</strong>! 💛`
+        `Ви благодариме за довербата и очекуваме да ве видиме повторно во <strong>Herb Garden</strong>! 💛`
       break
 
     case 'canceled':

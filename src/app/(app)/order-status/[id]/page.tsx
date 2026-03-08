@@ -1,7 +1,7 @@
+import { TrackPurchase } from '@/components/Analytics/TrackPurchase'
 import { Media } from '@/components/Media'
 import { OrderStatus } from '@/components/OrderStatus'
 import { Price } from '@/components/Price'
-import { TrackPurchase } from '@/components/Analytics/TrackPurchase'
 import { Button } from '@/components/ui/button'
 import { Address } from '@/payload-types'
 import { formatDateTime } from '@/utilities/formatDateTime'
@@ -213,7 +213,7 @@ export default async function OrderStatusPage({ params }: PageProps) {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { id } = await params
     return {
-        title: `Статус на нарачка #${id} | Tiny Me`,
+        title: `Статус на нарачка #${id} | Herb Garden`,
         description: `Проверете го статусот на вашата нарачка #${id}`,
     }
 }
