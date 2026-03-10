@@ -33,10 +33,19 @@ if tar -xzf "$BACKUP_FILE" -C "$TEMP_DIR"; then
     EXTRACTED_DIR=$(ls "$TEMP_DIR")
     
     echo "🔄 Running mongorestore..."
-    if mongorestore --db="$DB_NAME" --drop "$TEMP_DIR/$EXTRACTED_DIR/$DB_NAME"; then
-        echo "✅ Restore completed successfully!"
+    if [ -n "$DATABASE_URL" ]; then
+        echo "🔐 Using DATABASE_URL for authentication..."
+        if mongorestore --uri="$DATABASE_URL" --drop "$TEMP_DIR/$EXTRACTED_DIR/$DB_NAME"; then
+            echo "✅ Restore completed successfully!"
+        else
+            echo "❌ mongorestore failed!"
+        fi
     else
-        echo "❌ mongorestore failed!"
+        if mongorestore --db="$DB_NAME" --drop "$TEMP_DIR/$EXTRACTED_DIR/$DB_NAME"; then
+            echo "✅ Restore completed successfully!"
+        else
+            echo "❌ mongorestore failed!"
+        fi
     fi
 else
     echo "❌ Extraction failed!"
