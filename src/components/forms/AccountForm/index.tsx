@@ -89,83 +89,84 @@ export const AccountForm: React.FC = () => {
   }, [user, router, reset, changePassword])
 
   return (
-    <form className="max-w-xl" onSubmit={handleSubmit(onSubmit)}>
+    <form className="max-w-2xl" onSubmit={handleSubmit(onSubmit)}>
       {!changePassword ? (
         <Fragment>
-          <div className="prose dark:prose-invert mb-8">
-            <p className="">
-              {'Промени ги деталите за твојот профил подолу, или '}
-              <Button
-                className="px-0 text-inherit underline hover:cursor-pointer"
+          <div className="mb-12">
+            <p className="text-[11px] font-bold tracking-[0.05em] text-black/40 uppercase leading-relaxed">
+              {'Update your personal profile details below, or '}
+              <button
+                className="text-black underline underline-offset-4 hover:text-black/60 transition-colors bg-transparent border-none p-0 cursor-pointer"
                 onClick={() => setChangePassword(!changePassword)}
                 type="button"
-                variant="link"
               >
-                кликни тука
-              </Button>
-              {' за да ја промениш твојата лозинка.'}
+                click here
+              </button>
+              {' to update your security credentials.'}
             </p>
           </div>
 
-          <div className="flex flex-col gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <FormItem>
-              <Label htmlFor="email" className="mb-2">
-                Е-пошта
-              </Label>
-              <Input
-                id="email"
-                {...register('email', { required: 'Please provide an email.' })}
-                type="email"
-              />
-              {errors.email && <FormError message={errors.email.message} />}
-            </FormItem>
-
-            <FormItem>
-              <Label htmlFor="name" className="mb-2">
-                Име
+              <Label htmlFor="name" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-3 block px-1">
+                Display Name
               </Label>
               <Input
                 id="name"
                 {...register('name', { required: 'Please provide a name.' })}
                 type="text"
+                className="h-14 rounded-2xl bg-[#f6f6f6] border-none px-6 focus-visible:ring-1 focus-visible:ring-black/5"
               />
               {errors.name && <FormError message={errors.name.message} />}
+            </FormItem>
+
+            <FormItem>
+              <Label htmlFor="email" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-3 block px-1">
+                Access Email
+              </Label>
+              <Input
+                id="email"
+                {...register('email', { required: 'Please provide an email.' })}
+                type="email"
+                className="h-14 rounded-2xl bg-[#f6f6f6] border-none px-6 focus-visible:ring-1 focus-visible:ring-black/5"
+              />
+              {errors.email && <FormError message={errors.email.message} />}
             </FormItem>
           </div>
         </Fragment>
       ) : (
         <Fragment>
-          <div className="prose dark:prose-invert mb-8">
-            <p>
-              {'Промени ја твојата лозинка подолу, или '}
-              <Button
-                className="px-0 text-inherit underline hover:cursor-pointer"
+          <div className="mb-12">
+            <p className="text-[11px] font-bold tracking-[0.05em] text-black/40 uppercase leading-relaxed">
+              {'Security protocol: update your password below, or '}
+              <button
+                className="text-black underline underline-offset-4 hover:text-black/60 transition-colors bg-transparent border-none p-0 cursor-pointer"
                 onClick={() => setChangePassword(!changePassword)}
                 type="button"
-                variant="link"
               >
-                откажи
-              </Button>
+                cancel reset
+              </button>
               .
             </p>
           </div>
 
-          <div className="flex flex-col gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <FormItem>
-              <Label htmlFor="password" className="mb-2">
-                Нова лозинка
+              <Label htmlFor="password" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-3 block px-1">
+                New Password
               </Label>
               <Input
                 id="password"
                 {...register('password', { required: 'Ве молиме внесете нова лозинка.' })}
                 type="password"
+                className="h-14 rounded-2xl bg-[#f6f6f6] border-none px-6 focus-visible:ring-1 focus-visible:ring-black/5"
               />
               {errors.password && <FormError message={errors.password.message} />}
             </FormItem>
 
             <FormItem>
-              <Label htmlFor="passwordConfirm" className="mb-2">
-                Потврди лозинка
+              <Label htmlFor="passwordConfirm" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-3 block px-1">
+                Confirm
               </Label>
               <Input
                 id="passwordConfirm"
@@ -174,19 +175,27 @@ export const AccountForm: React.FC = () => {
                   validate: (value) => value === password.current || 'Лозинките не се совпаѓаат',
                 })}
                 type="password"
+                className="h-14 rounded-2xl bg-[#f6f6f6] border-none px-6 focus-visible:ring-1 focus-visible:ring-black/5"
               />
               {errors.passwordConfirm && <FormError message={errors.passwordConfirm.message} />}
             </FormItem>
           </div>
         </Fragment>
       )}
-      <Button disabled={isLoading || isSubmitting || !isDirty} type="submit" variant="default">
-        {isLoading || isSubmitting
-          ? 'Се обработува...'
-          : changePassword
-            ? 'Промени лозинка'
-            : 'Зачувај промени'}
-      </Button>
+
+      <div className="flex justify-start">
+        <Button
+          disabled={isLoading || isSubmitting || (!isDirty && !changePassword)}
+          type="submit"
+          className="h-14 px-12 rounded-full bg-black text-white hover:bg-stone-800 transition-all font-bold text-[10px] tracking-[0.2em] uppercase"
+        >
+          {isLoading || isSubmitting
+            ? 'Processing...'
+            : changePassword
+              ? 'Update Password'
+              : 'Save Changes'}
+        </Button>
+      </div>
     </form>
   )
 }

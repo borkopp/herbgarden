@@ -220,7 +220,7 @@ export const CheckoutPage: React.FC = () => {
             <div className="space-y-4">
               <Link href="/cart" className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-black/40 hover:text-black transition-colors mb-2 group">
                 <HugeiconsIcon icon={ArrowLeft01Icon} size={16} strokeWidth={2} className="group-hover:-translate-x-1 transition-transform" />
-                Назад во кошничка
+                Назад кон кошничката
               </Link>
             </div>
 
@@ -725,9 +725,9 @@ export const CheckoutPage: React.FC = () => {
                   <Price as="span" amount={cartTotalMKD + (cartTotalMKD >= 3000 ? 0 : 150)} />
                 </div>
               </div>
-              <div className="mt-8 p-6 bg-white rounded-2xl">
+              <div className="mt-8 p-6 bg-white rounded-2xl flex items-center">
                 <p className="text-[10px] uppercase tracking-widest text-black/40 leading-relaxed text-center font-bold">
-                  Вашата нарачка ќе биде процесирана во нашата лабораторија во рок од 24 часа. Безбедното пакување гарантира интегритет на производите за време на доставата.
+                  Доставата се врши во рок од <strong>3-5 работни дена</strong>.
                 </p>
               </div>
             </div>
@@ -744,7 +744,7 @@ export const CheckoutPage: React.FC = () => {
           {/* ── CTA BUTTON (Unified under summary) ── */}
           <div className="pb-12 mt-4">
             <button
-              className="w-full h-14 rounded-full bg-black text-white text-[10px] font-bold uppercase tracking-widest hover:bg-black/80 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:hover:scale-100 disabled:hover:bg-black flex items-center justify-center gap-2"
+              className="w-full h-14 rounded-full bg-black text-white text-sm font-bold uppercase tracking-widest hover:bg-black/80 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:hover:scale-100 disabled:hover:bg-black flex items-center justify-center gap-2"
               disabled={!canPlaceOrder || isPlacingOrder}
               onClick={(e) => { e.preventDefault(); void handlePlaceOrder() }}
             >

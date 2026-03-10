@@ -15,17 +15,20 @@ export default async function WishlistPage() {
     const { user } = await payload.auth({ headers })
 
     return (
-        <div className="flex flex-col gap-8 w-full max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div className="mb-2">
-                <h1 className="text-3xl md:text-4xl font-light text-stone-900 dark:text-stone-100 tracking-tight">Омилени производи</h1>
-                <p className="text-stone-500 mt-2">
-                    Листа на сите производи кои сте ги зачувале.
-                </p>
-            </div>
-            </div>
+        <div className="flex flex-col gap-12 w-full max-w-6xl mx-auto py-4">
+            <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 ease-out">
+                <div className="mb-10">
+                    {/* <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mb-3 block">Saved Items</span> */}
+                    <h1 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tighter text-black uppercase leading-[0.85]">
+                        My<br />
+                        <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #e5e5e5' }}>Wishlist</span>
+                    </h1>
+                </div>
 
-            <WishlistClient />
+                <div className="bg-white border border-black/5 rounded-[3rem] p-8 md:p-12 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.04)]">
+                    <WishlistClient />
+                </div>
+            </div>
         </div>
     )
 }

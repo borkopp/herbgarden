@@ -76,15 +76,19 @@ export const CreateAccountForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Message error={error} />
+      <Message error={error} className="mb-8" />
 
-      <div className="flex flex-col gap-5 mt-2">
+      <div className="flex flex-col gap-8">
         <FormItem>
-          <Label htmlFor="email">
-            Е-пошта
-          </Label>
+          <div className="mb-3 px-1">
+            <Label htmlFor="email" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40">
+              Email Address
+            </Label>
+          </div>
           <Input
             id="email"
+            placeholder="entry@herbgarden.mk"
+            className="h-14 rounded-2xl placeholder:text-black/30 bg-[#f6f6f6] border-none px-6 text-sm font-medium focus-visible:ring-1 focus-visible:ring-black/10 transition-all"
             {...register('email', { required: 'Е-поштата е задолжителна.' })}
             type="email"
           />
@@ -92,11 +96,15 @@ export const CreateAccountForm: React.FC = () => {
         </FormItem>
 
         <FormItem>
-          <Label htmlFor="password">
-            Нова лозинка
-          </Label>
+          <div className="mb-3 px-1">
+            <Label htmlFor="password" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40">
+              New Password
+            </Label>
+          </div>
           <Input
             id="password"
+            placeholder="••••••••"
+            className="h-14 rounded-2xl placeholder:text-black/30 bg-[#f6f6f6] border-none px-6 text-sm font-medium focus-visible:ring-1 focus-visible:ring-black/10 transition-all"
             {...register('password', { required: 'Лозинката е задолжителна.' })}
             type="password"
           />
@@ -104,11 +112,15 @@ export const CreateAccountForm: React.FC = () => {
         </FormItem>
 
         <FormItem>
-          <Label htmlFor="passwordConfirm">
-            Потврди лозинка
-          </Label>
+          <div className="mb-3 px-1">
+            <Label htmlFor="passwordConfirm" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40">
+              Confirm Password
+            </Label>
+          </div>
           <Input
             id="passwordConfirm"
+            placeholder="••••••••"
+            className="h-14 rounded-2xl placeholder:text-black/30 bg-[#f6f6f6] border-none px-6 text-sm font-medium focus-visible:ring-1 focus-visible:ring-black/10 transition-all"
             {...register('passwordConfirm', {
               required: 'Ве молиме потврдете ја вашата лозинка.',
               validate: (value) => value === password.current || 'Лозинките не се совпаѓаат',
@@ -119,14 +131,32 @@ export const CreateAccountForm: React.FC = () => {
         </FormItem>
       </div>
 
-      <div className="flex flex-col gap-4 mt-8">
-        <Button disabled={loading} size="lg" type="submit" variant="default" className="w-full">
-          {loading ? 'Се обработува...' : 'Креирај сметка'}
+      <div className="flex flex-col gap-6 mt-12">
+        <Button
+          disabled={loading}
+          size="lg"
+          type="submit"
+          variant="default"
+          className="w-full h-14 rounded-full bg-black text-white hover:bg-black/90 active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase"
+        >
+          {loading ? 'Processing...' : 'Create Account'}
         </Button>
 
-        <div className="text-center text-sm text-muted-foreground mt-2 border-t pt-4">
-          {'Веќе имате сметка? '}
-          <Link href={`/login${allParams}`} className="font-medium hover:underline text-foreground">Најава</Link>
+        <div className="relative flex items-center justify-center my-4">
+          <span className="w-full border-t border-black/5" />
+          <span className="absolute px-6 bg-white text-[9px] font-bold uppercase tracking-[0.3em] text-black/20">
+            or
+          </span>
+        </div>
+
+        <div className="text-center">
+          <p className="text-[10px] font-bold tracking-widest text-black/40 uppercase mb-4">Already have an account?</p>
+          <Link
+            href={`/login${allParams}`}
+            className="inline-flex items-center justify-center w-full h-14 rounded-full border border-black/5 text-black hover:bg-[#f6f6f6] active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase"
+          >
+            Login
+          </Link>
         </div>
       </div>
     </form>

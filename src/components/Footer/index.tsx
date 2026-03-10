@@ -77,7 +77,7 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-24 pt-8 border-t border-stone-100 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-[9px] font-bold tracking-[0.15em] text-stone-400 uppercase not-italic">
-            © {currentYear} VERA & VIGOR SENSORY LAB. ALL RIGHTS RESERVED.
+            © {currentYear} HERB GARDEN. ALL RIGHTS RESERVED.
           </p>
           <div className="flex gap-10">
             <Link href="/privacy" className="text-[9px] font-bold tracking-[0.15em] text-stone-400 uppercase hover:text-stone-900 transition-colors not-italic">

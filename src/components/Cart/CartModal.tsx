@@ -214,7 +214,7 @@ export function CartModal({ className }: { className?: string }) {
                     </div>
                   )}
 
-                  <Button asChild className='rounded-full py-6' size="lg">
+                  <Button asChild className='rounded-full py-6 mb-4' size="lg">
                     <Link
                       className="w-full"
                       href="/checkout"
@@ -230,6 +230,13 @@ export function CartModal({ className }: { className?: string }) {
                       Продолжи кон плаќање
                     </Link>
                   </Button>
+
+                  <Link 
+                    href="/cart" 
+                    className="flex justify-center text-[10px] font-bold tracking-[0.2em] uppercase text-black/40 hover:text-black transition-colors"
+                  >
+                    View Selection
+                  </Link>
                 </div>
               </div>
             </div>

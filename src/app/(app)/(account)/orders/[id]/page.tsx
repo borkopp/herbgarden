@@ -5,12 +5,11 @@ import { OrderStatus } from '@/components/OrderStatus'
 import { Price } from '@/components/Price'
 import { ProductItem } from '@/components/ProductItem'
 import { AddressItem } from '@/components/addresses/AddressItem'
-import { Button } from '@/components/ui/button'
 import { formatDateTime } from '@/utilities/formatDateTime'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import configPromise from '@payload-config'
+import { ArrowLeft01Icon, DeliveryTruck01Icon, Package01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
-import { ArrowLeft01Icon, Package01Icon, DeliveryTruck01Icon } from '@hugeicons/core-free-icons'
+import configPromise from '@payload-config'
 import { headers as getHeaders } from 'next/headers.js'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -108,100 +107,105 @@ export default async function Order({ params, searchParams }: PageProps) {
   }
 
   return (
-    <div className=" mx-auto w-full px-4 md:px-4 flex flex-col gap-8">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-stone-200 dark:border-stone-800">
-        <div className="flex flex-col gap-2">
-          {user && (
-            <Button asChild variant="ghost" className="-ml-3 text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 flex items-center justify-start max-w-fit mb-2">
-              <Link href="/orders">
-                <HugeiconsIcon icon={ArrowLeft01Icon} size={16} strokeWidth={1.5} className="mr-1" />
-                Сите нарачки
+    <div className="flex flex-col gap-12 w-full max-w-6xl mx-auto py-4">
+      <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 ease-out">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-10 pb-10 border-b border-black/5">
+          <div className="flex flex-col gap-8">
+            {user && (
+              <Link href="/orders" className="text-[10px] font-bold tracking-[0.2em] uppercase text-black/40 hover:text-black flex items-center gap-2 transition-all">
+                <HugeiconsIcon icon={ArrowLeft01Icon} size={14} strokeWidth={2} />
+                Back to all orders
               </Link>
-            </Button>
-          )}
-          <div className="flex flex-col gap-1.5">
-            <h1 className="text-3xl md:text-4xl font-light tracking-tight">Детали за нарачката</h1>
-            <p className="text-stone-500 text-sm">
-              Нарачано на{' '}
-              <span className="font-semibold text-stone-900 dark:text-stone-100">
-                <time dateTime={order.createdAt}>
-                  {formatDateTime({ date: order.createdAt, format: 'dd MMMM yyyy' })}
-                </time>
-              </span>
-            </p>
-          </div>
-        </div>
-        <CopyOrderNumber orderId={order.id} />
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 flex flex-col gap-8">
-          <div className="p-6 md:p-10 bg-white dark:bg-stone-950 border border-stone-200/60 dark:border-stone-800 rounded-3xl">
-            <div className="flex items-center gap-3 mb-8 pb-4 border-b border-stone-100 dark:border-stone-800">
-              <HugeiconsIcon icon={Package01Icon} size={24} className="text-stone-400" strokeWidth={1.5} />
-              <h2 className="text-xl font-light tracking-tight text-stone-900 dark:text-stone-100">Производи</h2>
-            </div>
-
-            {order.items && order.items.length > 0 ? (
-              <ul className="flex flex-col gap-8">
-                {order.items?.map((item, index) => {
-                  if (typeof item.product === 'string') {
-                    return null
-                  }
-
-                  if (!item.product || typeof item.product !== 'object') {
-                    return <div key={index} className="text-red-500 text-sm italic">Овој производ повеќе не е достапен.</div>
-                  }
-
-                  const variant =
-                    item.variant && typeof item.variant === 'object' ? item.variant : undefined
-
-                  return (
-                    <li key={item.id}>
-                      <ProductItem
-                        product={item.product}
-                        quantity={item.quantity}
-                        variant={variant}
-                      />
-                    </li>
-                  )
-                })}
-              </ul>
-            ) : (
-              <div className="text-center py-6 text-stone-500 italic">Нема производи.</div>
             )}
+            <div className="flex flex-col gap-3">
+              {/* <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-black/40">Order Summary</span> */}
+              <h1 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tighter text-black uppercase leading-[0.85]">
+                Order<br />
+                <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #e5e5e5' }}>Details</span>
+              </h1>
+              <p className="text-[11px] text-black/40 font-bold uppercase tracking-widest mt-2">
+                Placed on {formatDateTime({ date: order.createdAt, format: 'dd MMMM yyyy' })}
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-col items-end gap-3">
+            <CopyOrderNumber orderId={order.id} />
           </div>
         </div>
 
-        <div className="lg:col-span-1 flex flex-col gap-8 h-fit">
-          <div className="p-6 md:p-10 bg-white dark:bg-stone-950 border border-stone-200/60 dark:border-stone-800 rounded-3xl flex flex-col gap-6">
-            <div className="flex flex-col gap-2 pb-6 border-b border-stone-100 dark:border-stone-800">
-              <p className="text-sm font-semibold uppercase tracking-widest text-stone-500">Статус</p>
-              {order.status ? <OrderStatus className="mt-1 font-medium text-sm bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 p-2 px-3 text-stone-900 dark:text-stone-100 text-center rounded-xl" status={order.status} /> : null}
-            </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          <div className="lg:col-span-2 flex flex-col gap-10">
+            <div className="bg-white border border-black/5 rounded-[3rem] p-8 md:p-12 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.04)]">
+              <div className="flex items-center gap-4 mb-10 pb-6 border-b border-black/5">
+                <HugeiconsIcon icon={Package01Icon} size={20} className="text-black/20" strokeWidth={1.5} />
+                <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-black/40">Ordered Products</span>
+              </div>
 
-            <div className="flex flex-col gap-1.5">
-              <p className="text-sm font-semibold uppercase tracking-widest text-stone-500">Вкупно</p>
-              {order.amount != null ? (
-                <Price className="text-3xl font-light tracking-tight text-stone-900 dark:text-stone-100 mt-1" amount={order.amount} />
+              {order.items && order.items.length > 0 ? (
+                <ul className="flex flex-col gap-10">
+                  {order.items?.map((item, index) => {
+                    if (typeof item.product === 'string') {
+                      return null
+                    }
+
+                    if (!item.product || typeof item.product !== 'object') {
+                      return <div key={index} className="text-red-500 text-[10px] font-bold uppercase tracking-widest p-4 bg-red-50 rounded-2xl">Product no longer available.</div>
+                    }
+
+                    const variant =
+                      item.variant && typeof item.variant === 'object' ? item.variant : undefined
+
+                    return (
+                      <li key={item.id} className="group">
+                        <ProductItem
+                          product={item.product}
+                          quantity={item.quantity}
+                          variant={variant}
+                        />
+                      </li>
+                    )
+                  })}
+                </ul>
               ) : (
-                <span className="text-stone-400 mt-2">Непознато</span>
+                <div className="text-center py-10 text-[10px] font-bold uppercase tracking-widest text-black/20">Empty.</div>
               )}
             </div>
           </div>
 
-          {order.shippingAddress && (
-            <div className="p-6 md:p-10 bg-white dark:bg-stone-950 border border-stone-200/60 dark:border-stone-800 rounded-3xl">
-              <div className="flex flex-col gap-5">
-                <div className="flex items-center gap-3">
-                  <HugeiconsIcon icon={DeliveryTruck01Icon} size={24} className="text-stone-400" strokeWidth={1.5} />
-                  <h2 className="text-xl font-light tracking-tight text-stone-900 dark:text-stone-100">Достава до</h2>
-                </div>
-                {/* @ts-expect-error - address issues */}
-                <AddressItem address={order.shippingAddress} hideActions />
+          <div className="lg:col-span-1 flex flex-col gap-8 h-fit">
+            <div className="bg-white border border-black/5 rounded-[3rem] p-8 md:p-10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.04)] flex flex-col gap-10">
+              <div className="flex flex-col gap-4">
+                <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-black/40">Current Status</span>
+                {order.status ? (
+                  <div className="inline-block">
+                    <OrderStatus status={order.status} />
+                  </div>
+                ) : null}
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-black/40">Total Amount</span>
+                {order.amount != null ? (
+                  <Price className="text-4xl font-display uppercase tracking-tight text-black" amount={order.amount} />
+                ) : (
+                  <span className="text-black/20 font-bold uppercase tracking-widest">Unknown</span>
+                )}
               </div>
             </div>
-          )}
+
+            {order.shippingAddress && (
+              <div className="bg-white border border-black/5 rounded-[3rem] p-8 md:p-10 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.04)]">
+                <div className="flex flex-col gap-8">
+                  <div className="flex items-center gap-4">
+                    <HugeiconsIcon icon={DeliveryTruck01Icon} size={20} className="text-black/20" strokeWidth={1.5} />
+                    <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-black/40">Shipping to</span>
+                  </div>
+                  {/* @ts-expect-error - address issues */}
+                  <AddressItem address={order.shippingAddress} hideActions />
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -2,23 +2,40 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 import { ForgotPasswordFormClient } from '@/components/forms/ForgotPasswordFormClient'
-import { Logo } from '@/components/Logo/Logo'
+import { LogoIcon } from '@/components/Logo/Logo'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 
 export default async function ForgotPasswordPage() {
   return (
-    <div className="container min-h-[calc(100vh-16rem)] flex items-center justify-center py-12 md:py-24">
-      <div className="w-full max-w-[440px] bg-white dark:bg-stone-950 border border-stone-200/60 dark:border-stone-800 rounded-[2rem] p-8 sm:p-12 shadow-[0_8px_30px_rgb(0,0,0,0.04)] dark:shadow-[0_8px_30px_rgb(0,0,0,0.1)] transition-all">
-        <div className="flex flex-col items-center mb-10">
-          <Link href="/" className="mb-8 hover:opacity-70 transition-opacity">
-            <Logo />
-          </Link>
-          <h1 className="text-2xl sm:text-3xl font-light tracking-tight text-center text-stone-900 dark:text-stone-100">Заборавена лозинка</h1>
-          <p className="text-sm text-stone-500 mt-3 text-center">
-            Внесете ја вашата е-пошта подолу за да ја вратите лозинката
-          </p>
+    <div className="min-h-[calc(100vh-16rem)] flex items-center justify-center py-20 px-4">
+      <div className="w-full max-w-[480px]">
+        {/* Entrance Animation Wrapper */}
+        <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 ease-out">
+          <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 ease-out">
+            <div className="flex flex-col items-center mb-10 text-center">
+              <Link href="/" className="mb-4 hover:opacity-70 transition-opacity">
+                <LogoIcon />
+              </Link>
+
+              <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-6 block">
+                FORGOT PASSWORD
+              </span>
+
+              <h1 className="font-display text-5xl md:text-6xl leading-[0.85] tracking-tighter text-black uppercase">
+                RESET<br />
+                <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #e5e5e5' }}>PASSWORD</span>
+              </h1>
+            </div>
+
+            <div className="bg-white border border-black/5 rounded-[3rem] p-10 md:p-12 shadow-[0_32px_64px_-16px_rgba(0,0,0,0.04)]">
+              <ForgotPasswordFormClient />
+            </div>
+
+            <div className="mt-12 text-center text-black/40 text-[9px] font-bold uppercase tracking-widest">
+              YOUR DATA IS STORED SECURELY WITH US
+            </div>
+          </div>
         </div>
-        <ForgotPasswordFormClient />
       </div>
     </div>
   )

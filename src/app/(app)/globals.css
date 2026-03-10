@@ -22,6 +22,10 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @plugin "@tailwindcss/typography";
 
 @source inline("lg:col-span-4");

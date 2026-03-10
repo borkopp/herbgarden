@@ -49,51 +49,70 @@ export const LoginForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <Message className="classes.message" error={error} />
-      <div className="flex flex-col gap-5">
+      <Message className="mb-8" error={error} />
+      <div className="flex flex-col gap-8">
         <FormItem>
-          <Label htmlFor="email">Е-пошта</Label>
+          <div className="flex items-center justify-between mb-3 px-1">
+            <Label htmlFor="email" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40">
+              Email Address
+            </Label>
+          </div>
           <Input
             id="email"
             type="email"
+            placeholder="entry@herbgarden.mk"
+            className="h-14 rounded-2xl placeholder:text-black/30 bg-[#f6f6f6] border-none px-6 text-sm font-medium focus-visible:ring-1 focus-visible:ring-black/10 transition-all"
             {...register('email', { required: 'Е-поштата е задолжителна.' })}
           />
           {errors.email && <FormError message={errors.email.message} />}
         </FormItem>
 
         <FormItem>
-          <div className="flex items-center justify-between">
-            <Label htmlFor="password">Лозинка</Label>
-            <Link href={`/forgot-password${allParams}`} className="text-xs font-medium hover:underline opacity-80">Заборавена лозинка?</Link>
+          <div className="flex items-center justify-between mb-3 px-1">
+            <Label htmlFor="password" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40">
+              Password
+            </Label>
+            <Link href={`/forgot-password${allParams}`} className="text-[9px] font-bold tracking-[0.1em] uppercase text-black/20 hover:text-black transition-colors">
+              Reset Password
+            </Link>
           </div>
           <Input
             id="password"
             type="password"
+            placeholder="••••••••"
+            className="h-14 rounded-2xl placeholder:text-black/30 bg-[#f6f6f6] border-none px-6 text-sm font-medium focus-visible:ring-1 focus-visible:ring-black/10 transition-all"
             {...register('password', { required: 'Ве молиме внесете лозинка.' })}
           />
           {errors.password && <FormError message={errors.password.message} />}
         </FormItem>
       </div>
 
-      <div className="flex flex-col gap-4 mt-8">
-        <Button className="w-full" disabled={isLoading} size="lg" type="submit" variant="default">
-          {isLoading ? 'Се обработува...' : 'Најава'}
+      <div className="flex flex-col gap-6 mt-12">
+        <Button
+          className="w-full h-14 rounded-full bg-black text-white hover:bg-black/90 active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase"
+          disabled={isLoading}
+          size="lg"
+          type="submit"
+        >
+          {isLoading ? 'Processing...' : 'Login'}
         </Button>
-        <div className="relative my-2">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t border-border/60" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className=" px-2 text-muted-foreground/80">
-              или
-            </span>
-          </div>
+
+        <div className="relative flex items-center justify-center my-4">
+          <span className="w-full border-t border-black/5" />
+          <span className="absolute px-6 bg-white text-[9px] font-bold uppercase tracking-[0.3em] text-black/20">
+            or
+          </span>
         </div>
-        <Button asChild variant="outline" size="lg" className="w-full">
-          <Link href={`/create-account${allParams}`}>
-            Креирај сметка
+
+        <div className="text-center">
+          <p className="text-[10px] font-bold tracking-widest text-black/40 uppercase mb-4">New here?</p>
+          <Link
+            href={`/create-account${allParams}`}
+            className="inline-flex items-center justify-center w-full h-14 rounded-full border border-black/5 text-black hover:bg-[#f6f6f6] active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase"
+          >
+            Create Account
           </Link>
-        </Button>
+        </div>
       </div>
     </form>
   )

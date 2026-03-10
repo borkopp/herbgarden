@@ -25,6 +25,11 @@ export function HeaderClient({ header }: Props) {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
+  const authRoutes = ['/login', '/create-account', '/forgot-password', '/reset-password', '/logout']
+  const isAuthPage = authRoutes.includes(pathname)
+
+  if (isAuthPage) return null
+
   return (
     <div className="z-20 border-b border-stone-100 sticky backdrop-blur-md bg-white/80">
       <nav className="flex items-center justify-between container h-16">
