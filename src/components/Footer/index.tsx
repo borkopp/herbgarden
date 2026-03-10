@@ -1,4 +1,4 @@
-import { InstagramIcon, NewTwitterIcon } from '@hugeicons/core-free-icons'
+import { FacebookIcon, InstagramIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -32,7 +32,7 @@ export function Footer() {
             <ul className="space-y-4">
               <li>
                 <Link
-                  href="https://instagram.com/herbgardenbypepelashka/"
+                  href="https://instagram.com/herbgarden.mk/"
                   className="group flex items-center gap-3 text-stone-900 hover:text-stone-500 transition-colors text-sm font-medium not-italic"
                 >
                   <HugeiconsIcon icon={InstagramIcon} size={18} strokeWidth={1.5} />
@@ -41,11 +41,11 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href="https://facebook.com/herbgardenbypepelashka/"
+                  href="https://facebook.com/herbgardenmk/"
                   className="group flex items-center gap-3 text-stone-900 hover:text-stone-500 transition-colors text-sm font-medium not-italic"
                 >
-                  <HugeiconsIcon icon={NewTwitterIcon} size={18} strokeWidth={1.5} />
-                  <span>Twitter</span>
+                  <HugeiconsIcon icon={FacebookIcon} size={18} strokeWidth={1.5} />
+                  <span>Facebook</span>
                 </Link>
               </li>
             </ul>
