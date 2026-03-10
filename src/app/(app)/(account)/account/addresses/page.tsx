@@ -47,14 +47,14 @@ export default async function AddressesPage() {
   return (
     <div className="flex flex-col gap-8 w-full max-w-6xl mx-auto">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-bold text-stone-900 dark:text-stone-100">Адреси</h1>
-          <p className="text-stone-500 mt-1">Управувајте со вашите адреси за достава.</p>
+        <div className="mb-2">
+          <h1 className="text-3xl md:text-4xl font-light text-stone-900 dark:text-stone-100 tracking-tight">Адреси</h1>
+          <p className="text-stone-500 mt-2">Управувајте со вашите адреси за достава.</p>
         </div>
         <CreateAddressModal />
       </div>
 
-      <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-sm p-6 md:p-8">
+      <div className="bg-white dark:bg-stone-950 rounded-3xl border border-stone-200/60 dark:border-stone-800 p-6 md:p-10">
         <AddressListing />
       </div>
     </div>

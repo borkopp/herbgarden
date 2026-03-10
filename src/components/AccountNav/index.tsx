@@ -17,38 +17,38 @@ export const AccountNav: React.FC<Props> = ({ className, user }) => {
 
   const navItemClass = (active: boolean) =>
     clsx(
-      'flex items-center gap-3 px-4 py-3 rounded-xl transition-colors',
+      'flex items-center gap-2 px-5 py-2.5 rounded-full transition-all whitespace-nowrap shrink-0',
       active
-        ? 'bg-primary/10 text-primary'
-        : 'text-stone-600 dark:text-stone-400 hover:bg-stone-100 dark:hover:bg-stone-800'
+        ? 'bg-black text-white dark:bg-white dark:text-black shadow-sm'
+        : 'text-stone-500 hover:text-stone-900 dark:hover:text-stone-100 hover:bg-stone-50 dark:hover:bg-stone-900'
     )
 
   return (
-    <div className={clsx("flex flex-col h-full", className)}>
-      <div className="flex items-center gap-3 p-3 bg-stone-50 dark:bg-stone-800 rounded-xl mb-6">
-        <div className="size-10 rounded-full bg-primary/20 flex items-center justify-center overflow-hidden shrink-0">
-          <HugeiconsIcon icon={UserIcon} size={24} className="text-primary" strokeWidth={1.5} />
+    <div className={clsx("flex flex-col w-full", className)}>
+      <div className="flex items-center gap-4 mb-6 md:mb-8">
+        <div className="size-12 md:size-14 rounded-full border border-stone-200 dark:border-stone-800 flex items-center justify-center overflow-hidden shrink-0 bg-stone-50 dark:bg-stone-900">
+          <HugeiconsIcon icon={UserIcon} size={28} className="text-stone-400" strokeWidth={1.5} />
         </div>
         <div className="flex flex-col min-w-0">
-          <p className="text-sm font-semibold truncate">{user?.name || 'Мојот профил'}</p>
-          <p className="text-xs text-stone-500 truncate">{user?.email}</p>
+          <p className="text-xl md:text-2xl font-light tracking-tight text-stone-900 dark:text-stone-100 truncate">{user?.name || 'Мојот профил'}</p>
+          <p className="text-sm text-stone-500 truncate">{user?.email}</p>
         </div>
       </div>
 
-      <nav className="flex flex-col gap-1">
+      <nav className="flex items-center gap-1.5 md:gap-2 overflow-x-auto pb-4 md:pb-6 no-scrollbar">
         <Link
           href="/account"
           className={navItemClass(pathname === '/account')}
         >
-          <HugeiconsIcon icon={Settings02Icon} size={22} strokeWidth={1.5} />
-          <span className="text-sm font-medium">Поставки на профилот</span>
+          <HugeiconsIcon icon={Settings02Icon} size={18} strokeWidth={1.5} />
+          <span className="text-sm font-medium">Поставки</span>
         </Link>
 
         <Link
           href="/account/addresses"
           className={navItemClass(pathname === '/account/addresses')}
         >
-          <HugeiconsIcon icon={MapPinIcon} size={22} strokeWidth={1.5} />
+          <HugeiconsIcon icon={MapPinIcon} size={18} strokeWidth={1.5} />
           <span className="text-sm font-medium">Адреси</span>
         </Link>
 
@@ -56,7 +56,7 @@ export const AccountNav: React.FC<Props> = ({ className, user }) => {
           href="/wishlist"
           className={navItemClass(pathname === '/wishlist')}
         >
-          <HugeiconsIcon icon={FavouriteIcon} size={22} strokeWidth={1.5} />
+          <HugeiconsIcon icon={FavouriteIcon} size={18} strokeWidth={1.5} />
           <span className="text-sm font-medium">Омилени</span>
         </Link>
 
@@ -64,18 +64,18 @@ export const AccountNav: React.FC<Props> = ({ className, user }) => {
           href="/orders"
           className={navItemClass(pathname === '/orders' || pathname.includes('/orders'))}
         >
-          <HugeiconsIcon icon={PackageIcon} size={22} strokeWidth={1.5} />
+          <HugeiconsIcon icon={PackageIcon} size={18} strokeWidth={1.5} />
           <span className="text-sm font-medium">Нарачки</span>
         </Link>
 
-        <div className="h-px bg-stone-100 dark:bg-stone-800 my-4"></div>
+        <div className="w-px h-6 bg-stone-200 dark:bg-stone-800 mx-2 shrink-0 hidden md:block"></div>
 
         <Link
           href="/logout"
-          className={navItemClass(pathname === '/logout')}
+          className={clsx(navItemClass(pathname === '/logout'), "ml-auto md:ml-0")}
         >
-          <HugeiconsIcon icon={Logout03Icon} size={22} strokeWidth={1.5} />
-          <span className="text-sm font-medium">Одјава</span>
+          <HugeiconsIcon icon={Logout03Icon} size={18} strokeWidth={1.5} />
+          <span className="text-sm font-medium hidden sm:inline">Одјава</span>
         </Link>
       </nav>
     </div>

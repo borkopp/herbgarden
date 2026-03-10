@@ -51,37 +51,37 @@ export default async function AccountPage() {
 
   return (
     <div className="flex flex-col gap-8 w-full max-w-6xl mx-auto">
-      <div>
-        <h1 className="text-3xl font-bold text-stone-900 dark:text-stone-100">Поставки на профилот</h1>
-        <p className="text-stone-500 mt-1">Управувајте со деталите и преференциите на вашиот профил.</p>
+      <div className="mb-2">
+        <h1 className="text-3xl md:text-4xl font-light text-stone-900 dark:text-stone-100 tracking-tight">Поставки на профилот</h1>
+        <p className="text-stone-500 mt-2">Управувајте со деталите и преференциите на вашиот профил.</p>
       </div>
 
-      <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-sm p-6 md:p-8">
+      <div className="bg-white dark:bg-stone-950 rounded-3xl border border-stone-200/60 dark:border-stone-800 p-6 md:p-10">
         <AccountForm />
       </div>
 
       <div className="mt-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-stone-900 dark:text-stone-100">Последни нарачки</h2>
-            <p className="text-stone-500 mt-1 text-sm">Вашите најнови купувања.</p>
+            <h2 className="text-2xl font-light text-stone-900 dark:text-stone-100 tracking-tight">Последни нарачки</h2>
+            <p className="text-stone-500 mt-2 text-sm">Вашите најнови купувања.</p>
           </div>
-          <Link href="/orders" className="text-primary hover:text-primary/80 font-bold text-sm flex items-center gap-1 transition-colors">
-            Види ги сите
+          <Link href="/orders" className="text-stone-900 dark:text-stone-100 hover:opacity-70 font-medium text-sm flex items-center gap-1 transition-opacity">
+            Сите нарачки
             <HugeiconsIcon icon={ArrowRight01Icon} size={18} strokeWidth={1.5} />
           </Link>
         </div>
 
-        <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 overflow-hidden shadow-sm">
+        <div className="bg-white dark:bg-stone-950 rounded-3xl border border-stone-200/60 dark:border-stone-800 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-stone-50/50 dark:bg-stone-800/50">
-                  <th className="px-6 py-4 text-xs font-bold text-stone-500 uppercase tracking-wider">Број на нарачка</th>
-                  <th className="px-6 py-4 text-xs font-bold text-stone-500 uppercase tracking-wider">Датум</th>
-                  <th className="px-6 py-4 text-xs font-bold text-stone-500 uppercase tracking-wider">Вкупна цена</th>
-                  <th className="px-6 py-4 text-xs font-bold text-stone-500 uppercase tracking-wider">Статус</th>
-                  <th className="px-6 py-4 text-xs font-bold text-stone-500 uppercase tracking-wider text-right">Активности</th>
+                <tr className="bg-stone-50/50 dark:bg-stone-900/30">
+                  <th className="px-8 py-5 text-xs font-semibold text-stone-500 uppercase tracking-wider">Број</th>
+                  <th className="px-8 py-5 text-xs font-semibold text-stone-500 uppercase tracking-wider">Датум</th>
+                  <th className="px-8 py-5 text-xs font-semibold text-stone-500 uppercase tracking-wider">Вкупна цена</th>
+                  <th className="px-8 py-5 text-xs font-semibold text-stone-500 uppercase tracking-wider">Статус</th>
+                  <th className="px-8 py-5 text-xs font-semibold text-stone-500 uppercase tracking-wider text-right">Активности</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-100 dark:divide-stone-800">
@@ -93,21 +93,21 @@ export default async function AccountPage() {
                   </tr>
                 )}
                 {orders && orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-stone-50/50 dark:hover:bg-stone-800/40 transition-colors">
-                    <td className="px-6 py-5">
-                      <span className="font-bold text-stone-900 dark:text-stone-100 uppercase tracking-wider text-sm">#{order.id.slice(0, 8)}</span>
+                  <tr key={order.id} className="hover:bg-stone-50/50 dark:hover:bg-stone-900/30 transition-colors">
+                    <td className="px-8 py-6">
+                      <span className="font-medium text-stone-900 dark:text-stone-100 uppercase tracking-wider text-sm">#{order.id.slice(0, 8)}</span>
                     </td>
-                    <td className="px-6 py-5 text-stone-600 dark:text-stone-400 text-sm">
+                    <td className="px-8 py-6 text-stone-500 dark:text-stone-400 text-sm">
                       {formatDateTime({ date: order.createdAt, format: 'MMM dd, yyyy' })}
                     </td>
-                    <td className="px-6 py-5 font-semibold text-stone-900 dark:text-stone-100">
+                    <td className="px-8 py-6 font-medium text-stone-900 dark:text-stone-100">
                       {order.amount ? <Price as="span" amount={order.amount} currencyCode={order.currency ?? undefined} /> : '-'}
                     </td>
-                    <td className="px-6 py-5">
+                    <td className="px-8 py-6">
                       {order.status && <OrderStatus status={order.status} />}
                     </td>
-                    <td className="px-6 py-5 text-right flex items-center justify-end gap-2">
-                      <Link href={`/orders/${order.id}`} className="text-primary hover:text-primary/80 font-bold text-sm transition-colors">Види детали</Link>
+                    <td className="px-8 py-6 text-right flex items-center justify-end gap-2">
+                      <Link href={`/orders/${order.id}`} className="text-stone-900 dark:text-stone-100 font-medium text-sm hover:opacity-70 transition-opacity">Детали</Link>
                     </td>
                   </tr>
                 ))}

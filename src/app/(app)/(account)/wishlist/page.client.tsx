@@ -21,15 +21,15 @@ export const WishlistClient: React.FC = () => {
 
     if (wishlistItems.length === 0) {
         return (
-            <div className="bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-sm p-12 flex flex-col items-center justify-center text-center gap-4">
-                <div className="size-16 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-400">
-                    <HugeiconsIcon icon={HeartRemoveIcon} size={32} strokeWidth={1.5} />
+            <div className="bg-white dark:bg-stone-950 rounded-3xl border border-stone-200/60 dark:border-stone-800 p-12 flex flex-col items-center justify-center text-center gap-5">
+                <div className="size-20 rounded-full bg-stone-50 dark:bg-stone-900 flex items-center justify-center text-stone-400">
+                    <HugeiconsIcon icon={HeartRemoveIcon} size={36} strokeWidth={1.5} />
                 </div>
                 <div>
-                    <h3 className="text-lg font-medium text-stone-900 dark:text-stone-100">Вашата листа е празна</h3>
-                    <p className="text-stone-500 mt-1 max-w-sm">Сè уште немате додадено производи во омилени.</p>
+                    <h3 className="text-xl font-light tracking-tight text-stone-900 dark:text-stone-100">Вашата листа е празна</h3>
+                    <p className="text-stone-500 mt-2 max-w-sm">Сè уште немате додадено производи во омилени.</p>
                 </div>
-                <Button asChild className="mt-4 px-8 rounded-full">
+                <Button asChild className="mt-4 px-8 rounded-full font-medium">
                     <Link href="/shop">Започнете со купување</Link>
                 </Button>
             </div>

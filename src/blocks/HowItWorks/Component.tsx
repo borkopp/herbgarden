@@ -31,7 +31,7 @@ export const HowItWorksBlockComponent: React.FC<HowItWorksBlock> = (props) => {
   const { title, steps } = props
 
   return (
-    <section className="container py-24 md:py-32 overflow-hidden bg-white">
+    <section id="how-it-works" className="container py-24 md:py-32 overflow-hidden bg-white">
       <motion.div
         initial="hidden"
         whileInView="visible"

@@ -42,15 +42,15 @@ export const AddressItem: React.FC<Props> = ({
     <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
       <div className="space-y-3">
         <div className="flex items-center gap-3">
-          <div className="size-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-            <HugeiconsIcon icon={UserIcon} size={16} className="text-primary" strokeWidth={1.5} />
+          <div className="size-10 rounded-full bg-stone-50 dark:bg-stone-900 border border-stone-200/60 dark:border-stone-800 flex items-center justify-center shrink-0">
+            <HugeiconsIcon icon={UserIcon} size={18} className="text-stone-400" strokeWidth={1.5} />
           </div>
           <p className="font-bold text-stone-900 dark:text-stone-100">
             {address.firstName} {address.lastName}
           </p>
         </div>
 
-        <div className="space-y-2 pl-11">
+        <div className="space-y-2 pl-[52px]">
           <div className="flex items-start gap-2 text-stone-600 dark:text-stone-400 text-sm">
             <HugeiconsIcon icon={MapPinIcon} size={14} className="mt-0.5 shrink-0" strokeWidth={1.5} />
             <div className="flex flex-col">

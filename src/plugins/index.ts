@@ -12,6 +12,7 @@ import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
 import { customerOnlyFieldAccess } from '@/access/customerOnlyFieldAccess'
 import { isAdmin } from '@/access/isAdmin'
 import { isDocumentOwner } from '@/access/isDocumentOwner'
+import { countryOptions } from '@/blocks/Form/Country/options'
 import { ProductsCollection } from '@/collections/Products'
 import { Page, Product } from '@/payload-types'
 import { cashOnDeliveryAdapter } from '@/payments/cashOnDelivery'
@@ -161,6 +162,9 @@ export const plugins: Plugin[] = [
       customerOnlyFieldAccess,
       isAdmin,
       isDocumentOwner,
+    },
+    addresses: {
+      supportedCountries: countryOptions,
     },
     customers: {
       slug: 'users',

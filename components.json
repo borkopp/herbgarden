@@ -13,5 +13,13 @@
   "aliases": {
     "components": "@/components",
     "utils": "@/utilities"
+  },
+  "registries": {
+    "@aceternity": {
+      "url": "https://ui.aceternity.com/registry/{name}.json",
+      "headers": {
+        "Authorization": "Bearer aceternity_3c0a5f8b47eb77da8685ae2c60ca7cf11e54897edfe04dff44c793a320bc873a"
+      }
+    }
   }
 }

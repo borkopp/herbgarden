@@ -120,7 +120,7 @@ export default async function Order({ params, searchParams }: PageProps) {
             </Button>
           )}
           <div className="flex flex-col gap-1.5">
-            <h1 className="text-3xl font-bold tracking-tight">Детали за нарачката</h1>
+            <h1 className="text-3xl md:text-4xl font-light tracking-tight">Детали за нарачката</h1>
             <p className="text-stone-500 text-sm">
               Нарачано на{' '}
               <span className="font-semibold text-stone-900 dark:text-stone-100">
@@ -136,10 +136,10 @@ export default async function Order({ params, searchParams }: PageProps) {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 flex flex-col gap-8">
-          <div className="p-6 md:p-8 bg-white border border-stone-200 rounded-3xl">
-            <div className="flex items-center gap-3 mb-8 pb-4 border-b border-stone-200">
-              <HugeiconsIcon icon={Package01Icon} size={24} className="text-primary/70" strokeWidth={1.5} />
-              <h2 className="text-xl font-bold text-stone-900">Производи</h2>
+          <div className="p-6 md:p-10 bg-white dark:bg-stone-950 border border-stone-200/60 dark:border-stone-800 rounded-3xl">
+            <div className="flex items-center gap-3 mb-8 pb-4 border-b border-stone-100 dark:border-stone-800">
+              <HugeiconsIcon icon={Package01Icon} size={24} className="text-stone-400" strokeWidth={1.5} />
+              <h2 className="text-xl font-light tracking-tight text-stone-900 dark:text-stone-100">Производи</h2>
             </div>
 
             {order.items && order.items.length > 0 ? (
@@ -174,16 +174,16 @@ export default async function Order({ params, searchParams }: PageProps) {
         </div>
 
         <div className="lg:col-span-1 flex flex-col gap-8 h-fit">
-          <div className="p-6 md:p-8 bg-white border border-stone-200 rounded-3xl flex flex-col gap-6">
-            <div className="flex flex-col gap-2 pb-6 border-b border-stone-200">
+          <div className="p-6 md:p-10 bg-white dark:bg-stone-950 border border-stone-200/60 dark:border-stone-800 rounded-3xl flex flex-col gap-6">
+            <div className="flex flex-col gap-2 pb-6 border-b border-stone-100 dark:border-stone-800">
               <p className="text-sm font-semibold uppercase tracking-widest text-stone-500">Статус</p>
-              {order.status ? <OrderStatus className="mt-1 font-bold text-sm bg-primary/20 p-2 px-3 text-primary text-center" status={order.status} /> : null}
+              {order.status ? <OrderStatus className="mt-1 font-medium text-sm bg-stone-50 dark:bg-stone-900 border border-stone-200 dark:border-stone-800 p-2 px-3 text-stone-900 dark:text-stone-100 text-center rounded-xl" status={order.status} /> : null}
             </div>
 
             <div className="flex flex-col gap-1.5">
               <p className="text-sm font-semibold uppercase tracking-widest text-stone-500">Вкупно</p>
               {order.amount != null ? (
-                <Price className="text-3xl font-bold text-stone-900 mt-1" amount={order.amount} />
+                <Price className="text-3xl font-light tracking-tight text-stone-900 dark:text-stone-100 mt-1" amount={order.amount} />
               ) : (
                 <span className="text-stone-400 mt-2">Непознато</span>
               )}
@@ -191,11 +191,11 @@ export default async function Order({ params, searchParams }: PageProps) {
           </div>
 
           {order.shippingAddress && (
-            <div className="p-6 md:p-8 bg-white border border-stone-200 rounded-3xl">
+            <div className="p-6 md:p-10 bg-white dark:bg-stone-950 border border-stone-200/60 dark:border-stone-800 rounded-3xl">
               <div className="flex flex-col gap-5">
                 <div className="flex items-center gap-3">
-                  <HugeiconsIcon icon={DeliveryTruck01Icon} size={20} className="text-primary/70" strokeWidth={1.5} />
-                  <h2 className="text-lg font-bold text-stone-900">Достава до</h2>
+                  <HugeiconsIcon icon={DeliveryTruck01Icon} size={24} className="text-stone-400" strokeWidth={1.5} />
+                  <h2 className="text-xl font-light tracking-tight text-stone-900 dark:text-stone-100">Достава до</h2>
                 </div>
                 {/* @ts-expect-error - address issues */}
                 <AddressItem address={order.shippingAddress} hideActions />
