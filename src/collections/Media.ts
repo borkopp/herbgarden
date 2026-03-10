@@ -16,8 +16,8 @@ export const Media: CollectionConfig = {
     group: 'Содржина',
   },
   labels: {
-    plural: 'Слики',
-    singular: 'Слика',
+    plural: 'Медија',
+    singular: 'Медија',
   },
   slug: 'media',
   access: {
@@ -31,6 +31,7 @@ export const Media: CollectionConfig = {
         components: {
           Field: '@/components/RemoveBackgroundButton',
         },
+        condition: (data) => data.mimeType?.includes('image'), // Only show for images
       },
     },
     {

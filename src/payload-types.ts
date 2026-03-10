@@ -544,6 +544,9 @@ export interface Page {
      * How dark the image should be (0-100). Higher is darker.
      */
     overlayOpacity?: number | null;
+    /**
+     * Upload an image or a video for the hero background.
+     */
     media?: (string | null) | Media;
   };
   /**

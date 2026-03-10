@@ -45,7 +45,13 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, subtitle, title,
       {/* Background Media */}
       <div className="absolute inset-0 z-0">
         {media && typeof media === 'object' && (
-          <Media fill imgClassName="object-cover" priority resource={media} />
+          <Media 
+            fill 
+            imgClassName="object-cover" 
+            videoClassName="object-cover"
+            priority 
+            resource={media} 
+          />
         )}
       </div>
 

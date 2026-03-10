@@ -86,9 +86,11 @@ export const hero: Field = {
     {
       name: 'media',
       type: 'upload',
-
       relationTo: 'media',
       required: false,
+      admin: {
+        description: 'Upload an image or a video for the hero background.',
+      },
     },
   ],
   label: false,

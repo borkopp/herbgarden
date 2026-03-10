@@ -1,33 +1,27 @@
 'use client'
 
 import { cn } from '@/utilities/cn'
-import React, { useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 
 import type { Props as MediaProps } from '../types'
 
 export const Video: React.FC<MediaProps> = (props) => {
-  const { onClick, resource, videoClassName } = props
+  const { onClick, resource, videoClassName, fill } = props
 
   const videoRef = useRef<HTMLVideoElement>(null)
-  // const [showFallback] = useState<boolean>()
-
-  useEffect(() => {
-    const { current: video } = videoRef
-    if (video) {
-      video.addEventListener('suspend', () => {
-        // setShowFallback(true);
-        // console.warn('Video was suspended, rendering fallback image.')
-      })
-    }
-  }, [])
 
   if (resource && typeof resource === 'object') {
-    const { filename } = resource
+    const { filename, url } = resource
+
+    const src = url || `${process.env.NEXT_PUBLIC_SERVER_URL}/media/${filename}`
 
     return (
       <video
         autoPlay
-        className={cn(videoClassName)}
+        className={cn(
+          videoClassName,
+          fill && 'absolute inset-0 w-full h-full object-cover',
+        )}
         controls={false}
         loop
         muted
@@ -35,7 +29,7 @@ export const Video: React.FC<MediaProps> = (props) => {
         playsInline
         ref={videoRef}
       >
-        <source src={`${process.env.NEXT_PUBLIC_SERVER_URL}/media/${filename}`} />
+        <source src={src} />
       </video>
     )
   }
