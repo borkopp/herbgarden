@@ -15,7 +15,7 @@ export async function Footer({ locale }: { locale: Locale }) {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-16 item-start">
           {/* Logo & Description */}
           <div className="md:col-span-6 space-y-8">
-            <Link href="/" className="block">
+            <Link href={`/${locale}`} className="block">
               <Image
                 src="/logo-vertical.png"
                 alt="VERA & VIGOR"
@@ -31,7 +31,9 @@ export async function Footer({ locale }: { locale: Locale }) {
 
           {/* Connect */}
           <div className="md:col-span-3 space-y-6">
-            <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-stone-900">{dict.footer.connect}</h4>
+            <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-stone-900">
+              {dict.footer.connect}
+            </h4>
             <ul className="space-y-4">
               <li>
                 <Link
@@ -56,15 +58,23 @@ export async function Footer({ locale }: { locale: Locale }) {
 
           {/* Assistance */}
           <div className="md:col-span-3 space-y-6">
-            <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-stone-900">{dict.footer.assistance}</h4>
+            <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-stone-900">
+              {dict.footer.assistance}
+            </h4>
             <ul className="space-y-4">
               <li>
-                <Link href="/#how-it-works" className="text-stone-900 hover:text-stone-500 transition-colors text-sm font-medium not-italic">
+                <Link
+                  href={`/${locale}/#how-it-works`}
+                  className="text-stone-900 hover:text-stone-500 transition-colors text-sm font-medium not-italic"
+                >
                   {dict.footer.howItWorks}
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-stone-900 hover:text-stone-500 transition-colors text-sm font-medium not-italic">
+                <Link
+                  href={`/${locale}/contact`}
+                  className="text-stone-900 hover:text-stone-500 transition-colors text-sm font-medium not-italic"
+                >
                   {dict.footer.contact}
                 </Link>
               </li>
@@ -78,10 +88,16 @@ export async function Footer({ locale }: { locale: Locale }) {
             © {currentYear} HERB GARDEN. {dict.footer.allRightsReserved}
           </p>
           <div className="flex gap-10">
-            <Link href="/privacy" className="text-[9px] font-bold tracking-[0.15em] text-stone-400 uppercase hover:text-stone-900 transition-colors not-italic">
+            <Link
+              href="/privacy"
+              className="text-[9px] font-bold tracking-[0.15em] text-stone-400 uppercase hover:text-stone-900 transition-colors not-italic"
+            >
               {dict.footer.privacyPolicy}
             </Link>
-            <Link href="/terms" className="text-[9px] font-bold tracking-[0.15em] text-stone-400 uppercase hover:text-stone-900 transition-colors not-italic">
+            <Link
+              href="/terms"
+              className="text-[9px] font-bold tracking-[0.15em] text-stone-400 uppercase hover:text-stone-900 transition-colors not-italic"
+            >
               {dict.footer.termsOfService}
             </Link>
           </div>

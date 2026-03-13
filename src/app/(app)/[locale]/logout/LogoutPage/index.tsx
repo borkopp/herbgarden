@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 
 export const LogoutPage: React.FC = (props) => {
   const { logout } = useAuth()
-  const { dict: t } = useLocale()
+  const { dict: t, locale } = useLocale()
   const [success, setSuccess] = useState('')
   const [error, setError] = useState('')
 
@@ -46,8 +46,11 @@ export const LogoutPage: React.FC = (props) => {
                 </span>
 
                 <h1 className="font-display text-5xl md:text-6xl leading-[0.85] tracking-tighter text-black uppercase mb-8">
-                  {t.account.successfullyUpdated.split(' ')[0]}<br />
-                  <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #e5e5e5' }}>{t.account.logout}</span>
+                  {t.account.successfullyUpdated.split(' ')[0]}
+                  <br />
+                  <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #e5e5e5' }}>
+                    {t.account.logout}
+                  </span>
                 </h1>
 
                 <p className="text-black/60 text-xs md:text-sm leading-relaxed max-w-[320px] font-medium mx-auto mb-16">
@@ -55,11 +58,18 @@ export const LogoutPage: React.FC = (props) => {
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full">
-                  <Button asChild className="h-14 rounded-full bg-black text-white hover:bg-black/90 active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase">
-                    <Link href="/login">{t.account.login}</Link>
+                  <Button
+                    asChild
+                    className="h-14 rounded-full bg-black text-white hover:bg-black/90 active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase"
+                  >
+                    <Link href={`/${locale}/login`}>{t.account.login}</Link>
                   </Button>
-                  <Button asChild variant="outline" className="h-14 rounded-full border-black/5 text-black hover:bg-[#f6f6f6] active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase">
-                    <Link href="/shop">{t.common.shop}</Link>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="h-14 rounded-full border-black/5 text-black hover:bg-[#f6f6f6] active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase"
+                  >
+                    <Link href={`/${locale}/shop`}>{t.common.shop}</Link>
                   </Button>
                 </div>
               </div>

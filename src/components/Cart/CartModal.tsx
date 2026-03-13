@@ -58,7 +58,7 @@ export function CartModal({ className }: { className?: string }) {
         price = variant.priceInMKD || price
       }
 
-      return total + (price * (item.quantity || 1))
+      return total + price * (item.quantity || 1)
     }, 0)
   }, [cart])
 
@@ -137,7 +137,7 @@ export function CartModal({ className }: { className?: string }) {
                         </div>
                         <Link
                           className="z-30 flex flex-row space-x-4"
-                          href={`/products/${(item.product as Product)?.slug}`}
+                          href={`/${locale}/products/${(item.product as Product)?.slug}`}
                         >
                           <div className="relative h-16 w-16 cursor-pointer overflow-hidden rounded-md border border-neutral-300 bg-neutral-300 dark:border-neutral-700 dark:bg-neutral-900 dark:hover:bg-neutral-800">
                             {image?.url && (
@@ -216,10 +216,10 @@ export function CartModal({ className }: { className?: string }) {
                     </div>
                   )}
 
-                  <Button asChild className='rounded-full py-6 mb-4' size="lg">
+                  <Button asChild className="rounded-full py-6 mb-4" size="lg">
                     <Link
                       className="w-full"
-                      href="/checkout"
+                      href={`/${locale}/checkout`}
                       onClick={() => {
                         posthog.capture('checkout_started', {
                           cart_total: cartTotalMKD,
@@ -234,7 +234,7 @@ export function CartModal({ className }: { className?: string }) {
                   </Button>
 
                   <Link
-                    href="/cart"
+                    href={`/${locale}/cart`}
                     className="flex justify-center text-[10px] font-bold tracking-[0.2em] uppercase text-black/40 hover:text-black transition-colors"
                   >
                     {dict.cart.cart}

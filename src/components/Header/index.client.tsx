@@ -22,7 +22,7 @@ type Props = {
 }
 
 export function HeaderClient({ header }: Props) {
-  const { dict } = useLocale()
+  const { dict, locale } = useLocale()
   const menu = header.navItems || []
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -43,14 +43,14 @@ export function HeaderClient({ header }: Props) {
         <div className="flex-1 flex items-center justify-between h-full">
           {/* Left: Logo */}
           <div className="flex flex-1 md:flex-none justify-center md:justify-start items-center h-full pointer-events-auto">
-            <Link className="flex items-center group" href="/">
+            <Link className="flex items-center group" href={`/${locale}`}>
               <Logo />
             </Link>
           </div>
 
           {/* Center: Desktop Menu */}
           <div className="hidden md:flex flex-1 justify-center items-center h-full">
-            {(menu.length || header.highlightCategories?.length) ? (
+            {menu.length || header.highlightCategories?.length ? (
               <ul className="flex gap-8 text-lg font-bold tracking-tight uppercase items-center h-full">
                 {menu.map((item) => (
                   <li key={item.id} className="flex h-full">
@@ -75,7 +75,8 @@ export function HeaderClient({ header }: Props) {
                   if (typeof category !== 'object') return null
                   const label = category.title
                   const url = `/shop?category=${category.id}`
-                  const isActive = pathname === '/shop' && searchParams.get('category') === category.id
+                  const isActive =
+                    pathname === '/shop' && searchParams.get('category') === category.id
 
                   return (
                     <li key={category.id} className="flex h-full">
@@ -147,8 +148,13 @@ export function HeaderClient({ header }: Props) {
                 asChild
                 className="flex items-center justify-center hover:cursor-pointer p-2 rounded-full hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
               >
-                <Link href="/account">
-                  <HugeiconsIcon icon={UserIcon} size={20} className="text-stone-700 dark:text-stone-300" strokeWidth={1.5} />
+                <Link href={`/${locale}/account`}>
+                  <HugeiconsIcon
+                    icon={UserIcon}
+                    size={20}
+                    className="text-stone-700 dark:text-stone-300"
+                    strokeWidth={1.5}
+                  />
                 </Link>
               </Button>
               <Suspense fallback={<OpenCartButton />}>

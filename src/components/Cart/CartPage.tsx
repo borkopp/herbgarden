@@ -10,7 +10,7 @@ import {
   Delete02Icon,
   MinusSignIcon,
   PlusSignIcon,
-  ShoppingBag01Icon
+  ShoppingBag01Icon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
@@ -40,14 +40,14 @@ const itemVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.8,
-      ease: [0.16, 1, 0.3, 1] as any
-    }
+      ease: [0.16, 1, 0.3, 1] as any,
+    },
   },
 }
 
 export function CartPage() {
   const { cart, decrementItem, incrementItem, removeItem, isLoading } = useCart()
-  const { dict: t } = useLocale()
+  const { dict: t, locale } = useLocale()
 
   const cartIsEmpty = !cart || !cart.items || !cart.items.length
 
@@ -67,7 +67,7 @@ export function CartPage() {
         price = (variant as any).priceInMKD || price
       }
 
-      return total + (price * (item.quantity || 1))
+      return total + price * (item.quantity || 1)
     }, 0)
   }, [cart])
 
@@ -90,7 +90,12 @@ export function CartPage() {
           animate={{ opacity: 1, scale: 1 }}
           className="w-24 h-24 rounded-full bg-stone-50 flex items-center justify-center mb-8"
         >
-          <HugeiconsIcon icon={ShoppingBag01Icon} size={40} className="text-stone-300" strokeWidth={1.5} />
+          <HugeiconsIcon
+            icon={ShoppingBag01Icon}
+            size={40}
+            className="text-stone-300"
+            strokeWidth={1.5}
+          />
         </motion.div>
         <motion.h2
           initial={{ opacity: 0, y: 10 }}
@@ -113,8 +118,11 @@ export function CartPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <Button asChild className="rounded-full bg-black text-white hover:bg-black/90 px-10 py-6 text-xs font-bold tracking-widest uppercase">
-            <Link href="/shop">{t.cart.goToLaboratory}</Link>
+          <Button
+            asChild
+            className="rounded-full bg-black text-white hover:bg-black/90 px-10 py-6 text-xs font-bold tracking-widest uppercase"
+          >
+            <Link href={`/${locale}/shop`}>{t.cart.goToLaboratory}</Link>
           </Button>
         </motion.div>
       </div>
@@ -141,8 +149,11 @@ export function CartPage() {
           variants={itemVariants}
           className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.85] tracking-tighter text-black uppercase"
         >
-          {t.cart.my}<br />
-          <span className="text-transparent" style={{ WebkitTextStroke: '2px #e5e5e5' }}>{t.cart.selection}</span>
+          {t.cart.my}
+          <br />
+          <span className="text-transparent" style={{ WebkitTextStroke: '2px #e5e5e5' }}>
+            {t.cart.selection}
+          </span>
         </motion.h1>
       </motion.div>
 
@@ -169,12 +180,16 @@ export function CartPage() {
                   price = (variant as any)?.priceInMKD
                   const imageVariant = (product as Product).gallery?.find((g: any) => {
                     if (!g.variantOption) return false
-                    const variantOptionID = typeof g.variantOption === 'object' ? g.variantOption.id : g.variantOption
+                    const variantOptionID =
+                      typeof g.variantOption === 'object' ? g.variantOption.id : g.variantOption
                     return (variant as any)?.options?.some((option: any) =>
-                      (typeof option === 'object' ? option.id === variantOptionID : option === variantOptionID)
+                      typeof option === 'object'
+                        ? option.id === variantOptionID
+                        : option === variantOptionID,
                     )
                   })
-                  if (imageVariant && typeof imageVariant.image !== 'string') image = imageVariant.image
+                  if (imageVariant && typeof imageVariant.image !== 'string')
+                    image = imageVariant.image
                 }
 
                 return (
@@ -191,7 +206,11 @@ export function CartPage() {
                       {/* Product Image */}
                       <div className="relative w-full sm:w-48 aspect-square rounded-[2rem] bg-[#f6f6f6] overflow-hidden shrink-0 transition-transform duration-700 group-hover:scale-[1.02]">
                         {image && typeof image !== 'string' && (
-                          <Media fill imgClassName="object-contain p-8 mix-blend-multiply" resource={image} />
+                          <Media
+                            fill
+                            imgClassName="object-contain p-8 mix-blend-multiply"
+                            resource={image}
+                          />
                         )}
                       </div>
 
@@ -203,7 +222,7 @@ export function CartPage() {
                               <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-2 block">
                                 {t.cart.pureExtract}
                               </span>
-                              <Link href={`/products/${slug}`} className="block group">
+                              <Link href={`/${locale}/products/${slug}`} className="block group">
                                 <h3 className="text-3xl md:text-3xl font-display uppercase tracking-tighter text-black group-hover:text-black/60 transition-colors">
                                   {title}
                                 </h3>
@@ -211,7 +230,9 @@ export function CartPage() {
                               {variant && typeof variant === 'object' && (
                                 <p className="text-[10px] font-bold uppercase tracking-[0.1em] text-black/40 mt-2">
                                   {(variant as any).options
-                                    ?.map((option: any) => typeof option === 'object' ? option.label : null)
+                                    ?.map((option: any) =>
+                                      typeof option === 'object' ? option.label : null,
+                                    )
                                     .join(' • ')}
                                 </p>
                               )}
@@ -252,7 +273,11 @@ export function CartPage() {
                             <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-1 block">
                               {t.cart.investment}
                             </span>
-                            <Price as="span" className="text-xl font-bold text-black font-sans" amount={(price || 0) * quantity} />
+                            <Price
+                              as="span"
+                              className="text-xl font-bold text-black font-sans"
+                              amount={(price || 0) * quantity}
+                            />
                           </div>
                         </div>
                       </div>
@@ -273,18 +298,26 @@ export function CartPage() {
             transition={{ delay: 0.4 }}
             className="bg-[#f6f6f6] rounded-[2.5rem] p-10 md:p-12"
           >
-            <h3 className="text-xl font-display uppercase tracking-widest text-black mb-12">{t.cart.summary}</h3>
+            <h3 className="text-xl font-display uppercase tracking-widest text-black mb-12">
+              {t.cart.summary}
+            </h3>
 
             <div className="space-y-6">
               <div className="flex justify-between items-center">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">{t.cart.subtotal}</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">
+                  {t.cart.subtotal}
+                </span>
                 <Price amount={cartTotalMKD} className="font-bold text-black" />
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">{t.cart.logistics}</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">
+                  {t.cart.logistics}
+                </span>
                 {cartTotalMKD >= 3000 ? (
-                  <span className="text-black font-bold text-[10px] uppercase tracking-widest">{t.cart.complimentary}</span>
+                  <span className="text-black font-bold text-[10px] uppercase tracking-widest">
+                    {t.cart.complimentary}
+                  </span>
                 ) : (
                   <Price amount={150} className="font-bold text-black" />
                 )}
@@ -292,14 +325,23 @@ export function CartPage() {
 
               <div className="pt-8 border-t border-black/5">
                 <div className="flex justify-between items-center">
-                  <span className="text-2xl font-display uppercase tracking-widest text-black">{t.cart.total}</span>
-                  <Price as="span" className="text-2xl font-display text-black font-bold" amount={totalWithShipping} />
+                  <span className="text-2xl font-display uppercase tracking-widest text-black">
+                    {t.cart.total}
+                  </span>
+                  <Price
+                    as="span"
+                    className="text-2xl font-display text-black font-bold"
+                    amount={totalWithShipping}
+                  />
                 </div>
               </div>
 
               <div className="pt-12">
-                <Button asChild className="w-full h-16 rounded-full bg-black text-white hover:bg-black/90 text-xs font-bold tracking-widest uppercase gap-3 shadow-xl shadow-black/10 transition-transform hover:scale-[1.02] active:scale-[0.98]">
-                  <Link href="/checkout">
+                <Button
+                  asChild
+                  className="w-full h-16 rounded-full bg-black text-white hover:bg-black/90 text-xs font-bold tracking-widest uppercase gap-3 shadow-xl shadow-black/10 transition-transform hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <Link href={`/${locale}/checkout`}>
                     {t.cart.secureCheckout}
                     <HugeiconsIcon icon={ArrowRight01Icon} size={18} strokeWidth={2.5} />
                   </Link>
@@ -309,7 +351,9 @@ export function CartPage() {
               <div className="mt-12 space-y-4">
                 <div className="flex items-center gap-3 text-black/40">
                   <HugeiconsIcon icon={CreditCardIcon} size={16} strokeWidth={1.5} />
-                  <span className="text-[9px] font-bold uppercase tracking-[0.15em]">{t.cart.encryptedTransactions}</span>
+                  <span className="text-[9px] font-bold uppercase tracking-[0.15em]">
+                    {t.cart.encryptedTransactions}
+                  </span>
                 </div>
                 <p className="text-[10px] leading-relaxed text-black/30 font-medium">
                   {t.cart.molecularIntegrityNote}

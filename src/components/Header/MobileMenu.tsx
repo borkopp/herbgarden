@@ -2,17 +2,20 @@
 
 import { CMSLink } from '@/components/Link'
 import { Button } from '@/components/ui/button'
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import type { Header } from '@/payload-types'
 import { useAuth } from '@/providers/Auth'
 import { cn } from '@/utilities/cn'
-import { ArrowRight01Icon, Login03Icon, Logout03Icon, MapPinIcon, Menu01Icon, PackageIcon, Settings02Icon, UserAdd01Icon } from '@hugeicons/core-free-icons'
+import {
+  ArrowRight01Icon,
+  Login03Icon,
+  Logout03Icon,
+  MapPinIcon,
+  Menu01Icon,
+  PackageIcon,
+  Settings02Icon,
+  UserAdd01Icon,
+} from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
@@ -29,7 +32,7 @@ interface Props {
 
 export function MobileMenu({ menu, categories }: Props) {
   const { user } = useAuth()
-  const { dict } = useLocale()
+  const { dict, locale } = useLocale()
 
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -61,11 +64,18 @@ export function MobileMenu({ menu, categories }: Props) {
         <span className="sr-only">{dict.mobileMenu.openMenu}</span>
       </SheetTrigger>
 
-      <SheetContent side="left" className="w-[310px] sm:w-[350px] p-0 flex flex-col h-full border-r-0 shadow-2xl overflow-hidden">
+      <SheetContent
+        side="left"
+        className="w-[310px] sm:w-[350px] p-0 flex flex-col h-full border-r-0 shadow-2xl overflow-hidden"
+      >
         <div className="flex flex-col h-full overflow-y-auto bg-white dark:bg-stone-950">
           <SheetHeader className="px-6 py-8 border-b border-stone-100 dark:border-stone-900 bg-white/50 dark:bg-stone-950/50 backdrop-blur-md sticky top-0 z-10">
             <SheetTitle className="text-left">
-              <Link href="/" className="inline-block transition-transform active:scale-95" onClick={() => setIsOpen(false)}>
+              <Link
+                href={`/${locale}`}
+                className="inline-block transition-transform active:scale-95"
+                onClick={() => setIsOpen(false)}
+              >
                 <Logo />
               </Link>
             </SheetTitle>
@@ -94,14 +104,22 @@ export function MobileMenu({ menu, categories }: Props) {
                           label={null}
                           appearance="link"
                           className={cn(
-                            "flex items-center justify-between w-full px-4 py-3.5 text-lg font-bold tracking-tight uppercase rounded-2xl transition-all duration-200 group",
+                            'flex items-center justify-between w-full px-4 py-3.5 text-lg font-bold tracking-tight uppercase rounded-2xl transition-all duration-200 group',
                             isActive
-                              ? "bg-primary/10 text-primary"
-                              : "text-stone-600 hover:bg-stone-50 dark:text-stone-300 dark:hover:bg-stone-900"
+                              ? 'bg-primary/10 text-primary'
+                              : 'text-stone-600 hover:bg-stone-50 dark:text-stone-300 dark:hover:bg-stone-900',
                           )}
                         >
                           <span className="flex-1 text-left">{item.link.label}</span>
-                          <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={1.5} className={cn("opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0", isActive && "opacity-100 translate-x-0")} />
+                          <HugeiconsIcon
+                            icon={ArrowRight01Icon}
+                            size={16}
+                            strokeWidth={1.5}
+                            className={cn(
+                              'opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0',
+                              isActive && 'opacity-100 translate-x-0',
+                            )}
+                          />
                         </CMSLink>
                       </motion.li>
                     )
@@ -119,8 +137,9 @@ export function MobileMenu({ menu, categories }: Props) {
                 <ul className="space-y-1">
                   {categories.map((category, index) => {
                     if (typeof category !== 'object') return null
-                    const href = `/shop?category=${category.id}`
-                    const isActive = pathname === '/shop' && searchParams.get('category') === category.id
+                    const href = `/${locale}/shop?category=${category.id}`
+                    const isActive =
+                      pathname === '/shop' && searchParams.get('category') === category.id
 
                     return (
                       <motion.li
@@ -128,19 +147,31 @@ export function MobileMenu({ menu, categories }: Props) {
                         initial="closed"
                         animate="open"
                         variants={menuVariants}
-                        transition={{ delay: (menu?.length || 0 + index) * 0.05, duration: 0.3, ease: 'easeOut' }}
+                        transition={{
+                          delay: (menu?.length || 0 + index) * 0.05,
+                          duration: 0.3,
+                          ease: 'easeOut',
+                        }}
                       >
                         <Link
                           href={href}
                           className={cn(
-                            "flex items-center justify-between w-full px-4 py-3.5 text-lg font-bold tracking-tight uppercase rounded-2xl transition-all duration-200 group",
+                            'flex items-center justify-between w-full px-4 py-3.5 text-lg font-bold tracking-tight uppercase rounded-2xl transition-all duration-200 group',
                             isActive
-                              ? "bg-primary/10 text-primary"
-                              : "text-stone-600 hover:bg-stone-50 dark:text-stone-300 dark:hover:bg-stone-900"
+                              ? 'bg-primary/10 text-primary'
+                              : 'text-stone-600 hover:bg-stone-50 dark:text-stone-300 dark:hover:bg-stone-900',
                           )}
                         >
                           <span className="flex-1 text-left">{category.title}</span>
-                          <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={1.5} className={cn("opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0", isActive && "opacity-100 translate-x-0")} />
+                          <HugeiconsIcon
+                            icon={ArrowRight01Icon}
+                            size={16}
+                            strokeWidth={1.5}
+                            className={cn(
+                              'opacity-0 -translate-x-2 transition-all group-hover:opacity-100 group-hover:translate-x-0',
+                              isActive && 'opacity-100 translate-x-0',
+                            )}
+                          />
                         </Link>
                       </motion.li>
                     )
@@ -156,13 +187,29 @@ export function MobileMenu({ menu, categories }: Props) {
               </h3>
               {user ? (
                 <div className="space-y-1">
-                  <MenuEntry href="/orders" icon={PackageIcon} label={dict.account.orders} />
-                  <MenuEntry href="/account/addresses" icon={MapPinIcon} label={dict.account.addresses} />
-                  <MenuEntry href="/account" icon={Settings02Icon} label={dict.mobileMenu.manageAccount} />
+                  <MenuEntry
+                    href={`/${locale}/orders`}
+                    icon={PackageIcon}
+                    label={dict.account.orders}
+                  />
+                  <MenuEntry
+                    href={`/${locale}/account/addresses`}
+                    icon={MapPinIcon}
+                    label={dict.account.addresses}
+                  />
+                  <MenuEntry
+                    href={`/${locale}/account`}
+                    icon={Settings02Icon}
+                    label={dict.mobileMenu.manageAccount}
+                  />
 
                   <div className="pt-6 px-2 mt-4">
-                    <Button asChild variant="outline" className="w-full justify-start gap-3 border-stone-200 hover:bg-red-50 hover:text-red-600 hover:border-red-100 dark:border-stone-800 transition-colors rounded-2xl h-12 px-4 shadow-sm active:scale-[0.98]">
-                      <Link href="/logout">
+                    <Button
+                      asChild
+                      variant="outline"
+                      className="w-full justify-start gap-3 border-stone-200 hover:bg-red-50 hover:text-red-600 hover:border-red-100 dark:border-stone-800 transition-colors rounded-2xl h-12 px-4 shadow-sm active:scale-[0.98]"
+                    >
+                      <Link href={`/${locale}/logout`}>
                         <HugeiconsIcon icon={Logout03Icon} size={16} strokeWidth={1.5} />
                         <span className="font-semibold">{dict.account.logout}</span>
                       </Link>
@@ -171,14 +218,21 @@ export function MobileMenu({ menu, categories }: Props) {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 gap-3 px-2 pt-2">
-                  <Button asChild variant="secondary" className="w-full justify-center gap-2 h-12 rounded-2xl border border-stone-100 dark:border-stone-800 bg-stone-50 dark:bg-stone-900 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all active:scale-[0.98]">
-                    <Link href="/login">
+                  <Button
+                    asChild
+                    variant="secondary"
+                    className="w-full justify-center gap-2 h-12 rounded-2xl border border-stone-100 dark:border-stone-800 bg-stone-50 dark:bg-stone-900 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all active:scale-[0.98]"
+                  >
+                    <Link href={`/${locale}/login`}>
                       <HugeiconsIcon icon={Login03Icon} size={16} strokeWidth={1.5} />
                       {dict.account.login}
                     </Link>
                   </Button>
-                  <Button asChild className="w-full justify-center gap-2 h-12 rounded-2xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
-                    <Link href="/create-account" className="font-bold">
+                  <Button
+                    asChild
+                    className="w-full justify-center gap-2 h-12 rounded-2xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98]"
+                  >
+                    <Link href={`/${locale}/create-account`} className="font-bold">
                       <HugeiconsIcon icon={UserAdd01Icon} size={16} strokeWidth={1.5} />
                       {dict.account.createAccount}
                     </Link>
@@ -203,7 +257,7 @@ export function MobileMenu({ menu, categories }: Props) {
   )
 }
 
-function MenuEntry({ href, icon: Icon, label }: { href: string, icon: any, label: string }) {
+function MenuEntry({ href, icon: Icon, label }: { href: string; icon: any; label: string }) {
   const pathname = usePathname()
   const isActive = pathname === href
 
@@ -211,20 +265,32 @@ function MenuEntry({ href, icon: Icon, label }: { href: string, icon: any, label
     <Link
       href={href}
       className={cn(
-        "flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 group",
+        'flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-200 group',
         isActive
-          ? "bg-secondary text-accent-foreground font-bold shadow-sm"
-          : "text-stone-600 hover:bg-stone-50 dark:text-stone-300 dark:hover:bg-stone-900"
+          ? 'bg-secondary text-accent-foreground font-bold shadow-sm'
+          : 'text-stone-600 hover:bg-stone-50 dark:text-stone-300 dark:hover:bg-stone-900',
       )}
     >
-      <div className={cn(
-        "flex items-center justify-center size-9 rounded-xl transition-all",
-        isActive ? "bg-white text-primary shadow-sm scale-110" : "bg-stone-100 group-hover:bg-white dark:bg-stone-800 dark:group-hover:bg-stone-700 shadow-none group-hover:shadow-sm"
-      )}>
+      <div
+        className={cn(
+          'flex items-center justify-center size-9 rounded-xl transition-all',
+          isActive
+            ? 'bg-white text-primary shadow-sm scale-110'
+            : 'bg-stone-100 group-hover:bg-white dark:bg-stone-800 dark:group-hover:bg-stone-700 shadow-none group-hover:shadow-sm',
+        )}
+      >
         <HugeiconsIcon icon={Icon} size={18} strokeWidth={1.5} />
       </div>
       <span className="flex-1 font-medium">{label}</span>
-      <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={1.5} className={cn("opacity-0 -translate-x-2 transition-all group-hover:opacity-30 group-hover:translate-x-0 font-bold", isActive && "opacity-100 translate-x-0")} />
+      <HugeiconsIcon
+        icon={ArrowRight01Icon}
+        size={16}
+        strokeWidth={1.5}
+        className={cn(
+          'opacity-0 -translate-x-2 transition-all group-hover:opacity-30 group-hover:translate-x-0 font-bold',
+          isActive && 'opacity-100 translate-x-0',
+        )}
+      />
     </Link>
   )
 }

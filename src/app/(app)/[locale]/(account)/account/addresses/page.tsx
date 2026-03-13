@@ -28,9 +28,7 @@ export default async function AddressesPage({ params }: Props) {
   let orders: Order[] | null = null
 
   if (!user) {
-    redirect(
-      `/login?warning=${encodeURIComponent(t.account.loginWarning)}`,
-    )
+    redirect(`/${locale}/login?warning=${encodeURIComponent(t.account.loginWarning)}`)
   }
 
   try {
@@ -62,8 +60,11 @@ export default async function AddressesPage({ params }: Props) {
           <div>
             {/* <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mb-3 block">Shipping Details</span> */}
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tighter text-black uppercase leading-[0.85]">
-              {t.account.saved}<br />
-              <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #e5e5e5' }}>{t.account.addresses}</span>
+              {t.account.saved}
+              <br />
+              <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #e5e5e5' }}>
+                {t.account.addresses}
+              </span>
             </h1>
           </div>
           <CreateAddressModal />

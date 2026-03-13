@@ -33,9 +33,7 @@ export default async function AccountPage({ params }: Props) {
   let orders: Order[] | null = null
 
   if (!user) {
-    redirect(
-      `/login?warning=${encodeURIComponent(t.account.loginWarning)}`,
-    )
+    redirect(`/${locale}/login?warning=${encodeURIComponent(t.account.loginWarning)}`)
   }
 
   try {
@@ -66,8 +64,11 @@ export default async function AccountPage({ params }: Props) {
         <div className="mb-10">
           {/* <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mb-3 block">Profile Overview</span> */}
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl tracking-tighter text-black uppercase leading-[0.85]">
-            {t.account.accountSettingsTitle1}<br />
-            <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #e5e5e5' }}>{t.account.accountSettingsTitle2}</span>
+            {t.account.accountSettingsTitle1}
+            <br />
+            <span className="text-transparent" style={{ WebkitTextStroke: '1.5px #e5e5e5' }}>
+              {t.account.accountSettingsTitle2}
+            </span>
           </h1>
         </div>
 
@@ -79,10 +80,17 @@ export default async function AccountPage({ params }: Props) {
       <div className="animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-300 fill-mode-both">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
           <div>
-            <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mb-3 block">{t.account.purchaseHistory}</span>
-            <h2 className="font-display text-3xl md:text-4xl tracking-tighter text-black uppercase leading-none">{t.account.recentOrders}</h2>
+            <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-black/40 mb-3 block">
+              {t.account.purchaseHistory}
+            </span>
+            <h2 className="font-display text-3xl md:text-4xl tracking-tighter text-black uppercase leading-none">
+              {t.account.recentOrders}
+            </h2>
           </div>
-          <Link href="/orders" className="text-[10px] font-bold tracking-[0.2em] uppercase text-black/40 hover:text-black flex items-center gap-2 transition-all">
+          <Link
+            href="/orders"
+            className="text-[10px] font-bold tracking-[0.2em] uppercase text-black/40 hover:text-black flex items-center gap-2 transition-all"
+          >
             {t.account.viewAllOrders}
             <HugeiconsIcon icon={ArrowRight01Icon} size={14} strokeWidth={2} />
           </Link>
@@ -93,40 +101,69 @@ export default async function AccountPage({ params }: Props) {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-[#f6f6f6]">
-                  <th className="px-10 py-6 text-[9px] font-bold text-black/40 uppercase tracking-[0.2em]">{t.common.id}</th>
-                  <th className="px-10 py-6 text-[9px] font-bold text-black/40 uppercase tracking-[0.2em]">{t.common.date}</th>
-                  <th className="px-10 py-6 text-[9px] font-bold text-black/40 uppercase tracking-[0.2em]">{t.common.amount}</th>
-                  <th className="px-10 py-6 text-[9px] font-bold text-black/40 uppercase tracking-[0.2em]">{t.common.status}</th>
-                  <th className="px-10 py-6 text-[9px] font-bold text-black/40 uppercase tracking-[0.2em] text-right">{t.common.actions}</th>
+                  <th className="px-10 py-6 text-[9px] font-bold text-black/40 uppercase tracking-[0.2em]">
+                    {t.common.id}
+                  </th>
+                  <th className="px-10 py-6 text-[9px] font-bold text-black/40 uppercase tracking-[0.2em]">
+                    {t.common.date}
+                  </th>
+                  <th className="px-10 py-6 text-[9px] font-bold text-black/40 uppercase tracking-[0.2em]">
+                    {t.common.amount}
+                  </th>
+                  <th className="px-10 py-6 text-[9px] font-bold text-black/40 uppercase tracking-[0.2em]">
+                    {t.common.status}
+                  </th>
+                  <th className="px-10 py-6 text-[9px] font-bold text-black/40 uppercase tracking-[0.2em] text-right">
+                    {t.common.actions}
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-black/5">
                 {(!orders || orders.length === 0) && (
                   <tr>
-                    <td colSpan={5} className="px-10 py-20 text-center text-xs font-medium text-black/40 uppercase tracking-widest leading-loose">
+                    <td
+                      colSpan={5}
+                      className="px-10 py-20 text-center text-xs font-medium text-black/40 uppercase tracking-widest leading-loose"
+                    >
                       {t.account.noRecentOrders}
                     </td>
                   </tr>
                 )}
-                {orders && orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-stone-50 transition-colors group">
-                    <td className="px-10 py-8">
-                      <span className="font-bold text-black uppercase tracking-[0.1em] text-[11px]">#{order.id.slice(-8)}</span>
-                    </td>
-                    <td className="px-10 py-8 text-black/60 text-xs font-medium uppercase tracking-tight">
-                      {formatDateTime({ date: order.createdAt, format: 'MMM dd, yyyy' })}
-                    </td>
-                    <td className="px-10 py-8 font-bold text-black text-sm">
-                      {order.amount ? <Price as="span" amount={order.amount} currencyCode={order.currency ?? undefined} /> : '-'}
-                    </td>
-                    <td className="px-10 py-8">
-                      {order.status && <OrderStatus status={order.status} />}
-                    </td>
-                    <td className="px-10 py-8 text-right">
-                      <Link href={`/orders/${order.id}`} className="inline-flex items-center justify-center h-10 px-6 rounded-full border border-black/5 text-[9px] font-bold tracking-[0.15em] uppercase text-black hover:bg-black hover:text-white transition-all">{t.account.details}</Link>
-                    </td>
-                  </tr>
-                ))}
+                {orders &&
+                  orders.map((order) => (
+                    <tr key={order.id} className="hover:bg-stone-50 transition-colors group">
+                      <td className="px-10 py-8">
+                        <span className="font-bold text-black uppercase tracking-[0.1em] text-[11px]">
+                          #{order.id.slice(-8)}
+                        </span>
+                      </td>
+                      <td className="px-10 py-8 text-black/60 text-xs font-medium uppercase tracking-tight">
+                        {formatDateTime({ date: order.createdAt, format: 'MMM dd, yyyy' })}
+                      </td>
+                      <td className="px-10 py-8 font-bold text-black text-sm">
+                        {order.amount ? (
+                          <Price
+                            as="span"
+                            amount={order.amount}
+                            currencyCode={order.currency ?? undefined}
+                          />
+                        ) : (
+                          '-'
+                        )}
+                      </td>
+                      <td className="px-10 py-8">
+                        {order.status && <OrderStatus status={order.status} />}
+                      </td>
+                      <td className="px-10 py-8 text-right">
+                        <Link
+                          href={`/orders/${order.id}`}
+                          className="inline-flex items-center justify-center h-10 px-6 rounded-full border border-black/5 text-[9px] font-bold tracking-[0.15em] uppercase text-black hover:bg-black hover:text-white transition-all"
+                        >
+                          {t.account.details}
+                        </Link>
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>

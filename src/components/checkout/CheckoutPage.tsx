@@ -29,7 +29,7 @@ import {
   Mail01Icon,
   MapPinIcon,
   Shield01Icon,
-  ShoppingBag01Icon
+  ShoppingBag01Icon,
 } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { useAddresses, useCart, usePayments } from '@payloadcms/plugin-ecommerce/client/react'
@@ -40,17 +40,19 @@ const StepHeader = ({
   title,
   active,
 }: {
-  number: number,
-  title: string,
-  active?: boolean,
-  completed?: boolean,
+  number: number
+  title: string
+  active?: boolean
+  completed?: boolean
   icon: any
 }) => (
   <div className="mb-6">
-    <h2 className={cn(
-      "font-display text-2xl md:text-3xl uppercase tracking-tighter transition-colors",
-      active ? "text-black" : "text-black/40"
-    )}>
+    <h2
+      className={cn(
+        'font-display text-2xl md:text-3xl uppercase tracking-tighter transition-colors',
+        active ? 'text-black' : 'text-black/40',
+      )}
+    >
       {title}
     </h2>
   </div>
@@ -58,7 +60,7 @@ const StepHeader = ({
 
 export const CheckoutPage: React.FC = () => {
   const { user } = useAuth()
-  const { dict: t } = useLocale()
+  const { dict: t, locale } = useLocale()
   const router = useRouter()
   const { cart, isLoading } = useCart()
   const [error, setError] = useState<null | string>(null)
@@ -80,9 +82,7 @@ export const CheckoutPage: React.FC = () => {
     return 3
   }, [user, emailSubmitted, billingAddress])
 
-  const canPlaceOrder = Boolean(
-    (email || user) && billingAddress,
-  )
+  const canPlaceOrder = Boolean((email || user) && billingAddress)
 
   const cartTotalMKD = useMemo(() => {
     if (!cart?.items?.length) return 0
@@ -100,7 +100,7 @@ export const CheckoutPage: React.FC = () => {
         price = (variant as any).priceInMKD || price
       }
 
-      return total + (price * (item.quantity || 1))
+      return total + price * (item.quantity || 1)
     }, 0)
   }, [cart])
 
@@ -166,9 +166,16 @@ export const CheckoutPage: React.FC = () => {
       }
     } catch (err) {
       posthog.captureException(err instanceof Error ? err : new Error(String(err)))
-      const errorData = err instanceof Error ? (() => {
-        try { return JSON.parse(err.message) } catch { return {} }
-      })() : {}
+      const errorData =
+        err instanceof Error
+          ? (() => {
+              try {
+                return JSON.parse(err.message)
+              } catch {
+                return {}
+              }
+            })()
+          : {}
 
       let errorMessage = t.newsletter.somethingWentWrong
       if (errorData?.cause?.code === 'OutOfStock') {
@@ -179,7 +186,15 @@ export const CheckoutPage: React.FC = () => {
       toast.error(errorMessage)
       setIsPlacingOrder(false)
     }
-  }, [billingAddress, billingAddressSameAsShipping, shippingAddress, email, initiatePayment, confirmOrder, router])
+  }, [
+    billingAddress,
+    billingAddressSameAsShipping,
+    shippingAddress,
+    email,
+    initiatePayment,
+    confirmOrder,
+    router,
+  ])
 
   if (isPlacingOrder) {
     return (
@@ -208,14 +223,23 @@ export const CheckoutPage: React.FC = () => {
     return (
       <div className="max-w-md mx-auto py-32 flex flex-col items-center text-center gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
         <div className="w-24 h-24 rounded-full bg-stone-100 dark:bg-stone-900 flex items-center justify-center">
-          <HugeiconsIcon icon={ShoppingBag01Icon} size={40} className="text-stone-400" strokeWidth={1.5} />
+          <HugeiconsIcon
+            icon={ShoppingBag01Icon}
+            size={40}
+            className="text-stone-400"
+            strokeWidth={1.5}
+          />
         </div>
         <div className="space-y-2">
           <h2 className="text-2xl font-bold">{t.cart.emptyCart}</h2>
           <p className="text-stone-500">{t.wishlist.startExploring}</p>
         </div>
-        <Button asChild size="lg" className="rounded-full px-8 py-6 font-bold text-lg shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95">
-          <Link href="/shop">{t.cart.continueShopping}</Link>
+        <Button
+          asChild
+          size="lg"
+          className="rounded-full px-8 py-6 font-bold text-lg shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95"
+        >
+          <Link href={`/${locale}/shop`}>{t.cart.continueShopping}</Link>
         </Button>
       </div>
     )
@@ -229,8 +253,16 @@ export const CheckoutPage: React.FC = () => {
           {/* ─── HEADER ─── */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 animate-in fade-in slide-in-from-top-4 duration-700">
             <div className="space-y-4">
-              <Link href="/cart" className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-black/40 hover:text-black transition-colors mb-2 group">
-                <HugeiconsIcon icon={ArrowLeft01Icon} size={16} strokeWidth={2} className="group-hover:-translate-x-1 transition-transform" />
+              <Link
+                href={`/${locale}/cart`}
+                className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-black/40 hover:text-black transition-colors mb-2 group"
+              >
+                <HugeiconsIcon
+                  icon={ArrowLeft01Icon}
+                  size={16}
+                  strokeWidth={2}
+                  className="group-hover:-translate-x-1 transition-transform"
+                />
                 {t.checkout.backToCart}
               </Link>
             </div>
@@ -241,9 +273,12 @@ export const CheckoutPage: React.FC = () => {
                 <div
                   key={s}
                   className={cn(
-                    "h-2 rounded-full transition-all duration-500 mx-1",
-                    s < currentStep ? "w-4 bg-green-500" :
-                      s === currentStep ? "w-8 bg-primary" : "w-4 bg-stone-300 dark:bg-stone-800"
+                    'h-2 rounded-full transition-all duration-500 mx-1',
+                    s < currentStep
+                      ? 'w-4 bg-green-500'
+                      : s === currentStep
+                        ? 'w-8 bg-primary'
+                        : 'w-4 bg-stone-300 dark:bg-stone-800',
                   )}
                 />
               ))}
@@ -265,24 +300,35 @@ export const CheckoutPage: React.FC = () => {
               icon={Mail01Icon}
             />
 
-            <div className={cn(
-              "transition-all duration-500 overflow-hidden",
-              currentStep === 1 ? "" : "opacity-75"
-            )}>
+            <div
+              className={cn(
+                'transition-all duration-500 overflow-hidden',
+                currentStep === 1 ? '' : 'opacity-75',
+              )}
+            >
               {currentStep === 1 ? (
                 <div className="p-8 space-y-8">
                   {!user && (
                     <div className="flex flex-col sm:flex-row items-center gap-6 p-6 rounded-2xl bg-primary/5 border border-primary/10">
                       <div className="flex-1 space-y-1 text-center sm:text-left">
-                        <h4 className="font-bold text-stone-800 dark:text-stone-200">{t.checkout.alreadyHaveAccount}</h4>
-                        <p className="text-sm text-stone-500">{t.checkout.loginForFasterCheckout}</p>
+                        <h4 className="font-bold text-stone-800 dark:text-stone-200">
+                          {t.checkout.alreadyHaveAccount}
+                        </h4>
+                        <p className="text-sm text-stone-500">
+                          {t.checkout.loginForFasterCheckout}
+                        </p>
                       </div>
                       <div className="flex items-center gap-2">
-                        <Button asChild size="sm" variant="outline" className="rounded-xl font-bold px-5">
-                          <Link href="/login">{t.account.login}</Link>
+                        <Button
+                          asChild
+                          size="sm"
+                          variant="outline"
+                          className="rounded-xl font-bold px-5"
+                        >
+                          <Link href={`/${locale}/login`}>{t.account.login}</Link>
                         </Button>
                         <Button asChild size="sm" className="rounded-xl font-bold px-5">
-                          <Link href="/create-account">{t.account.createAccount}</Link>
+                          <Link href={`/${locale}/create-account`}>{t.account.createAccount}</Link>
                         </Button>
                       </div>
                     </div>
@@ -299,14 +345,25 @@ export const CheckoutPage: React.FC = () => {
                       >
                         <div className="flex items-center gap-4">
                           <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                            <span className="text-primary font-bold">{user.email?.charAt(0).toUpperCase()}</span>
+                            <span className="text-primary font-bold">
+                              {user.email?.charAt(0).toUpperCase()}
+                            </span>
                           </div>
                           <div>
-                            <p className="text-xs text-stone-400 font-bold uppercase tracking-widest mb-0.5">{t.checkout.loggedInAs}</p>
-                            <p className="font-bold text-stone-900 dark:text-stone-100">{user.email}</p>
+                            <p className="text-xs text-stone-400 font-bold uppercase tracking-widest mb-0.5">
+                              {t.checkout.loggedInAs}
+                            </p>
+                            <p className="font-bold text-stone-900 dark:text-stone-100">
+                              {user.email}
+                            </p>
                           </div>
                         </div>
-                        <Link href="/logout" className="text-stone-400 hover:text-red-500 text-sm font-bold transition-colors">{t.account.logout}</Link>
+                        <Link
+                          href={`/${locale}/logout`}
+                          className="text-stone-400 hover:text-red-500 text-sm font-bold transition-colors"
+                        >
+                          {t.account.logout}
+                        </Link>
                       </motion.div>
                     ) : emailSubmitted ? (
                       <motion.div
@@ -316,8 +373,12 @@ export const CheckoutPage: React.FC = () => {
                         className="flex items-center justify-between p-6 rounded-2xl bg-stone-50 dark:bg-stone-900 border border-stone-100 dark:border-stone-800"
                       >
                         <div>
-                          <p className="text-xs text-stone-400 font-bold uppercase tracking-widest mb-0.5">{t.checkout.orderingAsGuest}</p>
-                          <p className="font-bold text-stone-900 dark:text-stone-100 text-lg">{email}</p>
+                          <p className="text-xs text-stone-400 font-bold uppercase tracking-widest mb-0.5">
+                            {t.checkout.orderingAsGuest}
+                          </p>
+                          <p className="font-bold text-stone-900 dark:text-stone-100 text-lg">
+                            {email}
+                          </p>
                         </div>
                         <Button
                           variant="ghost"
@@ -336,9 +397,19 @@ export const CheckoutPage: React.FC = () => {
                         className="space-y-6"
                       >
                         <FormItem>
-                          <Label htmlFor="email" className="font-bold text-stone-600 dark:text-stone-400 mb-3 block">{t.checkout.yourEmail}</Label>
+                          <Label
+                            htmlFor="email"
+                            className="font-bold text-stone-600 dark:text-stone-400 mb-3 block"
+                          >
+                            {t.checkout.yourEmail}
+                          </Label>
                           <div className="relative">
-                            <HugeiconsIcon icon={Mail01Icon} size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" strokeWidth={1.5} />
+                            <HugeiconsIcon
+                              icon={Mail01Icon}
+                              size={20}
+                              className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400"
+                              strokeWidth={1.5}
+                            />
                             <Input
                               id="email"
                               name="email"
@@ -351,17 +422,29 @@ export const CheckoutPage: React.FC = () => {
                             />
                           </div>
                           <p className="text-xs text-stone-400 mt-2 ml-1 flex items-center gap-1.5">
-                            <HugeiconsIcon icon={InformationCircleIcon} size={14} strokeWidth={1.5} />
+                            <HugeiconsIcon
+                              icon={InformationCircleIcon}
+                              size={14}
+                              strokeWidth={1.5}
+                            />
                             {t.checkout.emailConfirmationNote}
                           </p>
                         </FormItem>
                         <Button
                           disabled={!email || !/^\S+@\S+\.\S+$/.test(email)}
                           className="w-full sm:w-auto h-14 rounded-2xl px-12 font-bold text-lg shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
-                          onClick={(e) => { e.preventDefault(); setEmailSubmitted(true) }}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            setEmailSubmitted(true)
+                          }}
                         >
                           {t.checkout.continue}
-                          <HugeiconsIcon icon={ArrowRight01Icon} size={20} className="ml-2" strokeWidth={1.5} />
+                          <HugeiconsIcon
+                            icon={ArrowRight01Icon}
+                            size={20}
+                            className="ml-2"
+                            strokeWidth={1.5}
+                          />
                         </Button>
                       </motion.div>
                     )}
@@ -371,10 +454,17 @@ export const CheckoutPage: React.FC = () => {
                 <div className="p-8 flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-full bg-green-500/10 flex items-center justify-center">
-                      <HugeiconsIcon icon={Shield01Icon} size={20} className="text-green-500" strokeWidth={1.5} />
+                      <HugeiconsIcon
+                        icon={Shield01Icon}
+                        size={20}
+                        className="text-green-500"
+                        strokeWidth={1.5}
+                      />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-stone-900 dark:text-stone-100">{user ? user.email : email}</p>
+                      <p className="text-sm font-bold text-stone-900 dark:text-stone-100">
+                        {user ? user.email : email}
+                      </p>
                       <p className="text-xs text-stone-400">{t.checkout.contactStored}</p>
                     </div>
                   </div>
@@ -409,10 +499,12 @@ export const CheckoutPage: React.FC = () => {
               icon={MapPinIcon}
             />
 
-            <div className={cn(
-              "transition-all duration-500 overflow-hidden",
-              currentStep === 2 ? "" : "opacity-75"
-            )}>
+            <div
+              className={cn(
+                'transition-all duration-500 overflow-hidden',
+                currentStep === 2 ? '' : 'opacity-75',
+              )}
+            >
               {currentStep >= 2 ? (
                 <div className="p-8">
                   {billingAddress ? (
@@ -429,7 +521,10 @@ export const CheckoutPage: React.FC = () => {
                             <Button
                               variant="ghost"
                               className="rounded-xl text-primary font-bold hover:bg-primary/5 transition-all h-auto py-3 px-5 shadow-none"
-                              onClick={(e) => { e.preventDefault(); setBillingAddress(undefined) }}
+                              onClick={(e) => {
+                                e.preventDefault()
+                                setBillingAddress(undefined)
+                              }}
                             >
                               {t.checkout.changeAddress}
                             </Button>
@@ -445,10 +540,15 @@ export const CheckoutPage: React.FC = () => {
                           <Checkbox
                             id="shippingTheSameAsBilling"
                             checked={billingAddressSameAsShipping}
-                            onCheckedChange={(state) => setBillingAddressSameAsShipping(state as boolean)}
+                            onCheckedChange={(state) =>
+                              setBillingAddressSameAsShipping(state as boolean)
+                            }
                             className="w-6 h-6 rounded-lg data-[state=checked]:bg-primary transition-all border-stone-200 dark:border-stone-800"
                           />
-                          <Label htmlFor="shippingTheSameAsBilling" className="font-bold text-stone-700 dark:text-stone-300 cursor-pointer select-none">
+                          <Label
+                            htmlFor="shippingTheSameAsBilling"
+                            className="font-bold text-stone-700 dark:text-stone-300 cursor-pointer select-none"
+                          >
                             {t.checkout.shippingSameAsBilling}
                           </Label>
                         </div>
@@ -459,14 +559,19 @@ export const CheckoutPage: React.FC = () => {
                             animate={{ opacity: 1, height: 'auto' }}
                             className="pt-4 border-t border-stone-100 dark:border-stone-800 space-y-4"
                           >
-                            <h4 className="font-bold text-stone-900 dark:text-stone-100">{t.checkout.billingAddress}</h4>
+                            <h4 className="font-bold text-stone-900 dark:text-stone-100">
+                              {t.checkout.billingAddress}
+                            </h4>
                             {shippingAddress ? (
                               <AddressItem
                                 actions={
                                   <Button
                                     variant="ghost"
                                     className="text-primary font-bold hover:bg-primary/5 rounded-xl h-auto py-3"
-                                    onClick={(e) => { e.preventDefault(); setShippingAddress(undefined) }}
+                                    onClick={(e) => {
+                                      e.preventDefault()
+                                      setShippingAddress(undefined)
+                                    }}
                                   >
                                     {t.checkout.changeAddress}
                                   </Button>
@@ -477,7 +582,9 @@ export const CheckoutPage: React.FC = () => {
                               <CheckoutAddresses setAddressAction={setShippingAddress} />
                             ) : (
                               <CreateAddressModal
-                                callbackAction={(address: Partial<Address>) => setShippingAddress(address)}
+                                callbackAction={(address: Partial<Address>) =>
+                                  setShippingAddress(address)
+                                }
                                 skipSubmission={true}
                               />
                             )}
@@ -496,7 +603,12 @@ export const CheckoutPage: React.FC = () => {
                       ) : (
                         <div className="flex flex-col items-center gap-6 py-8">
                           <div className="w-20 h-20 rounded-full bg-primary/5 flex items-center justify-center">
-                            <HugeiconsIcon icon={MapPinIcon} size={32} className="text-primary" strokeWidth={1.5} />
+                            <HugeiconsIcon
+                              icon={MapPinIcon}
+                              size={32}
+                              className="text-primary"
+                              strokeWidth={1.5}
+                            />
                           </div>
                           <div className="text-center space-y-2">
                             <h3 className="text-xl font-bold">{t.checkout.whereToShip}</h3>
@@ -504,7 +616,9 @@ export const CheckoutPage: React.FC = () => {
                           </div>
                           <CreateAddressModal
                             disabled={!emailSubmitted && !user}
-                            callbackAction={(address: Partial<Address>) => setBillingAddress(address)}
+                            callbackAction={(address: Partial<Address>) =>
+                              setBillingAddress(address)
+                            }
                             skipSubmission={true}
                           />
                         </div>
@@ -535,10 +649,12 @@ export const CheckoutPage: React.FC = () => {
               icon={CreditCardIcon}
             />
 
-            <div className={cn(
-              "transition-all duration-500 overflow-hidden pb-12",
-              currentStep === 3 ? "" : "opacity-75"
-            )}>
+            <div
+              className={cn(
+                'transition-all duration-500 overflow-hidden pb-12',
+                currentStep === 3 ? '' : 'opacity-75',
+              )}
+            >
               {currentStep >= 3 ? (
                 <div className="py-8">
                   <div className="space-y-4">
@@ -547,13 +663,17 @@ export const CheckoutPage: React.FC = () => {
                         <div className="flex-shrink-0 w-5 h-5 rounded-full border border-black flex items-center justify-center">
                           <div className="w-2.5 h-2.5 rounded-full bg-black" />
                         </div>
-                        <span className="font-bold text-xs tracking-widest uppercase">{t.checkout.cashOnDelivery}</span>
+                        <span className="font-bold text-xs tracking-widest uppercase">
+                          {t.checkout.cashOnDelivery}
+                        </span>
                       </div>
                     </label>
                     <label className="flex items-center justify-between p-5 rounded-3xl border border-stone-200 bg-stone-50 cursor-not-allowed opacity-50">
                       <div className="flex items-center gap-4">
                         <div className="flex-shrink-0 w-5 h-5 rounded-full border border-stone-300" />
-                        <span className="font-bold text-xs tracking-widest uppercase text-stone-600">{t.checkout.creditCard}</span>
+                        <span className="font-bold text-xs tracking-widest uppercase text-stone-600">
+                          {t.checkout.creditCard}
+                        </span>
                       </div>
                       <div className="flex gap-1.5 opacity-50">
                         <div className="w-8 h-5 bg-stone-200 rounded-sm" />
@@ -578,7 +698,12 @@ export const CheckoutPage: React.FC = () => {
               className="bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 rounded-3xl p-6 flex gap-4 items-center"
             >
               <div className="w-12 h-12 rounded-full bg-red-100 dark:bg-red-900/40 flex items-center justify-center shrink-0">
-                <HugeiconsIcon icon={InformationCircleIcon} size={24} className="text-red-600 dark:text-red-400" strokeWidth={1.5} />
+                <HugeiconsIcon
+                  icon={InformationCircleIcon}
+                  size={24}
+                  className="text-red-600 dark:text-red-400"
+                  strokeWidth={1.5}
+                />
               </div>
               <p className="text-red-600 dark:text-red-400 font-bold text-lg">{error}</p>
             </motion.div>
@@ -591,7 +716,9 @@ export const CheckoutPage: React.FC = () => {
             {/* ── SUMMARY HEADER ── */}
             <div className="p-10 pb-6">
               <div className="flex items-center justify-between mb-8">
-                <h3 className="text-xl font-display text-base uppercase tracking-widest text-black">{t.cart.orderSummary}</h3>
+                <h3 className="text-xl font-display text-base uppercase tracking-widest text-black">
+                  {t.cart.orderSummary}
+                </h3>
                 {/* <span className="text-black/50 text-[10px] font-bold uppercase tracking-widest">
                   {cart?.items?.length} {cart?.items?.length === 1 ? 'Производ' : 'Производи'}
                 </span> */}
@@ -704,7 +831,11 @@ export const CheckoutPage: React.FC = () => {
                             </p>
                           )}
                           <div className="flex justify-between items-center mt-1">
-                            <Price as="span" className="text-[11px] font-bold text-black" amount={price || 0} />
+                            <Price
+                              as="span"
+                              className="text-[11px] font-bold text-black"
+                              amount={price || 0}
+                            />
                           </div>
                         </div>
                       </motion.div>
@@ -757,9 +888,13 @@ export const CheckoutPage: React.FC = () => {
             <button
               className="w-full h-14 rounded-full bg-black text-white text-sm font-bold uppercase tracking-widest hover:bg-black/80 hover:scale-[1.02] active:scale-[0.98] transition-all disabled:opacity-50 disabled:hover:scale-100 disabled:hover:bg-black flex items-center justify-center gap-2"
               disabled={!canPlaceOrder || isPlacingOrder}
-              onClick={(e) => { e.preventDefault(); void handlePlaceOrder() }}
+              onClick={(e) => {
+                e.preventDefault()
+                void handlePlaceOrder()
+              }}
             >
-              {t.checkout.confirmOrder} — <Price as="span" amount={cartTotalMKD + (cartTotalMKD >= 3000 ? 0 : 150)} />
+              {t.checkout.confirmOrder} —{' '}
+              <Price as="span" amount={cartTotalMKD + (cartTotalMKD >= 3000 ? 0 : 150)} />
             </button>
           </div>
         </div>
