@@ -18,15 +18,15 @@ export const generateMeta = async (args: { doc: Page | Product }): Promise<Metad
     openGraph: mergeOpenGraph({
       ...(doc?.meta?.description
         ? {
-          description: doc?.meta?.description,
-        }
+            description: doc?.meta?.description,
+          }
         : {}),
       images: ogImage
         ? [
-          {
-            url: ogImage,
-          },
-        ]
+            {
+              url: ogImage,
+            },
+          ]
         : undefined,
       title: doc?.meta?.title || doc?.title || 'Herb Garden',
       url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',

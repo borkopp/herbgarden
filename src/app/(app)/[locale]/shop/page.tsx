@@ -1,10 +1,10 @@
-import { ShopPageClient } from './ClientPage'
 import configPromise from '@payload-config'
 import { Metadata } from 'next'
 import { getPayload } from 'payload'
+import { ShopPageClient } from './ClientPage'
 
-import { getDictionary } from '@/i18n/getDictionary'
 import { Locale } from '@/i18n/config'
+import { getDictionary } from '@/i18n/getDictionary'
 
 type Props = {
   params: Promise<{
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     description: t.shop.shopDescription,
-    title: `${t.shop.collection} | Herb Garden`,
+    title: t.shop.collection,
   }
 }
 

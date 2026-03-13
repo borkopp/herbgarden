@@ -42,15 +42,15 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
     description: product.meta?.description || '',
     openGraph: seoImage?.url
       ? {
-        images: [
-          {
-            alt: seoImage?.alt,
-            height: seoImage.height!,
-            url: seoImage?.url,
-            width: seoImage.width!,
-          },
-        ],
-      }
+          images: [
+            {
+              alt: seoImage?.alt,
+              height: seoImage.height!,
+              url: seoImage?.url,
+              width: seoImage.width!,
+            },
+          ],
+        }
       : null,
     robots: {
       follow: canIndex,
@@ -60,7 +60,7 @@ export async function generateMetadata({ params }: Args): Promise<Metadata> {
       },
       index: canIndex,
     },
-    title: `${product.meta?.title || product.title} | Herb Garden`,
+    title: product.meta?.title || product.title,
   }
 }
 
@@ -85,9 +85,9 @@ export default async function ProductPage({ params }: Args) {
   const metaImage = typeof product.meta?.image === 'object' ? product.meta?.image : undefined
   const hasStock = product.enableVariants
     ? product?.variants?.docs?.some((variant) => {
-      if (typeof variant !== 'object') return false
-      return variant.inventory && variant?.inventory > 0
-    })
+        if (typeof variant !== 'object') return false
+        return variant.inventory && variant?.inventory > 0
+      })
     : product.inventory! > 0
 
   let price = product.priceInMKD
@@ -129,8 +129,16 @@ export default async function ProductPage({ params }: Args) {
       <div className="container pt-12 pb-32">
         <TrackProductView product={product} />
         <div className="animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out">
-          <Link href="/shop" className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-black/40 hover:text-black transition-colors mb-12 group">
-            <HugeiconsIcon icon={ArrowLeft01Icon} size={16} strokeWidth={2} className="group-hover:-translate-x-1 transition-transform" />
+          <Link
+            href="/shop"
+            className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-black/40 hover:text-black transition-colors mb-12 group"
+          >
+            <HugeiconsIcon
+              icon={ArrowLeft01Icon}
+              size={16}
+              strokeWidth={2}
+              className="group-hover:-translate-x-1 transition-transform"
+            />
             {t.common.allProducts}
           </Link>
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-24">
@@ -155,7 +163,10 @@ export default async function ProductPage({ params }: Args) {
 
       {relatedProducts.length ? (
         <div className="container">
-          <RelatedProducts products={relatedProducts as Product[]} title={t.products.relatedProducts} />
+          <RelatedProducts
+            products={relatedProducts as Product[]}
+            title={t.products.relatedProducts}
+          />
         </div>
       ) : (
         <></>
