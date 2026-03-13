@@ -36,12 +36,11 @@ export const hero: Field = {
       required: true,
       admin: {
         width: '50%',
-      }
+      },
     },
     {
       name: 'subtitle',
       type: 'text',
-      localized: true,
       label: 'Subtitle',
       admin: {
         description: 'The small text above the title',
@@ -50,13 +49,11 @@ export const hero: Field = {
     {
       name: 'title',
       type: 'text',
-      localized: true,
       label: 'Title',
     },
     {
       name: 'description',
       type: 'textarea',
-      localized: true,
       label: 'Description',
       admin: {
         description: 'The text below the title',
@@ -73,7 +70,8 @@ export const hero: Field = {
       label: 'Main Text Color (Hex code or exact CSS color)',
       defaultValue: '#FFFFFF',
       admin: {
-        description: 'Changes the overall font color for the hero text. Used instead of rich text inline colors.',
+        description:
+          'Changes the overall font color for the hero text. Used instead of rich text inline colors.',
       },
     },
     {
