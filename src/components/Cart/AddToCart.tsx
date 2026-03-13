@@ -9,6 +9,7 @@ import { ShoppingBag01Icon } from '@hugeicons/core-free-icons'
 import { useSearchParams } from 'next/navigation'
 import { trackGAEvent } from '@/utilities/analytics'
 import posthog from 'posthog-js'
+import { useLocale } from '@/providers/Locale'
 import React, { useCallback, useMemo } from 'react'
 import { toast } from 'sonner'
 
@@ -17,6 +18,7 @@ type Props = {
 }
 
 export function AddToCart({ product }: Props) {
+  const { dict } = useLocale()
   const { addItem, cart, isLoading } = useCart()
   const searchParams = useSearchParams()
 
@@ -71,10 +73,10 @@ export function AddToCart({ product }: Props) {
           price: selectedVariant?.priceInMKD || product.priceInMKD,
           currency: 'MKD',
         })
-        toast.success('Производот е додаден во кошничка.')
+        toast.success(dict.cart.itemAddedToCartToast)
       })
     },
-    [addItem, product, selectedVariant],
+    [addItem, product, selectedVariant, dict.cart.itemAddedToCartToast],
   )
 
   const disabled = useMemo<boolean>(() => {
@@ -120,9 +122,18 @@ export function AddToCart({ product }: Props) {
     return false
   }, [selectedVariant, cart?.items, product])
 
+  const buttonText = useMemo(() => {
+    if (isLoading) return dict.products.adding
+    if (disabled) {
+      if (product.enableVariants && !selectedVariant) return dict.products.selectVariant
+      return dict.products.outOfStock
+    }
+    return dict.products.addToCart
+  }, [isLoading, disabled, product.enableVariants, selectedVariant, dict])
+
   return (
     <Button
-      aria-label="Add to cart"
+      aria-label={dict.products.addToCart}
       className="w-full h-14 rounded-full text-xs sm:text-sm tracking-wider uppercase font-bold gap-3 bg-black text-white hover:bg-black/80 transition-transform duration-300 hover:scale-[1.02] active:scale-[0.98]"
       disabled={disabled || isLoading}
       onClick={addToCart}
@@ -130,7 +141,7 @@ export function AddToCart({ product }: Props) {
       size="lg"
     >
       <HugeiconsIcon icon={ShoppingBag01Icon} size={18} strokeWidth={2} />
-      {disabled && !isLoading ? 'Нема на залиха' : isLoading ? 'Додавање...' : 'Додај во кошничка'}
+      {buttonText}
     </Button>
   )
 }

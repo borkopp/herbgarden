@@ -42,12 +42,14 @@ export const ProductFeature: Block = {
         {
           name: 'subtitle',
           type: 'text',
+          localized: true,
           defaultValue: 'INGREDIENT FOCUS',
           label: 'Subtitle',
         },
         {
           name: 'title',
           type: 'text',
+          localized: true,
           defaultValue: 'Sliced Watermelon & Hibiscus',
           label: 'Title',
         },
@@ -56,12 +58,14 @@ export const ProductFeature: Block = {
     {
       name: 'tag',
       type: 'text',
+      localized: true,
       defaultValue: 'PRODUCT BETA',
       label: 'Top Tag',
     },
     {
       name: 'title',
       type: 'text',
+      localized: true,
       label: 'Custom Title',
       admin: {
         description: 'Overrides the default product title',
@@ -70,6 +74,7 @@ export const ProductFeature: Block = {
     {
       name: 'description',
       type: 'textarea',
+      localized: true,
       label: 'Custom Description',
       admin: {
         description: 'Overrides the default product description',
@@ -78,6 +83,7 @@ export const ProductFeature: Block = {
     {
       name: 'features',
       type: 'array',
+      localized: true,
       label: 'Features List',
       minRows: 1,
       maxRows: 4,
@@ -101,12 +107,14 @@ export const ProductFeature: Block = {
     {
       name: 'priceLabel',
       type: 'text',
+      localized: true,
       defaultValue: 'PRICE',
       label: 'Price Label',
     },
     {
       name: 'customPrice',
       type: 'text',
+      localized: true,
       label: 'Custom Price (e.g. $52.00)',
       admin: {
         description: 'Overrides the default product price. Example: $52.00',

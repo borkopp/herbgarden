@@ -14,6 +14,8 @@ import { Address } from '@/payload-types'
 import { useAddresses } from '@payloadcms/plugin-ecommerce/client/react'
 import { useState } from 'react'
 
+import { useLocale } from '@/providers/Locale'
+
 type Props = {
   selectedAddress?: Address
   setAddressAction: React.Dispatch<React.SetStateAction<Partial<Address> | undefined>>
@@ -24,15 +26,19 @@ type Props = {
 
 export const CheckoutAddresses: React.FC<Props> = ({
   setAddressAction,
-  heading = 'Адреси',
-  description = 'Ве молиме изберете или додајте ги вашите адреси за достава и наплата.',
+  heading,
+  description,
 }) => {
+  const { dict: t } = useLocale()
   const { addresses } = useAddresses()
+
+  const displayHeading = heading || t.checkout.addresses
+  const displayDescription = description || t.checkout.chooseAddressDescription
 
   if (!addresses || addresses.length === 0) {
     return (
       <div className="bg-[#f6f6f6] dark:bg-stone-900 border-0 rounded-2xl p-8 text-center flex flex-col items-center gap-4">
-        <p className="text-black/50 text-[10px] uppercase tracking-widest font-bold">Не се пронајдени адреси</p>
+        <p className="text-black/50 text-[10px] uppercase tracking-widest font-bold">{t.checkout.noAddressesFound}</p>
 
         <CreateAddressModal />
       </div>
@@ -42,8 +48,8 @@ export const CheckoutAddresses: React.FC<Props> = ({
   return (
     <div className="flex flex-col gap-8">
       <div>
-        <h3 className="text-xl font-medium mb-2">{heading}</h3>
-        <p className="text-muted-foreground">{description}</p>
+        <h3 className="text-xl font-medium mb-2">{displayHeading}</h3>
+        <p className="text-muted-foreground">{displayDescription}</p>
       </div>
       <AddressesModal setAddressAction={setAddressAction} />
     </div>
@@ -51,6 +57,7 @@ export const CheckoutAddresses: React.FC<Props> = ({
 }
 
 const AddressesModal: React.FC<Props> = ({ setAddressAction }) => {
+  const { dict: t } = useLocale()
   const [open, setOpen] = useState(false)
   const handleOpenChange = (state: boolean) => {
     setOpen(state)
@@ -62,7 +69,7 @@ const AddressesModal: React.FC<Props> = ({ setAddressAction }) => {
   const { addresses } = useAddresses()
 
   if (!addresses || addresses.length === 0) {
-    return <p className="p-8 text-center text-stone-500">Не се пронајдени адреси. Ве молиме додајте адреса.</p>
+    return <p className="p-8 text-center text-stone-500">{t.checkout.noAddressesFoundAddOne}</p>
   }
 
   return (
@@ -71,12 +78,12 @@ const AddressesModal: React.FC<Props> = ({ setAddressAction }) => {
         <Button
           className="rounded-full px-8 py-3 h-auto uppercase text-[10px] tracking-widest bg-black text-white hover:bg-black/90 transition-all font-bold"
         >
-          Изберете адреса
+          {t.checkout.selectAddress}
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-2xl">
         <DialogHeader>
-          <DialogTitle>{'Изберете адреса'}</DialogTitle>
+          <DialogTitle>{t.checkout.selectAddress}</DialogTitle>
         </DialogHeader>
 
         <div className="flex flex-col gap-12">
@@ -95,7 +102,7 @@ const AddressesModal: React.FC<Props> = ({ setAddressAction }) => {
                         closeModal()
                       }}
                     >
-                      Избери
+                      {t.checkout.select}
                     </Button>
                   }
                 />

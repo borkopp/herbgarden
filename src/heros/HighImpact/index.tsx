@@ -7,9 +7,12 @@ import type { Page } from '@/payload-types'
 
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
+import { useLocale } from '@/providers/Locale'
+
 
 export const HighImpactHero: React.FC<Page['hero']> = ({ links, subtitle, title, description, media, overlayOpacity }) => {
   const { setHeaderTheme } = useHeaderTheme()
+  const { dict } = useLocale()
 
   useEffect(() => {
     setHeaderTheme('light')
@@ -45,12 +48,12 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, subtitle, title,
       {/* Background Media */}
       <div className="absolute inset-0 z-0">
         {media && typeof media === 'object' && (
-          <Media 
-            fill 
-            imgClassName="object-cover" 
+          <Media
+            fill
+            imgClassName="object-cover"
             videoClassName="object-cover"
-            priority 
-            resource={media} 
+            priority
+            resource={media}
           />
         )}
       </div>
@@ -136,7 +139,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, subtitle, title,
         transition={{ delay: 1.5, duration: 1 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10"
       >
-        <span className="font-display text-[10px] tracking-widest text-black/20 uppercase">Scroll</span>
+        <span className="font-display text-[10px] tracking-widest text-black/20 uppercase">{dict.common.scroll}</span>
         <div className="w-[1px] h-12 bg-gradient-to-b from-black/20 to-transparent" />
       </motion.div>
     </section>

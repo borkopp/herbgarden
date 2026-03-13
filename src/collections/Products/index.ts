@@ -64,6 +64,7 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
       label: 'Наслов на производ',
       admin: {
         description:
@@ -78,6 +79,7 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
             {
               name: 'description',
               type: 'richText',
+              localized: true,
               editor: lexicalEditor({
                 features: ({ rootFeatures }) => {
                   return [
@@ -167,6 +169,7 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
             {
               name: 'layout',
               type: 'blocks',
+              localized: true,
               label: 'Дополнителни блокови (најчесто не се користат)',
               blocks: [Content],
               admin: {

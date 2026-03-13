@@ -24,12 +24,14 @@ export const ProductVariantsFeature: Block = {
     {
       name: 'tag',
       type: 'text',
+      localized: true,
       defaultValue: 'ALL 7 FLAVOURS',
       label: 'Top Tag',
     },
     {
       name: 'title',
       type: 'text',
+      localized: true,
       label: 'Custom Title',
       admin: {
         description: 'Overrides the default product title',
@@ -38,6 +40,7 @@ export const ProductVariantsFeature: Block = {
     {
       name: 'description',
       type: 'textarea',
+      localized: true,
       label: 'Custom Description',
       admin: {
         description: 'Overrides the default product description',
@@ -46,6 +49,7 @@ export const ProductVariantsFeature: Block = {
     {
       name: 'features',
       type: 'array',
+      localized: true,
       label: 'Variants / Features List',
       minRows: 1,
       fields: [
@@ -68,12 +72,14 @@ export const ProductVariantsFeature: Block = {
     {
       name: 'priceLabel',
       type: 'text',
+      localized: true,
       defaultValue: 'BUNDLE PRICE',
       label: 'Price Label',
     },
     {
       name: 'customPrice',
       type: 'text',
+      localized: true,
       label: 'Custom Price (e.g. $52.00)',
       admin: {
         description: 'Overrides the default product price. Example: $52.00',

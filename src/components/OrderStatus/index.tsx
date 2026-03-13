@@ -1,5 +1,8 @@
+'use client'
+
 import { OrderStatus as StatusOptions } from '@/payload-types'
 import { cn } from '@/utilities/cn'
+import { useLocale } from '@/providers/Locale'
 
 type Props = {
   status: StatusOptions | 'shipping' | string
@@ -7,6 +10,8 @@ type Props = {
 }
 
 export const OrderStatus: React.FC<Props> = ({ status, className }) => {
+  const { dict: t } = useLocale()
+
   return (
     <div
       className={cn(
@@ -22,11 +27,11 @@ export const OrderStatus: React.FC<Props> = ({ status, className }) => {
         'hidden': !['processing', 'completed', 'shipping', 'cancelled', 'refunded'].includes(status as string)
       })} />
       <span className="text-black">
-        {status === 'processing' && 'Processing'}
-        {status === 'shipping' && 'Shipping'}
-        {status === 'completed' && 'Completed'}
-        {status === 'cancelled' && 'Cancelled'}
-        {status === 'refunded' && 'Refunded'}
+        {status === 'processing' && t.account.statusProcessing}
+        {status === 'shipping' && t.account.statusShipping}
+        {status === 'completed' && t.account.statusCompleted}
+        {status === 'cancelled' && t.account.statusCancelled}
+        {status === 'refunded' && t.account.statusRefunded}
         {status && !['processing', 'completed', 'shipping', 'cancelled', 'refunded'].includes(status as string) && status}
       </span>
     </div>

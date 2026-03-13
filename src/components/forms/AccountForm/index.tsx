@@ -11,6 +11,7 @@ import { useRouter } from 'next/navigation'
 import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
+import { useLocale } from '@/providers/Locale'
 
 type FormData = {
   email: string
@@ -22,6 +23,7 @@ type FormData = {
 export const AccountForm: React.FC = () => {
   const { setUser, user } = useAuth()
   const [changePassword, setChangePassword] = useState(false)
+  const { dict: t } = useLocale()
 
   const {
     formState: { errors, isLoading, isSubmitting, isDirty },
@@ -52,7 +54,7 @@ export const AccountForm: React.FC = () => {
         if (response.ok) {
           const json = await response.json()
           setUser(json.doc)
-          toast.success('Профилот е успешно ажуриран.')
+          toast.success(t.account.successfullyUpdated)
           setChangePassword(false)
           reset({
             name: json.doc.name,
@@ -61,18 +63,18 @@ export const AccountForm: React.FC = () => {
             passwordConfirm: '',
           })
         } else {
-          toast.error('Настана проблем при ажурирање на вашиот профил.')
+          toast.error(t.account.problemUpdating)
         }
       }
     },
-    [user, setUser, reset],
+    [user, setUser, reset, t],
   )
 
   useEffect(() => {
     if (user === null) {
       router.push(
         `/login?error=${encodeURIComponent(
-          'You must be logged in to view this page.',
+          t.account.loginWarning,
         )}&redirect=${encodeURIComponent('/account')}`,
       )
     }
@@ -86,7 +88,7 @@ export const AccountForm: React.FC = () => {
         passwordConfirm: '',
       })
     }
-  }, [user, router, reset, changePassword])
+  }, [user, router, reset, changePassword, t])
 
   return (
     <form className="max-w-2xl" onSubmit={handleSubmit(onSubmit)}>
@@ -94,26 +96,26 @@ export const AccountForm: React.FC = () => {
         <Fragment>
           <div className="mb-12">
             <p className="text-[11px] font-bold tracking-[0.05em] text-black/40 uppercase leading-relaxed">
-              {'Update your personal profile details below, or '}
+              {t.account.changeDetails}
               <button
                 className="text-black underline underline-offset-4 hover:text-black/60 transition-colors bg-transparent border-none p-0 cursor-pointer"
                 onClick={() => setChangePassword(!changePassword)}
                 type="button"
               >
-                click here
+                {t.account.clickHere}
               </button>
-              {' to update your security credentials.'}
+              {t.account.changePassword}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <FormItem>
               <Label htmlFor="name" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-3 block px-1">
-                Display Name
+                {t.account.name}
               </Label>
               <Input
                 id="name"
-                {...register('name', { required: 'Please provide a name.' })}
+                {...register('name', { required: t.account.nameRequired })}
                 type="text"
                 className="h-14 rounded-2xl bg-[#f6f6f6] border-none px-6 focus-visible:ring-1 focus-visible:ring-black/5"
               />
@@ -122,11 +124,11 @@ export const AccountForm: React.FC = () => {
 
             <FormItem>
               <Label htmlFor="email" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-3 block px-1">
-                Access Email
+                {t.account.email}
               </Label>
               <Input
                 id="email"
-                {...register('email', { required: 'Please provide an email.' })}
+                {...register('email', { required: t.account.emailRequired })}
                 type="email"
                 className="h-14 rounded-2xl bg-[#f6f6f6] border-none px-6 focus-visible:ring-1 focus-visible:ring-black/5"
               />
@@ -138,13 +140,13 @@ export const AccountForm: React.FC = () => {
         <Fragment>
           <div className="mb-12">
             <p className="text-[11px] font-bold tracking-[0.05em] text-black/40 uppercase leading-relaxed">
-              {'Security protocol: update your password below, or '}
+              {t.account.changePasswordLabel + ': '}
               <button
                 className="text-black underline underline-offset-4 hover:text-black/60 transition-colors bg-transparent border-none p-0 cursor-pointer"
                 onClick={() => setChangePassword(!changePassword)}
                 type="button"
               >
-                cancel reset
+                {t.account.cancel}
               </button>
               .
             </p>
@@ -153,11 +155,11 @@ export const AccountForm: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <FormItem>
               <Label htmlFor="password" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-3 block px-1">
-                New Password
+                {t.account.password}
               </Label>
               <Input
                 id="password"
-                {...register('password', { required: 'Ве молиме внесете нова лозинка.' })}
+                {...register('password', { required: t.account.newPasswordRequired })}
                 type="password"
                 className="h-14 rounded-2xl bg-[#f6f6f6] border-none px-6 focus-visible:ring-1 focus-visible:ring-black/5"
               />
@@ -166,13 +168,13 @@ export const AccountForm: React.FC = () => {
 
             <FormItem>
               <Label htmlFor="passwordConfirm" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-3 block px-1">
-                Confirm
+                {t.account.confirmPasswordLabel}
               </Label>
               <Input
                 id="passwordConfirm"
                 {...register('passwordConfirm', {
-                  required: 'Ве молиме потврдете ја новата лозинка.',
-                  validate: (value) => value === password.current || 'Лозинките не се совпаѓаат',
+                  required: t.account.confirmPasswordRequired,
+                  validate: (value) => value === password.current || t.account.passwordsDoNotMatch,
                 })}
                 type="password"
                 className="h-14 rounded-2xl bg-[#f6f6f6] border-none px-6 focus-visible:ring-1 focus-visible:ring-black/5"
@@ -190,10 +192,10 @@ export const AccountForm: React.FC = () => {
           className="h-14 px-12 rounded-full bg-black text-white hover:bg-stone-800 transition-all font-bold text-[10px] tracking-[0.2em] uppercase"
         >
           {isLoading || isSubmitting
-            ? 'Processing...'
+            ? t.account.processing + '...'
             : changePassword
-              ? 'Update Password'
-              : 'Save Changes'}
+              ? t.account.changePasswordButton
+              : t.account.updateAccountButton}
         </Button>
       </div>
     </form>

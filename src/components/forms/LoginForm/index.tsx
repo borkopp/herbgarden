@@ -12,6 +12,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import posthog from 'posthog-js'
 import React, { useCallback, useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import { useLocale } from '@/providers/Locale'
 
 type FormData = {
   email: string
@@ -19,6 +20,7 @@ type FormData = {
 }
 
 export const LoginForm: React.FC = () => {
+  const { dict } = useLocale()
   const searchParams = useSearchParams()
   const allParams = searchParams.toString() ? `?${searchParams.toString()}` : ''
   const redirect = useRef(searchParams.get('redirect'))
@@ -41,7 +43,7 @@ export const LoginForm: React.FC = () => {
         if (redirect?.current) router.push(redirect.current)
         else router.push('/account')
       } catch (_) {
-        setError('Настана грешка со внесените податоци. Ве молиме обидете се повторно.')
+        setError(dict.auth.loginError)
       }
     },
     [login, router],
@@ -54,7 +56,7 @@ export const LoginForm: React.FC = () => {
         <FormItem>
           <div className="flex items-center justify-between mb-3 px-1">
             <Label htmlFor="email" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40">
-              Email Address
+              {dict.auth.emailAddress}
             </Label>
           </div>
           <Input
@@ -62,7 +64,7 @@ export const LoginForm: React.FC = () => {
             type="email"
             placeholder="entry@herbgarden.mk"
             className="h-14 rounded-2xl placeholder:text-black/30 bg-[#f6f6f6] border-none px-6 text-sm font-medium focus-visible:ring-1 focus-visible:ring-black/10 transition-all"
-            {...register('email', { required: 'Е-поштата е задолжителна.' })}
+            {...register('email', { required: dict.auth.emailRequired })}
           />
           {errors.email && <FormError message={errors.email.message} />}
         </FormItem>
@@ -70,10 +72,10 @@ export const LoginForm: React.FC = () => {
         <FormItem>
           <div className="flex items-center justify-between mb-3 px-1">
             <Label htmlFor="password" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40">
-              Password
+              {dict.auth.password}
             </Label>
             <Link href={`/forgot-password${allParams}`} className="text-[9px] font-bold tracking-[0.1em] uppercase text-black/20 hover:text-black transition-colors">
-              Reset Password
+              {dict.auth.resetPasswordLink}
             </Link>
           </div>
           <Input
@@ -81,7 +83,7 @@ export const LoginForm: React.FC = () => {
             type="password"
             placeholder="••••••••"
             className="h-14 rounded-2xl placeholder:text-black/30 bg-[#f6f6f6] border-none px-6 text-sm font-medium focus-visible:ring-1 focus-visible:ring-black/10 transition-all"
-            {...register('password', { required: 'Ве молиме внесете лозинка.' })}
+            {...register('password', { required: dict.auth.passwordRequired })}
           />
           {errors.password && <FormError message={errors.password.message} />}
         </FormItem>
@@ -94,23 +96,23 @@ export const LoginForm: React.FC = () => {
           size="lg"
           type="submit"
         >
-          {isLoading ? 'Processing...' : 'Login'}
+          {isLoading ? dict.auth.processing : dict.auth.loginButton}
         </Button>
 
         <div className="relative flex items-center justify-center my-4">
           <span className="w-full border-t border-black/5" />
           <span className="absolute px-6 bg-white text-[9px] font-bold uppercase tracking-[0.3em] text-black/20">
-            or
+            {dict.auth.or}
           </span>
         </div>
 
         <div className="text-center">
-          <p className="text-[10px] font-bold tracking-widest text-black/40 uppercase mb-4">New here?</p>
+          <p className="text-[10px] font-bold tracking-widest text-black/40 uppercase mb-4">{dict.auth.newHere}</p>
           <Link
             href={`/create-account${allParams}`}
             className="inline-flex items-center justify-center w-full h-14 rounded-full border border-black/5 text-black hover:bg-[#f6f6f6] active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase"
           >
-            Create Account
+            {dict.auth.createAccount}
           </Link>
         </div>
       </div>

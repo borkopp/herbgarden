@@ -8,6 +8,7 @@ import { ArrowRight01Icon, Tick01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
 import { motion, Variants } from 'framer-motion'
+import { useLocale } from '@/providers/Locale'
 import Link from 'next/link'
 import posthog from 'posthog-js'
 import React, { useCallback } from 'react'
@@ -38,6 +39,7 @@ const imageVariants: Variants = {
 
 function FeatureAddToCart({ product }: { product: Product }) {
   const { addItem, isLoading } = useCart()
+  const { dict } = useLocale()
 
   const addToCart = useCallback(
     (e: React.FormEvent<HTMLButtonElement>) => {
@@ -65,10 +67,10 @@ function FeatureAddToCart({ product }: { product: Product }) {
           price: product.priceInMKD,
           currency: 'MKD',
         })
-        toast.success('Производот е додаден во кошничка.')
+        toast.success(dict.cart.itemAddedToCartToast)
       })
     },
-    [addItem, product],
+    [addItem, product, dict.cart.itemAddedToCartToast],
   )
 
   const disabled = typeof product.inventory === 'number' && product.inventory === 0
@@ -80,7 +82,7 @@ function FeatureAddToCart({ product }: { product: Product }) {
       className="rounded-full bg-black text-white hover:bg-black/80 py-7 text-xs sm:text-sm font-bold tracking-wider gap-3 transition-transform hover:scale-105 active:scale-95"
     >
       <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={2} />
-      {disabled && !isLoading ? 'OUT OF STOCK' : isLoading ? 'ADDING...' : 'BUY NOW'}
+      {disabled && !isLoading ? dict.products.outOfStock.toUpperCase() : isLoading ? dict.products.adding.toUpperCase() : dict.common.buyNow.toUpperCase()}
     </Button>
   )
 }
@@ -99,6 +101,7 @@ export const ProductFeatureBlock: React.FC<ProductFeatureProps> = (props) => {
     highlightColor = '#FF7F7F',
     alignment = 'image-left',
   } = props
+  const { dict } = useLocale()
 
   if (!productRel || typeof productRel !== 'object') return null
 
@@ -238,7 +241,7 @@ export const ProductFeatureBlock: React.FC<ProductFeatureProps> = (props) => {
                 className="mt-4 relative font-body uppercase tracking-widest font-bold text-[10px] pt-4 text-black/40 hover:text-black overflow-hidden group transition-colors"
               >
                 <span className="relative inline-block">
-                  View Details
+                  {dict.common.viewDetails}
                   <span className="absolute bottom-0 left-0 w-full h-[1px] bg-black transform translate-y-[2px] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 ease-out" />
                 </span>
               </Link>
@@ -253,7 +256,7 @@ export const ProductFeatureBlock: React.FC<ProductFeatureProps> = (props) => {
 
             <div className={`flex flex-col items-center ${isImageRight ? 'lg:items-start' : 'lg:items-end'} min-w-[120px]`}>
               <span className="text-[10px] text-muted-foreground tracking-widest uppercase font-semibold">
-                {priceLabel || 'PRICE'}
+                {priceLabel || dict.common.price}
               </span>
               <span className="text-3xl font-sans font-bold text-black mt-1">
                 {finalPrice}

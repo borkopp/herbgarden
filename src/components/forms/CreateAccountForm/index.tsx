@@ -12,6 +12,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import posthog from 'posthog-js'
 import React, { useCallback, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { useLocale } from '@/providers/Locale'
 
 type FormData = {
   email: string
@@ -20,6 +21,7 @@ type FormData = {
 }
 
 export const CreateAccountForm: React.FC = () => {
+  const { dict } = useLocale()
   const searchParams = useSearchParams()
   const allParams = searchParams.toString() ? `?${searchParams.toString()}` : ''
   const { login } = useAuth()
@@ -48,7 +50,7 @@ export const CreateAccountForm: React.FC = () => {
       })
 
       if (!response.ok) {
-        const message = response.statusText || 'Настана грешка при креирањето на сметката.'
+        const message = response.statusText || dict.auth.createAccountError
         setError(message)
         return
       }
@@ -65,10 +67,10 @@ export const CreateAccountForm: React.FC = () => {
         posthog.identify(data.email, { email: data.email })
         posthog.capture('account_created', { email: data.email })
         if (redirect) router.push(redirect)
-        else router.push(`/account?success=${encodeURIComponent('Сметката е успешно креирана')}`)
+        else router.push(`/account?success=${encodeURIComponent(dict.auth.accountCreatedSuccess)}`)
       } catch (_) {
         clearTimeout(timer)
-        setError('Настана грешка со внесените податоци. Ве молиме обидете се повторно.')
+        setError(dict.auth.loginError)
       }
     },
     [login, router, searchParams],
@@ -82,14 +84,14 @@ export const CreateAccountForm: React.FC = () => {
         <FormItem>
           <div className="mb-3 px-1">
             <Label htmlFor="email" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40">
-              Email Address
+              {dict.auth.emailAddress}
             </Label>
           </div>
           <Input
             id="email"
             placeholder="entry@herbgarden.mk"
             className="h-14 rounded-2xl placeholder:text-black/30 bg-[#f6f6f6] border-none px-6 text-sm font-medium focus-visible:ring-1 focus-visible:ring-black/10 transition-all"
-            {...register('email', { required: 'Е-поштата е задолжителна.' })}
+            {...register('email', { required: dict.auth.emailRequired })}
             type="email"
           />
           {errors.email && <FormError message={errors.email.message} />}
@@ -98,14 +100,14 @@ export const CreateAccountForm: React.FC = () => {
         <FormItem>
           <div className="mb-3 px-1">
             <Label htmlFor="password" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40">
-              New Password
+              {dict.auth.newPassword}
             </Label>
           </div>
           <Input
             id="password"
             placeholder="••••••••"
             className="h-14 rounded-2xl placeholder:text-black/30 bg-[#f6f6f6] border-none px-6 text-sm font-medium focus-visible:ring-1 focus-visible:ring-black/10 transition-all"
-            {...register('password', { required: 'Лозинката е задолжителна.' })}
+            {...register('password', { required: dict.auth.passwordRequired })}
             type="password"
           />
           {errors.password && <FormError message={errors.password.message} />}
@@ -114,7 +116,7 @@ export const CreateAccountForm: React.FC = () => {
         <FormItem>
           <div className="mb-3 px-1">
             <Label htmlFor="passwordConfirm" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40">
-              Confirm Password
+              {dict.auth.confirmPassword}
             </Label>
           </div>
           <Input
@@ -122,8 +124,8 @@ export const CreateAccountForm: React.FC = () => {
             placeholder="••••••••"
             className="h-14 rounded-2xl placeholder:text-black/30 bg-[#f6f6f6] border-none px-6 text-sm font-medium focus-visible:ring-1 focus-visible:ring-black/10 transition-all"
             {...register('passwordConfirm', {
-              required: 'Ве молиме потврдете ја вашата лозинка.',
-              validate: (value) => value === password.current || 'Лозинките не се совпаѓаат',
+              required: dict.auth.passwordRequired,
+              validate: (value) => value === password.current || dict.auth.passwordsDoNotMatch,
             })}
             type="password"
           />
@@ -139,23 +141,23 @@ export const CreateAccountForm: React.FC = () => {
           variant="default"
           className="w-full h-14 rounded-full bg-black text-white hover:bg-black/90 active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase"
         >
-          {loading ? 'Processing...' : 'Create Account'}
+          {loading ? dict.auth.processing : dict.auth.createAccountButton}
         </Button>
 
         <div className="relative flex items-center justify-center my-4">
           <span className="w-full border-t border-black/5" />
           <span className="absolute px-6 bg-white text-[9px] font-bold uppercase tracking-[0.3em] text-black/20">
-            or
+            {dict.auth.or}
           </span>
         </div>
 
         <div className="text-center">
-          <p className="text-[10px] font-bold tracking-widest text-black/40 uppercase mb-4">Already have an account?</p>
+          <p className="text-[10px] font-bold tracking-widest text-black/40 uppercase mb-4">{dict.auth.alreadyHaveAccount}</p>
           <Link
             href={`/login${allParams}`}
             className="inline-flex items-center justify-center w-full h-14 rounded-full border border-black/5 text-black hover:bg-[#f6f6f6] active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase"
           >
-            Login
+            {dict.auth.login}
           </Link>
         </div>
       </div>

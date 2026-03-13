@@ -3,11 +3,14 @@ import { Product, Variant } from '@/payload-types'
 import { useSearchParams } from 'next/navigation'
 import { useMemo } from 'react'
 
+import { useLocale } from '@/providers/Locale'
+
 type Props = {
   product: Product
 }
 
 export const StockIndicator: React.FC<Props> = ({ product }) => {
+  const { dict: t } = useLocale()
   const searchParams = useSearchParams()
 
   const variants = product.variants?.docs || []
@@ -50,7 +53,7 @@ export const StockIndicator: React.FC<Props> = ({ product }) => {
           <span className="absolute inline-flex h-full w-full rounded-full bg-red-400/40" />
           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500" />
         </span>
-        <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-red-600/80">Нема на залиха</span>
+        <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-red-600/80">{t.products.outOfStock}</span>
       </div>
     )
   }
@@ -63,7 +66,7 @@ export const StockIndicator: React.FC<Props> = ({ product }) => {
           <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500" />
         </span>
         <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-amber-600/80">
-          Само {stockQuantity} останати
+          {t.products.onlyCountRemaining.replace('{count}', String(stockQuantity))}
         </span>
       </div>
     )
@@ -74,7 +77,7 @@ export const StockIndicator: React.FC<Props> = ({ product }) => {
       <span className="relative flex h-2.5 w-2.5">
         <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
       </span>
-      <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-emerald-600/80">На залиха</span>
+      <span className="text-[10px] font-bold tracking-[0.15em] uppercase text-emerald-600/80">{t.products.inStock}</span>
     </div>
   )
 }

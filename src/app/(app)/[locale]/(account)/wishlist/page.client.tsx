@@ -1,0 +1,64 @@
+'use client'
+
+import { ProductGridItem } from '@/components/ProductGridItem'
+import { Button } from '@/components/ui/button'
+import { useWishlist } from '@/providers/Wishlist'
+import { useLocale } from '@/providers/Locale'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { HeartRemoveIcon } from '@hugeicons/core-free-icons'
+import Link from 'next/link'
+import React from 'react'
+
+export const WishlistClient: React.FC = () => {
+    const { wishlistItems, toggleWishlist, isWishlistLoading, wishlistHasLoaded } = useWishlist()
+    const { dict: t } = useLocale()
+
+    if (!wishlistHasLoaded || isWishlistLoading) {
+        return (
+            <div className="flex items-center justify-center p-12">
+                <p className="text-stone-500 animate-pulse">{t.wishlist.loadingWishlist}</p>
+            </div>
+        )
+    }
+
+    if (wishlistItems.length === 0) {
+        return (
+            <div className="bg-white dark:bg-stone-950 rounded-3xl border border-stone-200/60 dark:border-stone-800 p-12 flex flex-col items-center justify-center text-center gap-5">
+                <div className="size-20 rounded-full bg-stone-50 dark:bg-stone-900 flex items-center justify-center text-stone-400">
+                    <HugeiconsIcon icon={HeartRemoveIcon} size={36} strokeWidth={1.5} />
+                </div>
+                <div>
+                    <h3 className="text-xl font-light tracking-tight text-stone-900 dark:text-stone-100">{t.wishlist.emptyWishlist}</h3>
+                    <p className="text-stone-500 mt-2 max-w-sm">{t.wishlist.startExploring}</p>
+                </div>
+                <Button asChild className="mt-4 px-8 rounded-full font-medium">
+                    <Link href="/shop">{t.common.startShopping}</Link>
+                </Button>
+            </div>
+        )
+    }
+
+    return (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 gap-y-10">
+            {wishlistItems.map((product) => {
+                return (
+                    <div key={product.id} className="group relative">
+                        <ProductGridItem product={product} />
+
+                        {/* Remove button overlay over ProductGridItem */}
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault()
+                                toggleWishlist(product)
+                            }}
+                            className="absolute top-3 right-3 z-10 size-8 rounded-full bg-white/80 dark:bg-black/60 backdrop-blur-sm flex items-center justify-center text-stone-400 hover:text-rose-500 hover:bg-white dark:hover:bg-stone-800 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 shadow-sm"
+                            title={t.wishlist.removeFromWishlist}
+                        >
+                            <HugeiconsIcon icon={HeartRemoveIcon} size={16} strokeWidth={1.5} />
+                        </button>
+                    </div>
+                )
+            })}
+        </div>
+    )
+}

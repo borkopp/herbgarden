@@ -14,6 +14,7 @@ export const Header: GlobalConfig = {
       type: 'relationship',
       relationTo: 'categories',
       hasMany: true,
+      localized: true,
       label: 'Истакнати категории',
       admin: {
         description: 'Изберете категории кои сакате да се појават горе во менито.',
@@ -22,6 +23,7 @@ export const Header: GlobalConfig = {
     {
       name: 'navItems',
       type: 'array',
+      localized: true,
       label: 'Линкови во менито',
       labels: {
         singular: 'Линк',

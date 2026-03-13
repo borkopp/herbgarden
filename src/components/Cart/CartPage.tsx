@@ -18,6 +18,10 @@ import { AnimatePresence, motion, type Variants } from 'framer-motion'
 import Link from 'next/link'
 import { useMemo } from 'react'
 
+import { LoadingSpinner } from '@/components/LoadingSpinner'
+
+import { useLocale } from '@/providers/Locale'
+
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
@@ -43,6 +47,7 @@ const itemVariants: Variants = {
 
 export function CartPage() {
   const { cart, decrementItem, incrementItem, removeItem, isLoading } = useCart()
+  const { dict: t } = useLocale()
 
   const cartIsEmpty = !cart || !cart.items || !cart.items.length
 
@@ -69,6 +74,14 @@ export function CartPage() {
   const shippingCost = cartTotalMKD >= 3000 ? 0 : 150
   const totalWithShipping = cartTotalMKD + shippingCost
 
+  if (isLoading) {
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center">
+        <LoadingSpinner size="large" />
+      </div>
+    )
+  }
+
   if (cartIsEmpty) {
     return (
       <div className="min-h-[80vh] flex flex-col items-center justify-center px-4 text-center">
@@ -85,7 +98,7 @@ export function CartPage() {
           transition={{ delay: 0.1 }}
           className="text-3xl font-display uppercase tracking-widest text-black mb-4"
         >
-          Your Extraction Chamber is Empty
+          {t.cart.extractionChamberEmpty}
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 10 }}
@@ -93,7 +106,7 @@ export function CartPage() {
           transition={{ delay: 0.2 }}
           className="text-black/40 text-sm font-medium max-w-xs mb-10 leading-relaxed"
         >
-          Explore our botanical collection to find the pure essences you need for your sensory ritual.
+          {t.cart.exploreEssences}
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
@@ -101,7 +114,7 @@ export function CartPage() {
           transition={{ delay: 0.3 }}
         >
           <Button asChild className="rounded-full bg-black text-white hover:bg-black/90 px-10 py-6 text-xs font-bold tracking-widest uppercase">
-            <Link href="/shop">Go to Laboratory</Link>
+            <Link href="/shop">{t.cart.goToLaboratory}</Link>
           </Button>
         </motion.div>
       </div>
@@ -112,6 +125,7 @@ export function CartPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-24">
       {/* Page Header */}
       <motion.div
+        key="cart-header"
         initial="hidden"
         animate="visible"
         variants={containerVariants}
@@ -121,14 +135,14 @@ export function CartPage() {
           variants={itemVariants}
           className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-6 block"
         >
-          SENSORY MAINTENANCE
+          {t.cart.sensoryMaintenance}
         </motion.span>
         <motion.h1
           variants={itemVariants}
           className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.85] tracking-tighter text-black uppercase"
         >
-          MY<br />
-          <span className="text-transparent" style={{ WebkitTextStroke: '2px #e5e5e5' }}>SELECTION</span>
+          {t.cart.my}<br />
+          <span className="text-transparent" style={{ WebkitTextStroke: '2px #e5e5e5' }}>{t.cart.selection}</span>
         </motion.h1>
       </motion.div>
 
@@ -187,7 +201,7 @@ export function CartPage() {
                           <div className="flex justify-between items-start gap-4">
                             <div>
                               <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-2 block">
-                                Pure Extract
+                                {t.cart.pureExtract}
                               </span>
                               <Link href={`/products/${slug}`} className="block group">
                                 <h3 className="text-3xl md:text-3xl font-display uppercase tracking-tighter text-black group-hover:text-black/60 transition-colors">
@@ -236,7 +250,7 @@ export function CartPage() {
                           {/* Item Price */}
                           <div className="text-right">
                             <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-1 block">
-                              Investment
+                              {t.cart.investment}
                             </span>
                             <Price as="span" className="text-xl font-bold text-black font-sans" amount={(price || 0) * quantity} />
                           </div>
@@ -259,18 +273,18 @@ export function CartPage() {
             transition={{ delay: 0.4 }}
             className="bg-[#f6f6f6] rounded-[2.5rem] p-10 md:p-12"
           >
-            <h3 className="text-xl font-display uppercase tracking-widest text-black mb-12">Summary</h3>
+            <h3 className="text-xl font-display uppercase tracking-widest text-black mb-12">{t.cart.summary}</h3>
 
             <div className="space-y-6">
               <div className="flex justify-between items-center">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">Subtotal</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">{t.cart.subtotal}</span>
                 <Price amount={cartTotalMKD} className="font-bold text-black" />
               </div>
 
               <div className="flex justify-between items-center">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">Logistics</span>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-black/40">{t.cart.logistics}</span>
                 {cartTotalMKD >= 3000 ? (
-                  <span className="text-black font-bold text-[10px] uppercase tracking-widest">Complimentary</span>
+                  <span className="text-black font-bold text-[10px] uppercase tracking-widest">{t.cart.complimentary}</span>
                 ) : (
                   <Price amount={150} className="font-bold text-black" />
                 )}
@@ -278,7 +292,7 @@ export function CartPage() {
 
               <div className="pt-8 border-t border-black/5">
                 <div className="flex justify-between items-center">
-                  <span className="text-2xl font-display uppercase tracking-widest text-black">Total</span>
+                  <span className="text-2xl font-display uppercase tracking-widest text-black">{t.cart.total}</span>
                   <Price as="span" className="text-2xl font-display text-black font-bold" amount={totalWithShipping} />
                 </div>
               </div>
@@ -286,7 +300,7 @@ export function CartPage() {
               <div className="pt-12">
                 <Button asChild className="w-full h-16 rounded-full bg-black text-white hover:bg-black/90 text-xs font-bold tracking-widest uppercase gap-3 shadow-xl shadow-black/10 transition-transform hover:scale-[1.02] active:scale-[0.98]">
                   <Link href="/checkout">
-                    Secure Checkout
+                    {t.cart.secureCheckout}
                     <HugeiconsIcon icon={ArrowRight01Icon} size={18} strokeWidth={2.5} />
                   </Link>
                 </Button>
@@ -295,10 +309,10 @@ export function CartPage() {
               <div className="mt-12 space-y-4">
                 <div className="flex items-center gap-3 text-black/40">
                   <HugeiconsIcon icon={CreditCardIcon} size={16} strokeWidth={1.5} />
-                  <span className="text-[9px] font-bold uppercase tracking-[0.15em]">Encrypted Transactions</span>
+                  <span className="text-[9px] font-bold uppercase tracking-[0.15em]">{t.cart.encryptedTransactions}</span>
                 </div>
                 <p className="text-[10px] leading-relaxed text-black/30 font-medium">
-                  Each botanical essence is carefully secured in UV-shielded glass. Deliveries are executed via Climate-Controlled logistics to ensure molecular integrity.
+                  {t.cart.molecularIntegrityNote}
                 </p>
               </div>
             </div>

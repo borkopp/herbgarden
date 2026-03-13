@@ -59,6 +59,7 @@ export const Pages: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
       label: 'Наслов на страницата',
       admin: {
         description: 'Ова е внатрешниот наслов на страницата кој се користи за нејзино препознавање во овој панел.',
@@ -98,6 +99,7 @@ export const Pages: CollectionConfig = {
             {
               name: 'layout',
               type: 'blocks',
+              localized: true,
               label: 'Распоред на содржина (Layout)',
               blocks: [Content, FormBlock, Instagram, ProductFeature, CallToAction, HowItWorks, ProductVariantsFeature],
               required: true,

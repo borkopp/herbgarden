@@ -12,8 +12,10 @@ import { HugeiconsIcon } from '@hugeicons/react'
 import { useCurrency } from '@payloadcms/plugin-ecommerce/client/react'
 import { VariantSelector } from './VariantSelector'
 import { WishlistButton } from './WishlistButton'
+import { useLocale } from '@/providers/Locale'
 
 export function ProductDescription({ product }: { product: Product }) {
+  const { dict: t } = useLocale()
   const { currency } = useCurrency()
   let amount = 0,
     lowestAmount = 0,
@@ -118,7 +120,7 @@ export function ProductDescription({ product }: { product: Product }) {
         <div className="flex items-center justify-center text-black/50 gap-3 pt-6 border-t border-border/60">
           <HugeiconsIcon icon={DeliveryTruck01Icon} size={18} className="shrink-0" strokeWidth={1.5} />
           <p className="text-[10px] tracking-widest uppercase font-semibold">
-            Бесплатна достава за нарачки над 3000 денари
+            {t.products.freeShippingOver3k}
           </p>
         </div>
       </Suspense>

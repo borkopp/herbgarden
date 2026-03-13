@@ -6,6 +6,7 @@ import type { Page, Product } from '@/payload-types'
 import { ArrowRight01Icon, Tick01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { motion, Variants } from 'framer-motion'
+import { useLocale } from '@/providers/Locale'
 import Link from 'next/link'
 import React from 'react'
 
@@ -45,6 +46,7 @@ export const ProductVariantsFeatureBlock: React.FC<ProductVariantsFeatureProps> 
     customPrice,
     highlightColor = '#FF7F7F',
   } = props
+  const { dict } = useLocale()
 
   if (!productRel || typeof productRel !== 'object') return null
 
@@ -141,7 +143,7 @@ export const ProductVariantsFeatureBlock: React.FC<ProductVariantsFeatureProps> 
         >
           <div className="flex flex-col items-center sm:items-end min-w-[120px]">
             <span className="text-[10px] text-muted-foreground tracking-widest uppercase font-semibold">
-              {priceLabel || 'PRICE'}
+              {priceLabel || dict.common.price}
             </span>
             <span className="text-3xl lg:text-4xl font-sans font-bold text-black mt-1">
               {finalPrice}
@@ -155,7 +157,7 @@ export const ProductVariantsFeatureBlock: React.FC<ProductVariantsFeatureProps> 
             >
               <Link href={`/products/${product.slug}`}>
                 <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={2} />
-                EXPLORE
+                {dict.common.explore.toUpperCase()}
               </Link>
             </Button>
           </div>

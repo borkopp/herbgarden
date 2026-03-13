@@ -15,6 +15,8 @@ import { PencilEdit01Icon, PlusSignIcon } from '@hugeicons/core-free-icons'
 import { DefaultDocumentIDType } from 'payload'
 import React, { useState } from 'react'
 
+import { useLocale } from '@/providers/Locale'
+
 type Props = {
   addressID?: DefaultDocumentIDType
   initialData?: Partial<Omit<Address, 'country'>> & { country?: string }
@@ -28,13 +30,17 @@ type Props = {
 export const CreateAddressModal: React.FC<Props> = ({
   addressID,
   initialData,
-  buttonText = 'Додај нова адреса',
-  modalTitle = 'Додај нова адреса',
+  buttonText,
+  modalTitle,
   callbackAction,
   skipSubmission,
   disabled,
 }) => {
+  const { dict: t } = useLocale()
   const [open, setOpen] = useState(false)
+
+  const displayButtonText = buttonText || (addressID ? t.account.edit : t.account.addAddress)
+  const displayModalTitle = modalTitle || (addressID ? t.account.editAddress : t.account.addAddress)
   const handleOpenChange = (state: boolean) => {
     setOpen(state)
   }
@@ -59,13 +65,13 @@ export const CreateAddressModal: React.FC<Props> = ({
           className="flex items-center gap-2 px-6 py-2 bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-xl text-sm font-bold hover:bg-stone-200 dark:hover:bg-stone-700 transition-all text-stone-900 dark:text-stone-100 shadow-sm"
         >
           {addressID ? <HugeiconsIcon icon={PencilEdit01Icon} size={18} strokeWidth={1.5} /> : <HugeiconsIcon icon={PlusSignIcon} size={18} strokeWidth={1.5} />}
-          {buttonText}
+          {displayButtonText}
         </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{modalTitle}</DialogTitle>
-          <DialogDescription>Оваа адреса ќе биде поврзана со вашиот профил.</DialogDescription>
+          <DialogTitle>{displayModalTitle}</DialogTitle>
+          <DialogDescription>{t.account.addressConnectedNote}</DialogDescription>
         </DialogHeader>
 
         <AddressForm

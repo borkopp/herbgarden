@@ -12,13 +12,15 @@ import {
 import type { Header } from '@/payload-types'
 import { useAuth } from '@/providers/Auth'
 import { cn } from '@/utilities/cn'
-import { motion } from 'framer-motion'
-import { HugeiconsIcon } from '@hugeicons/react'
 import { ArrowRight01Icon, Login03Icon, Logout03Icon, MapPinIcon, Menu01Icon, PackageIcon, Settings02Icon, UserAdd01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Logo } from '../Logo/Logo'
+
+import { useLocale } from '@/providers/Locale'
 
 interface Props {
   menu: Header['navItems']
@@ -27,6 +29,7 @@ interface Props {
 
 export function MobileMenu({ menu, categories }: Props) {
   const { user } = useAuth()
+  const { dict } = useLocale()
 
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -55,7 +58,7 @@ export function MobileMenu({ menu, categories }: Props) {
     <Sheet onOpenChange={setIsOpen} open={isOpen}>
       <SheetTrigger className="relative flex h-10 w-10 items-center justify-center rounded-full hover:bg-stone-100 transition-colors text-black dark:text-white focus:outline-none">
         <HugeiconsIcon icon={Menu01Icon} size={24} strokeWidth={1.5} />
-        <span className="sr-only">Отвори мени</span>
+        <span className="sr-only">{dict.mobileMenu.openMenu}</span>
       </SheetTrigger>
 
       <SheetContent side="left" className="w-[310px] sm:w-[350px] p-0 flex flex-col h-full border-r-0 shadow-2xl overflow-hidden">
@@ -72,7 +75,7 @@ export function MobileMenu({ menu, categories }: Props) {
             {/* Main Navigation */}
             <nav className="space-y-1 mb-10">
               <h3 className="px-4 text-[11px] font-black uppercase tracking-[0.2em] text-stone-400 dark:text-stone-500 mb-4">
-                Мени
+                {dict.mobileMenu.menuLabel}
               </h3>
               {menu?.length ? (
                 <ul className="space-y-1">
@@ -111,7 +114,7 @@ export function MobileMenu({ menu, categories }: Props) {
             {categories?.length ? (
               <nav className="space-y-1 mb-10">
                 <h3 className="px-4 text-[11px] font-black uppercase tracking-[0.2em] text-stone-400 dark:text-stone-500 mb-4">
-                  Категории
+                  {dict.mobileMenu.categories}
                 </h3>
                 <ul className="space-y-1">
                   {categories.map((category, index) => {
@@ -149,19 +152,19 @@ export function MobileMenu({ menu, categories }: Props) {
             {/* Account Section */}
             <section className="space-y-1">
               <h3 className="px-4 text-[11px] font-black uppercase tracking-[0.2em] text-stone-400 dark:text-stone-500 mb-4">
-                Профил
+                {dict.mobileMenu.profile}
               </h3>
               {user ? (
                 <div className="space-y-1">
-                  <MenuEntry href="/orders" icon={PackageIcon} label="Нарачки" />
-                  <MenuEntry href="/account/addresses" icon={MapPinIcon} label="Адреси" />
-                  <MenuEntry href="/account" icon={Settings02Icon} label="Управувај со сметка" />
+                  <MenuEntry href="/orders" icon={PackageIcon} label={dict.account.orders} />
+                  <MenuEntry href="/account/addresses" icon={MapPinIcon} label={dict.account.addresses} />
+                  <MenuEntry href="/account" icon={Settings02Icon} label={dict.mobileMenu.manageAccount} />
 
                   <div className="pt-6 px-2 mt-4">
                     <Button asChild variant="outline" className="w-full justify-start gap-3 border-stone-200 hover:bg-red-50 hover:text-red-600 hover:border-red-100 dark:border-stone-800 transition-colors rounded-2xl h-12 px-4 shadow-sm active:scale-[0.98]">
                       <Link href="/logout">
                         <HugeiconsIcon icon={Logout03Icon} size={16} strokeWidth={1.5} />
-                        <span className="font-semibold">Одјави се</span>
+                        <span className="font-semibold">{dict.account.logout}</span>
                       </Link>
                     </Button>
                   </div>
@@ -171,13 +174,13 @@ export function MobileMenu({ menu, categories }: Props) {
                   <Button asChild variant="secondary" className="w-full justify-center gap-2 h-12 rounded-2xl border border-stone-100 dark:border-stone-800 bg-stone-50 dark:bg-stone-900 hover:bg-stone-100 dark:hover:bg-stone-800 transition-all active:scale-[0.98]">
                     <Link href="/login">
                       <HugeiconsIcon icon={Login03Icon} size={16} strokeWidth={1.5} />
-                      Најави се
+                      {dict.account.login}
                     </Link>
                   </Button>
                   <Button asChild className="w-full justify-center gap-2 h-12 rounded-2xl shadow-lg shadow-primary/20 transition-all active:scale-[0.98]">
                     <Link href="/create-account" className="font-bold">
                       <HugeiconsIcon icon={UserAdd01Icon} size={16} strokeWidth={1.5} />
-                      Регистрирај се
+                      {dict.account.createAccount}
                     </Link>
                   </Button>
                 </div>
@@ -191,7 +194,7 @@ export function MobileMenu({ menu, categories }: Props) {
               © {new Date().getFullYear()} Herb Garden
             </p>
             <p className="text-center text-[9px] text-stone-400 uppercase tracking-widest mt-1">
-              Премиум опрема за бебиња
+              {dict.mobileMenu.slogan}
             </p>
           </div>
         </div>

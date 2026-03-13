@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label'
 import { useAuth } from '@/providers/Auth'
 import { AlertCircleIcon, CheckmarkCircle01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { useLocale } from '@/providers/Locale'
 
 type FormData = {
     password: string
@@ -21,6 +22,7 @@ type FormData = {
 }
 
 export const ResetPasswordForm: React.FC = () => {
+    const { dict } = useLocale()
     const [error, setError] = useState('')
     const [success, setSuccess] = useState(false)
     const { resetPassword } = useAuth()
@@ -39,7 +41,7 @@ export const ResetPasswordForm: React.FC = () => {
 
     const onSubmit = useCallback(async (data: FormData) => {
         if (!token) {
-            setError('Невалиден или истечен токен.')
+            setError(dict.auth.invalidToken)
             return
         }
 
@@ -55,7 +57,7 @@ export const ResetPasswordForm: React.FC = () => {
                 router.push('/login')
             }, 3000)
         } catch (err) {
-            setError('Настана грешка при ресетирање на лозинката. Ве молиме обидете се повторно.')
+            setError(dict.auth.resetPasswordError)
         }
     }, [resetPassword, token, router])
 
@@ -66,14 +68,14 @@ export const ResetPasswordForm: React.FC = () => {
                     <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center text-red-500 mb-6 border border-red-100">
                         <HugeiconsIcon icon={AlertCircleIcon} size={32} strokeWidth={1.5} />
                     </div>
-                    <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-4">INVALID PROTOCOL</span>
-                    <h2 className="font-display text-3xl text-black uppercase tracking-tight mb-4">Error</h2>
+                    <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-4">{dict.auth.invalidProtocol}</span>
+                    <h2 className="font-display text-3xl text-black uppercase tracking-tight mb-4">{dict.auth.error}</h2>
                     <p className="text-black/60 text-xs leading-relaxed max-w-[280px] font-medium mx-auto">
-                        The reset token is invalid or has expired. Please request a new security link.
+                        {dict.auth.resetTokenError}
                     </p>
                 </div>
                 <Button asChild className="w-full h-14 rounded-full bg-black text-white hover:bg-black/90 active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase">
-                    <Link href="/forgot-password">Request New Link</Link>
+                    <Link href="/forgot-password">{dict.auth.requestNewLink}</Link>
                 </Button>
             </div>
         )
@@ -89,14 +91,14 @@ export const ResetPasswordForm: React.FC = () => {
                         <FormItem>
                             <div className="mb-3 px-1">
                                 <Label htmlFor="password" title="password" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40">
-                                    New Password
+                                    {dict.auth.newPassword}
                                 </Label>
                             </div>
                             <Input
                                 id="password"
                                 placeholder="••••••••"
                                 className="h-14 rounded-2xl bg-[#f6f6f6] border-none px-6 text-sm font-medium focus-visible:ring-1 focus-visible:ring-black/10 transition-all"
-                                {...register('password', { required: 'Ве молиме внесете нова лозинка.' })}
+                                {...register('password', { required: dict.auth.passwordRequired })}
                                 type="password"
                             />
                             {errors.password && <FormError message={errors.password.message} />}
@@ -105,7 +107,7 @@ export const ResetPasswordForm: React.FC = () => {
                         <FormItem>
                             <div className="mb-3 px-1">
                                 <Label htmlFor="passwordConfirm" title="passwordConfirm" className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40">
-                                    Confirm Password
+                                    {dict.auth.confirmPassword}
                                 </Label>
                             </div>
                             <Input
@@ -113,8 +115,8 @@ export const ResetPasswordForm: React.FC = () => {
                                 placeholder="••••••••"
                                 className="h-14 rounded-2xl bg-[#f6f6f6] border-none px-6 text-sm font-medium focus-visible:ring-1 focus-visible:ring-black/10 transition-all"
                                 {...register('passwordConfirm', {
-                                    required: 'Ве молиме потврдете ја вашата лозинка.',
-                                    validate: (value) => value === password || 'Лозинките не се совпаѓаат',
+                                    required: dict.auth.passwordRequired,
+                                    validate: (value) => value === password || dict.auth.passwordsDoNotMatch,
                                 })}
                                 type="password"
                             />
@@ -130,7 +132,7 @@ export const ResetPasswordForm: React.FC = () => {
                             variant="default"
                             className="w-full h-14 rounded-full bg-black text-white hover:bg-black/90 active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase"
                         >
-                            {isLoading ? 'Processing...' : 'Finalize Reset'}
+                            {isLoading ? dict.auth.processing : dict.auth.resetPasswordButton}
                         </Button>
                     </div>
                 </form>
@@ -141,15 +143,15 @@ export const ResetPasswordForm: React.FC = () => {
                         <div className="w-16 h-16 rounded-full bg-black flex items-center justify-center text-white mb-6 shadow-2xl shadow-black/10">
                             <HugeiconsIcon icon={CheckmarkCircle01Icon} size={32} strokeWidth={1.5} />
                         </div>
-                        <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-4">PROTOCOL SUCCESS</span>
-                        <h2 className="font-display text-3xl text-black uppercase tracking-tight mb-4">Updated</h2>
+                        <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-4">{dict.auth.protocolSuccess}</span>
+                        <h2 className="font-display text-3xl text-black uppercase tracking-tight mb-4">{dict.auth.updated}</h2>
                         <p className="text-black/60 text-xs leading-relaxed max-w-[280px] font-medium mx-auto">
-                            Your security credentials have been updated. You will be redirected to the login terminal shortly.
+                            {dict.auth.redirectingToLogin}
                         </p>
                     </div>
 
                     <Button asChild className="w-full h-14 rounded-full bg-black text-white hover:bg-black/90 active:scale-[0.98] transition-all text-[10px] font-bold tracking-[0.2em] uppercase">
-                        <Link href="/login">Return to Access</Link>
+                        <Link href="/login">{dict.auth.returnToAccess}</Link>
                     </Button>
                 </div>
             )}

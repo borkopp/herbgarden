@@ -23,6 +23,7 @@ export const Categories: CollectionConfig = {
       name: 'title',
       type: 'text',
       required: true,
+      localized: true,
       label: 'Име на категорија',
       admin: {
         description: 'Внесете го името на категоријата (на пр. Маички, Панталони). Ова име ќе се појавува во менито за филтрирање.',

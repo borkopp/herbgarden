@@ -2,13 +2,15 @@
 
 import { AddressItem } from '@/components/addresses/AddressItem'
 import { useAddresses } from '@payloadcms/plugin-ecommerce/client/react'
+import { useLocale } from '@/providers/Locale'
 import React from 'react'
 
 export const AddressListing: React.FC = () => {
   const { addresses } = useAddresses()
+  const { dict: t } = useLocale()
 
   if (!addresses || addresses.length === 0) {
-    return <p>Не се пронајдени адреси.</p>
+    return <p>{t.account.noAddresses}</p>
   }
 
   return (

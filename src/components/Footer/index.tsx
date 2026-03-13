@@ -1,10 +1,13 @@
+import { type Locale } from '@/i18n/config'
+import { getDictionary } from '@/i18n/getDictionary'
 import { FacebookIcon, InstagramIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-export function Footer() {
+export async function Footer({ locale }: { locale: Locale }) {
   const currentYear = new Date().getFullYear()
+  const dict = await getDictionary(locale)
 
   return (
     <footer className="bg-white text-stone-900 border-t border-stone-100 italic">
@@ -22,13 +25,13 @@ export function Footer() {
               />
             </Link>
             <p className="max-w-xs text-stone-500 text-sm leading-relaxed font-normal normal-case">
-              A boutique sensory lab dedicated to the extraction of nature's most vibrant profiles.
+              {dict.footer.officialStore}
             </p>
           </div>
 
           {/* Connect */}
           <div className="md:col-span-3 space-y-6">
-            <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-stone-900">Connect</h4>
+            <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-stone-900">{dict.footer.connect}</h4>
             <ul className="space-y-4">
               <li>
                 <Link
@@ -53,21 +56,16 @@ export function Footer() {
 
           {/* Assistance */}
           <div className="md:col-span-3 space-y-6">
-            <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-stone-900">Assistance</h4>
+            <h4 className="text-[10px] font-black tracking-[0.3em] uppercase text-stone-900">{dict.footer.assistance}</h4>
             <ul className="space-y-4">
               <li>
-                <Link href="/shipping" className="text-stone-900 hover:text-stone-500 transition-colors text-sm font-medium not-italic">
-                  Shipping
-                </Link>
-              </li>
-              <li>
-                <Link href="/returns" className="text-stone-900 hover:text-stone-500 transition-colors text-sm font-medium not-italic">
-                  Returns
+                <Link href="/#how-it-works" className="text-stone-900 hover:text-stone-500 transition-colors text-sm font-medium not-italic">
+                  {dict.footer.howItWorks}
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="text-stone-900 hover:text-stone-500 transition-colors text-sm font-medium not-italic">
-                  Contact
+                  {dict.footer.contact}
                 </Link>
               </li>
             </ul>
@@ -77,14 +75,14 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-24 pt-8 border-t border-stone-100 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-[9px] font-bold tracking-[0.15em] text-stone-400 uppercase not-italic">
-            © {currentYear} HERB GARDEN. ALL RIGHTS RESERVED.
+            © {currentYear} HERB GARDEN. {dict.footer.allRightsReserved}
           </p>
           <div className="flex gap-10">
             <Link href="/privacy" className="text-[9px] font-bold tracking-[0.15em] text-stone-400 uppercase hover:text-stone-900 transition-colors not-italic">
-              Privacy Policy
+              {dict.footer.privacyPolicy}
             </Link>
             <Link href="/terms" className="text-[9px] font-bold tracking-[0.15em] text-stone-400 uppercase hover:text-stone-900 transition-colors not-italic">
-              Terms of Service
+              {dict.footer.termsOfService}
             </Link>
           </div>
         </div>

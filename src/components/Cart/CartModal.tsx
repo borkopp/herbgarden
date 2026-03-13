@@ -9,6 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet'
+import { useLocale } from '@/providers/Locale'
 import { CreditCardIcon, ShoppingCart01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { useCart } from '@payloadcms/plugin-ecommerce/client/react'
@@ -26,6 +27,7 @@ import { OpenCartButton } from './OpenCart'
 
 export function CartModal({ className }: { className?: string }) {
   const { cart } = useCart()
+  const { dict, locale } = useLocale()
   const [isOpen, setIsOpen] = useState(false)
 
   const pathname = usePathname()
@@ -68,15 +70,15 @@ export function CartModal({ className }: { className?: string }) {
 
       <SheetContent className="flex flex-col">
         <SheetHeader>
-          <SheetTitle>Моја кошничка</SheetTitle>
+          <SheetTitle>{dict.cart.yourCart}</SheetTitle>
 
-          <SheetDescription>Управувајте со вашата кошничка овде, додајте производи за да го видите вкупниот износ.</SheetDescription>
+          <SheetDescription>{dict.cart.cartDescription}</SheetDescription>
         </SheetHeader>
 
         {!cart || cart?.items?.length === 0 ? (
           <div className="text-center flex flex-col items-center gap-2">
             <HugeiconsIcon icon={ShoppingCart01Icon} size={64} strokeWidth={1} />
-            <p className="text-center text-2xl font-bold">Вашата кошничка е празна.</p>
+            <p className="text-center text-2xl font-bold">{dict.cart.emptyCart}</p>
           </div>
         ) : (
           <div className="grow flex px-4">
@@ -206,7 +208,7 @@ export function CartModal({ className }: { className?: string }) {
 
                   {typeof cart?.subtotal === 'number' && (
                     <div className="mb-3 flex items-center justify-between border-b border-neutral-200 pb-1 pt-1 dark:border-neutral-700">
-                      <p>Вкупно</p>
+                      <p>{dict.cart.total}</p>
                       <Price
                         amount={cart?.subtotal}
                         className="text-right text-base text-black dark:text-white"
@@ -227,15 +229,15 @@ export function CartModal({ className }: { className?: string }) {
                       }}
                     >
                       <HugeiconsIcon icon={CreditCardIcon} size={20} strokeWidth={1.5} />
-                      Продолжи кон плаќање
+                      {dict.cart.checkout}
                     </Link>
                   </Button>
 
-                  <Link 
-                    href="/cart" 
+                  <Link
+                    href="/cart"
                     className="flex justify-center text-[10px] font-bold tracking-[0.2em] uppercase text-black/40 hover:text-black transition-colors"
                   >
-                    View Selection
+                    {dict.cart.cart}
                   </Link>
                 </div>
               </div>

@@ -12,6 +12,7 @@ import { linkGroup } from '@/fields/linkGroup'
 export const hero: Field = {
   name: 'hero',
   type: 'group',
+  localized: true,
   fields: [
     {
       name: 'contentAlignment',
@@ -40,6 +41,7 @@ export const hero: Field = {
     {
       name: 'subtitle',
       type: 'text',
+      localized: true,
       label: 'Subtitle',
       admin: {
         description: 'The small text above the title',
@@ -48,11 +50,13 @@ export const hero: Field = {
     {
       name: 'title',
       type: 'text',
+      localized: true,
       label: 'Title',
     },
     {
       name: 'description',
       type: 'textarea',
+      localized: true,
       label: 'Description',
       admin: {
         description: 'The text below the title',

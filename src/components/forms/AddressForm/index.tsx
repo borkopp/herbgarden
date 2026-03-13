@@ -11,6 +11,8 @@ import { FormItem } from '@/components/forms/FormItem'
 import { Button } from '@/components/ui/button'
 import { deepMergeSimple } from 'payload/shared'
 
+import { useLocale } from '@/providers/Locale'
+
 type AddressFormValues = {
   firstName?: string | null
   lastName?: string | null
@@ -37,6 +39,7 @@ export const AddressForm: React.FC<Props> = ({
   callbackAction,
   skipSubmission,
 }) => {
+  const { dict: t } = useLocale()
   const {
     register,
     handleSubmit,
@@ -74,69 +77,69 @@ export const AddressForm: React.FC<Props> = ({
       <div className="flex flex-col gap-4 mb-8">
         <div className="flex flex-col md:flex-row gap-4">
           <FormItem>
-            <Label htmlFor="firstName">Име*</Label>
+            <Label htmlFor="firstName">{t.account.firstName}*</Label>
             <Input
               id="firstName"
               autoComplete="given-name"
-              {...register('firstName', { required: 'Името е задолжително.' })}
+              {...register('firstName', { required: t.account.firstNameRequired })}
             />
             {errors.firstName && <FormError message={errors.firstName.message} />}
           </FormItem>
 
           <FormItem>
-            <Label htmlFor="lastName">Презиме*</Label>
+            <Label htmlFor="lastName">{t.account.lastName}*</Label>
             <Input
               autoComplete="family-name"
               id="lastName"
-              {...register('lastName', { required: 'Презимето е задолжително.' })}
+              {...register('lastName', { required: t.account.lastNameRequired })}
             />
             {errors.lastName && <FormError message={errors.lastName.message} />}
           </FormItem>
         </div>
 
         <FormItem>
-          <Label htmlFor="phone">Телефон</Label>
+          <Label htmlFor="phone">{t.account.phone}</Label>
           <Input type="tel" id="phone" autoComplete="mobile tel" {...register('phone')} />
           {errors.phone && <FormError message={errors.phone.message} />}
         </FormItem>
 
         <FormItem>
-          <Label htmlFor="addressLine1">Адреса*</Label>
+          <Label htmlFor="addressLine1">{t.account.addressLine1}*</Label>
           <Input
             id="addressLine1"
             autoComplete="address-line1"
-            {...register('addressLine1', { required: 'Адресата е задолжителна.' })}
+            {...register('addressLine1', { required: t.account.addressLine1Required })}
           />
           {errors.addressLine1 && <FormError message={errors.addressLine1.message} />}
         </FormItem>
 
         <FormItem>
-          <Label htmlFor="city">Град*</Label>
+          <Label htmlFor="city">{t.account.city}*</Label>
           <Input
             id="city"
             autoComplete="address-level2"
-            {...register('city', { required: 'Градот е задолжителен.' })}
+            {...register('city', { required: t.account.cityRequired })}
           />
           {errors.city && <FormError message={errors.city.message} />}
         </FormItem>
 
         <FormItem>
-          <Label htmlFor="postalCode">Поштенски број*</Label>
+          <Label htmlFor="postalCode">{t.account.postalCode}*</Label>
           <Input
             id="postalCode"
-            {...register('postalCode', { required: 'Поштенскиот број е задолжителен.' })}
+            {...register('postalCode', { required: t.account.postalCodeRequired })}
           />
           {errors.postalCode && <FormError message={errors.postalCode.message} />}
         </FormItem>
 
         <FormItem>
-          <Label>Земја</Label>
-          <Input value="Македонија" disabled className="text-stone-500 dark:text-stone-400 cursor-not-allowed" />
+          <Label>{t.account.country}</Label>
+          <Input value={t.account.macedonia} disabled className="text-stone-500 dark:text-stone-400 cursor-not-allowed" />
           <input type="hidden" {...register('country')} value="MK" />
         </FormItem>
       </div>
 
-      <Button type="submit">Зачувај</Button>
+      <Button type="submit">{t.account.saveAddress}</Button>
     </form>
   )
 }

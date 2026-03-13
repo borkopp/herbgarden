@@ -7,12 +7,14 @@ import { cn } from '@/utilities/cn'
 import { Cancel01Icon, Loading01Icon, Search01Icon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { AnimatePresence, motion } from 'framer-motion'
+import { useLocale } from '@/providers/Locale'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 const DEBOUNCE_DELAY = 300 // ms
 
 export function Search() {
+  const { dict } = useLocale()
   const router = useRouter()
   const [isExpanded, setIsExpanded] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -191,7 +193,7 @@ export function Search() {
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               onFocus={handleFocus}
-              placeholder="Search products..."
+              placeholder={dict.search.placeholder}
               style={{ outline: 'none', boxShadow: 'none' }}
               className={cn(
                 'w-full h-full pl-9 pr-10 text-xs bg-transparent',
@@ -226,9 +228,9 @@ export function Search() {
                 type="button"
                 onClick={handleExpandClick}
                 className="absolute inset-0 cursor-pointer rounded-full hover:bg-black/5 dark:hover:bg-white/10 transition-all active:scale-95 group"
-                aria-label="Expand search"
+                aria-label={dict.common.search}
               >
-                <span className="sr-only">Search</span>
+                <span className="sr-only">{dict.common.search}</span>
               </button>
             )}
           </div>
@@ -264,12 +266,15 @@ export function Search() {
                       {isLoading ? (
                         <span className="flex items-center gap-3">
                           <HugeiconsIcon icon={Loading01Icon} size={16} className="animate-spin" />
-                          Searching...
+                          {dict.search.searching}
                         </span>
                       ) : results.length > 0 ? (
-                        `${results.length} ${results.length === 1 ? 'result' : 'results'} for "${debouncedQuery}"`
+                        dict.search.resultsCount
+                          .replace('{count}', String(results.length))
+                          .replace('{resultsText}', results.length === 1 ? dict.products.result : dict.products.results)
+                          .replace('{query}', debouncedQuery)
                       ) : (
-                        `No results for "${debouncedQuery}"`
+                        `${dict.search.noResultsFor} "${debouncedQuery}"`
                       )}
                     </span>
                   </div>
@@ -282,7 +287,7 @@ export function Search() {
                       }}
                       className="text-xs font-bold tracking-widest uppercase text-black hover:opacity-60 transition-opacity"
                     >
-                      View All Results
+                      {dict.search.viewAllResults}
                     </button>
                   )}
                 </div>
@@ -344,9 +349,9 @@ export function Search() {
                     className="py-20 text-center"
                   >
                     <HugeiconsIcon icon={Search01Icon} size={48} className="mx-auto text-black/10 mb-6" />
-                    <p className="text-xl font-display uppercase tracking-tight text-black mb-2">No products found</p>
+                    <p className="text-xl font-display uppercase tracking-tight text-black mb-2">{dict.search.noProductsFound}</p>
                     <p className="text-sm text-black/40 font-semibold tracking-wide">
-                      Try a different term or{' '}
+                      {dict.search.tryDifferentTerm}{' '}
                       <button
                         type="button"
                         onClick={() => {
@@ -355,7 +360,7 @@ export function Search() {
                         }}
                         className="underline hover:text-black transition-colors"
                       >
-                        browse all
+                        {dict.search.browseAll}
                       </button>
                     </p>
                   </motion.div>

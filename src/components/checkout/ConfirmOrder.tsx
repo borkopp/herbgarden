@@ -5,9 +5,12 @@ import { useCart, usePayments } from '@payloadcms/plugin-ecommerce/client/react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useRef } from 'react'
 
+import { useLocale } from '@/providers/Locale'
+
 export const ConfirmOrder: React.FC = () => {
   const { confirmOrder } = usePayments()
   const { cart } = useCart()
+  const { dict: t } = useLocale()
 
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -40,12 +43,12 @@ export const ConfirmOrder: React.FC = () => {
       // If no payment intent ID is found, redirect to the home
       router.push('/')
     }
-  }, [cart, searchParams])
+  }, [cart, searchParams, confirmOrder, router])
 
   return (
     <div className="text-center w-full flex flex-col items-center justify-center min-h-[60vh] gap-6">
-      <h1 className="text-3xl font-bold">Потврдување на нарачката</h1>
-      <p className="text-stone-500">Ве молиме почекајте додека ја процесираме вашата нарачка.</p>
+      <h1 className="text-3xl font-bold">{t.checkout.confirmingOrder}</h1>
+      <p className="text-stone-500">{t.checkout.pleaseWaitProcessing}</p>
 
       <LoadingSpinner className="w-12 h-6" />
     </div>

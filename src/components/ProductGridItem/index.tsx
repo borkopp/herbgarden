@@ -1,19 +1,24 @@
+'use client'
+
 import { Media } from '@/components/Media'
 import type { Product } from '@/payload-types'
 import Link from 'next/link'
 import React from 'react'
+
+import { useLocale } from '@/providers/Locale'
 
 type Props = {
   product: Partial<Product>
 }
 
 export const ProductGridItem: React.FC<Props> = ({ product }) => {
+  const { dict: t } = useLocale()
   const { gallery, priceInMKD, title, slug } = product
 
   let price = priceInMKD
   const variants = product.variants?.docs
 
-  let categoryTitle = 'PURE EXTRACT'
+  let categoryTitle = t.cart.pureExtract
   const firstCategory = product.categories?.[0]
   if (firstCategory && typeof firstCategory === 'object' && firstCategory.title) {
     categoryTitle = firstCategory.title
@@ -59,7 +64,7 @@ export const ProductGridItem: React.FC<Props> = ({ product }) => {
           </>
         ) : (
           <div className="flex items-center justify-center bg-black/5 text-[10px] font-bold uppercase tracking-widest text-black/30 w-full h-full">
-            No Image
+            {t.products.noProductsFound}
           </div>
         )}
       </div>
@@ -78,10 +83,10 @@ export const ProductGridItem: React.FC<Props> = ({ product }) => {
         {typeof price === 'number' && (
           <div className="flex flex-col items-start sm:items-end">
             <span className="text-[9px] font-bold tracking-[0.2em] uppercase text-black/40 mb-1">
-              PRICE
+              {t.cart.investment}
             </span>
             <span className="font-sans text-lg font-bold text-black border-b border-black/10 pb-1 pr-1">
-              {price} ДЕН
+              {price} {t.common.mkd}
             </span>
           </div>
         )}

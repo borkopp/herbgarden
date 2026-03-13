@@ -11,6 +11,8 @@ import { useRouter } from 'next/navigation'
 import posthog from 'posthog-js'
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
 
+import { useLocale } from '@/providers/Locale'
+
 import { AddressItem } from '@/components/addresses/AddressItem'
 import { CreateAddressModal } from '@/components/addresses/CreateAddressModal'
 import { CheckoutAddresses } from '@/components/checkout/CheckoutAddresses'
@@ -56,8 +58,9 @@ const StepHeader = ({
 
 export const CheckoutPage: React.FC = () => {
   const { user } = useAuth()
+  const { dict: t } = useLocale()
   const router = useRouter()
-  const { cart } = useCart()
+  const { cart, isLoading } = useCart()
   const [error, setError] = useState<null | string>(null)
 
   const [email, setEmail] = useState('')
@@ -136,7 +139,7 @@ export const CheckoutPage: React.FC = () => {
       })) as Record<string, unknown>
 
       if (!paymentData) {
-        throw new Error('Не е можно да се иницира нарачката.')
+        throw new Error(t.account.problemUpdating) // Generic error for now
       }
 
       const confirmResult = (await confirmOrder('cash-on-delivery', {
@@ -159,7 +162,7 @@ export const CheckoutPage: React.FC = () => {
         })
         router.push(`/order-status/${confirmResult['orderID']}`)
       } else {
-        throw new Error('Нарачката не може да се потврди.')
+        throw new Error(t.account.problemUpdating)
       }
     } catch (err) {
       posthog.captureException(err instanceof Error ? err : new Error(String(err)))
@@ -167,9 +170,9 @@ export const CheckoutPage: React.FC = () => {
         try { return JSON.parse(err.message) } catch { return {} }
       })() : {}
 
-      let errorMessage = 'Настана грешка при поставување на нарачката.'
+      let errorMessage = t.newsletter.somethingWentWrong
       if (errorData?.cause?.code === 'OutOfStock') {
-        errorMessage = 'Еден или повеќе производи во вашата кошничка не се на залиха.'
+        errorMessage = t.account.itemNoLongerAvailable
       }
 
       setError(errorMessage)
@@ -186,9 +189,17 @@ export const CheckoutPage: React.FC = () => {
           <LoadingSpinner className="relative z-10 w-16 h-16 text-primary" />
         </div>
         <div className="space-y-2 relative z-10">
-          <h1 className="text-3xl font-bold tracking-tight">Нарачката се поставува...</h1>
-          <p className="text-muted-foreground text-lg">Ве молиме почекајте додека ја процесираме вашата нарачка.</p>
+          <h1 className="text-3xl font-bold tracking-tight">{t.checkout.orderPlaced}</h1>
+          <p className="text-muted-foreground text-lg">{t.checkout.pleaseWaitProcessing}</p>
         </div>
+      </div>
+    )
+  }
+
+  if (isLoading) {
+    return (
+      <div className="py-32 w-full flex flex-col items-center justify-center gap-8 text-center">
+        <LoadingSpinner size="large" />
       </div>
     )
   }
@@ -200,11 +211,11 @@ export const CheckoutPage: React.FC = () => {
           <HugeiconsIcon icon={ShoppingBag01Icon} size={40} className="text-stone-400" strokeWidth={1.5} />
         </div>
         <div className="space-y-2">
-          <h2 className="text-2xl font-bold">Вашата кошничка е празна</h2>
-          <p className="text-stone-500">Изгледа дека сè уште немате додадено производи во вашата кошничка.</p>
+          <h2 className="text-2xl font-bold">{t.cart.emptyCart}</h2>
+          <p className="text-stone-500">{t.wishlist.startExploring}</p>
         </div>
         <Button asChild size="lg" className="rounded-full px-8 py-6 font-bold text-lg shadow-xl shadow-primary/20 transition-all hover:scale-105 active:scale-95">
-          <Link href="/shop">Продолжи со купување</Link>
+          <Link href="/shop">{t.cart.continueShopping}</Link>
         </Button>
       </div>
     )
@@ -220,7 +231,7 @@ export const CheckoutPage: React.FC = () => {
             <div className="space-y-4">
               <Link href="/cart" className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest uppercase text-black/40 hover:text-black transition-colors mb-2 group">
                 <HugeiconsIcon icon={ArrowLeft01Icon} size={16} strokeWidth={2} className="group-hover:-translate-x-1 transition-transform" />
-                Назад кон кошничката
+                {t.checkout.backToCart}
               </Link>
             </div>
 
@@ -248,7 +259,7 @@ export const CheckoutPage: React.FC = () => {
           >
             <StepHeader
               number={1}
-              title="Информации за контакт"
+              title={t.checkout.contactInformation}
               active={currentStep === 1}
               completed={currentStep > 1}
               icon={Mail01Icon}
@@ -263,15 +274,15 @@ export const CheckoutPage: React.FC = () => {
                   {!user && (
                     <div className="flex flex-col sm:flex-row items-center gap-6 p-6 rounded-2xl bg-primary/5 border border-primary/10">
                       <div className="flex-1 space-y-1 text-center sm:text-left">
-                        <h4 className="font-bold text-stone-800 dark:text-stone-200">Веќе имате профил?</h4>
-                        <p className="text-sm text-stone-500">Најавете се за побрзо нарачување и историја на нарачки.</p>
+                        <h4 className="font-bold text-stone-800 dark:text-stone-200">{t.checkout.alreadyHaveAccount}</h4>
+                        <p className="text-sm text-stone-500">{t.checkout.loginForFasterCheckout}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         <Button asChild size="sm" variant="outline" className="rounded-xl font-bold px-5">
-                          <Link href="/login">Најава</Link>
+                          <Link href="/login">{t.account.login}</Link>
                         </Button>
                         <Button asChild size="sm" className="rounded-xl font-bold px-5">
-                          <Link href="/create-account">Регистрирај се</Link>
+                          <Link href="/create-account">{t.account.createAccount}</Link>
                         </Button>
                       </div>
                     </div>
@@ -291,11 +302,11 @@ export const CheckoutPage: React.FC = () => {
                             <span className="text-primary font-bold">{user.email?.charAt(0).toUpperCase()}</span>
                           </div>
                           <div>
-                            <p className="text-xs text-stone-400 font-bold uppercase tracking-widest mb-0.5">Најавени сте како</p>
+                            <p className="text-xs text-stone-400 font-bold uppercase tracking-widest mb-0.5">{t.checkout.loggedInAs}</p>
                             <p className="font-bold text-stone-900 dark:text-stone-100">{user.email}</p>
                           </div>
                         </div>
-                        <Link href="/logout" className="text-stone-400 hover:text-red-500 text-sm font-bold transition-colors">Одјава</Link>
+                        <Link href="/logout" className="text-stone-400 hover:text-red-500 text-sm font-bold transition-colors">{t.account.logout}</Link>
                       </motion.div>
                     ) : emailSubmitted ? (
                       <motion.div
@@ -305,7 +316,7 @@ export const CheckoutPage: React.FC = () => {
                         className="flex items-center justify-between p-6 rounded-2xl bg-stone-50 dark:bg-stone-900 border border-stone-100 dark:border-stone-800"
                       >
                         <div>
-                          <p className="text-xs text-stone-400 font-bold uppercase tracking-widest mb-0.5">Нарачувате како гост</p>
+                          <p className="text-xs text-stone-400 font-bold uppercase tracking-widest mb-0.5">{t.checkout.orderingAsGuest}</p>
                           <p className="font-bold text-stone-900 dark:text-stone-100 text-lg">{email}</p>
                         </div>
                         <Button
@@ -314,7 +325,7 @@ export const CheckoutPage: React.FC = () => {
                           onClick={() => setEmailSubmitted(false)}
                           className="font-bold text-primary hover:bg-primary/5 rounded-xl transition-all"
                         >
-                          Промени
+                          {t.checkout.change}
                         </Button>
                       </motion.div>
                     ) : (
@@ -325,7 +336,7 @@ export const CheckoutPage: React.FC = () => {
                         className="space-y-6"
                       >
                         <FormItem>
-                          <Label htmlFor="email" className="font-bold text-stone-600 dark:text-stone-400 mb-3 block">Вашата е-пошта</Label>
+                          <Label htmlFor="email" className="font-bold text-stone-600 dark:text-stone-400 mb-3 block">{t.checkout.yourEmail}</Label>
                           <div className="relative">
                             <HugeiconsIcon icon={Mail01Icon} size={20} className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400" strokeWidth={1.5} />
                             <Input
@@ -341,7 +352,7 @@ export const CheckoutPage: React.FC = () => {
                           </div>
                           <p className="text-xs text-stone-400 mt-2 ml-1 flex items-center gap-1.5">
                             <HugeiconsIcon icon={InformationCircleIcon} size={14} strokeWidth={1.5} />
-                            Таму ќе го добиете бројот на нарачката и потврдата.
+                            {t.checkout.emailConfirmationNote}
                           </p>
                         </FormItem>
                         <Button
@@ -349,7 +360,7 @@ export const CheckoutPage: React.FC = () => {
                           className="w-full sm:w-auto h-14 rounded-2xl px-12 font-bold text-lg shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all"
                           onClick={(e) => { e.preventDefault(); setEmailSubmitted(true) }}
                         >
-                          Продолжи
+                          {t.checkout.continue}
                           <HugeiconsIcon icon={ArrowRight01Icon} size={20} className="ml-2" strokeWidth={1.5} />
                         </Button>
                       </motion.div>
@@ -364,7 +375,7 @@ export const CheckoutPage: React.FC = () => {
                     </div>
                     <div>
                       <p className="text-sm font-bold text-stone-900 dark:text-stone-100">{user ? user.email : email}</p>
-                      <p className="text-xs text-stone-400">Контакт информациите се зачувани</p>
+                      <p className="text-xs text-stone-400">{t.checkout.contactStored}</p>
                     </div>
                   </div>
                   <Button
@@ -376,7 +387,7 @@ export const CheckoutPage: React.FC = () => {
                       // No explicit step state needed as it's computed
                     }}
                   >
-                    Измени
+                    {t.checkout.edit}
                   </Button>
                 </div>
               )}
@@ -392,7 +403,7 @@ export const CheckoutPage: React.FC = () => {
           >
             <StepHeader
               number={2}
-              title="Адреса за достава"
+              title={t.checkout.shippingAddress}
               active={currentStep === 2}
               completed={currentStep > 2}
               icon={MapPinIcon}
@@ -420,7 +431,7 @@ export const CheckoutPage: React.FC = () => {
                               className="rounded-xl text-primary font-bold hover:bg-primary/5 transition-all h-auto py-3 px-5 shadow-none"
                               onClick={(e) => { e.preventDefault(); setBillingAddress(undefined) }}
                             >
-                              Промени
+                              {t.checkout.changeAddress}
                             </Button>
                           }
                           address={billingAddress}
@@ -438,7 +449,7 @@ export const CheckoutPage: React.FC = () => {
                             className="w-6 h-6 rounded-lg data-[state=checked]:bg-primary transition-all border-stone-200 dark:border-stone-800"
                           />
                           <Label htmlFor="shippingTheSameAsBilling" className="font-bold text-stone-700 dark:text-stone-300 cursor-pointer select-none">
-                            Адресата за наплата е иста како за достава
+                            {t.checkout.shippingSameAsBilling}
                           </Label>
                         </div>
 
@@ -448,7 +459,7 @@ export const CheckoutPage: React.FC = () => {
                             animate={{ opacity: 1, height: 'auto' }}
                             className="pt-4 border-t border-stone-100 dark:border-stone-800 space-y-4"
                           >
-                            <h4 className="font-bold text-stone-900 dark:text-stone-100">Адреса за наплата</h4>
+                            <h4 className="font-bold text-stone-900 dark:text-stone-100">{t.checkout.billingAddress}</h4>
                             {shippingAddress ? (
                               <AddressItem
                                 actions={
@@ -457,7 +468,7 @@ export const CheckoutPage: React.FC = () => {
                                     className="text-primary font-bold hover:bg-primary/5 rounded-xl h-auto py-3"
                                     onClick={(e) => { e.preventDefault(); setShippingAddress(undefined) }}
                                   >
-                                    Промени
+                                    {t.checkout.changeAddress}
                                   </Button>
                                 }
                                 address={shippingAddress}
@@ -488,8 +499,8 @@ export const CheckoutPage: React.FC = () => {
                             <HugeiconsIcon icon={MapPinIcon} size={32} className="text-primary" strokeWidth={1.5} />
                           </div>
                           <div className="text-center space-y-2">
-                            <h3 className="text-xl font-bold">Каде да ја испратиме вашата нарачка?</h3>
-                            <p className="text-stone-500 max-w-sm">Внесете ја вашата адреса за да можеме да ја доставиме вашата нарачка што е можно побрзо.</p>
+                            <h3 className="text-xl font-bold">{t.checkout.whereToShip}</h3>
+                            <p className="text-stone-500 max-w-sm">{t.checkout.enterAddressNote}</p>
                           </div>
                           <CreateAddressModal
                             disabled={!emailSubmitted && !user}
@@ -503,7 +514,7 @@ export const CheckoutPage: React.FC = () => {
                 </div>
               ) : (
                 <div className="p-8 text-stone-400 italic font-medium">
-                  Завршете го првиот чекор за да продолжите.
+                  {t.checkout.finishFirstStep}
                 </div>
               )}
             </div>
@@ -518,7 +529,7 @@ export const CheckoutPage: React.FC = () => {
           >
             <StepHeader
               number={3}
-              title="Начин на плаќање"
+              title={t.checkout.paymentMethod}
               active={currentStep === 3}
               completed={currentStep > 3}
               icon={CreditCardIcon}
@@ -536,13 +547,13 @@ export const CheckoutPage: React.FC = () => {
                         <div className="flex-shrink-0 w-5 h-5 rounded-full border border-black flex items-center justify-center">
                           <div className="w-2.5 h-2.5 rounded-full bg-black" />
                         </div>
-                        <span className="font-bold text-xs tracking-widest uppercase">Плаќање при достава</span>
+                        <span className="font-bold text-xs tracking-widest uppercase">{t.checkout.cashOnDelivery}</span>
                       </div>
                     </label>
                     <label className="flex items-center justify-between p-5 rounded-3xl border border-stone-200 bg-stone-50 cursor-not-allowed opacity-50">
                       <div className="flex items-center gap-4">
                         <div className="flex-shrink-0 w-5 h-5 rounded-full border border-stone-300" />
-                        <span className="font-bold text-xs tracking-widest uppercase text-stone-600">Кредитна Картичка</span>
+                        <span className="font-bold text-xs tracking-widest uppercase text-stone-600">{t.checkout.creditCard}</span>
                       </div>
                       <div className="flex gap-1.5 opacity-50">
                         <div className="w-8 h-5 bg-stone-200 rounded-sm" />
@@ -553,7 +564,7 @@ export const CheckoutPage: React.FC = () => {
                 </div>
               ) : (
                 <div className="py-8 text-stone-400 italic font-medium">
-                  Завршете ги претходните чекори за да го изберете начинот на плаќање.
+                  {t.checkout.finishPreviousSteps}
                 </div>
               )}
             </div>
@@ -580,7 +591,7 @@ export const CheckoutPage: React.FC = () => {
             {/* ── SUMMARY HEADER ── */}
             <div className="p-10 pb-6">
               <div className="flex items-center justify-between mb-8">
-                <h3 className="text-xl font-display text-base uppercase tracking-widest text-black">Преглед на нарачка</h3>
+                <h3 className="text-xl font-display text-base uppercase tracking-widest text-black">{t.cart.orderSummary}</h3>
                 {/* <span className="text-black/50 text-[10px] font-bold uppercase tracking-widest">
                   {cart?.items?.length} {cart?.items?.length === 1 ? 'Производ' : 'Производи'}
                 </span> */}
@@ -707,13 +718,13 @@ export const CheckoutPage: React.FC = () => {
             {/* ── SUMMARY DASHBOARD ── */}
             <div className="px-10 pb-10 space-y-4">
               <div className="flex justify-between items-center text-black/50 font-bold text-[10px] uppercase tracking-widest">
-                <span>Производи</span>
+                <span>{t.cart.items}</span>
                 <Price amount={cartTotalMKD} className="font-bold text-black" />
               </div>
               <div className="flex justify-between items-center text-black/50 font-bold text-[10px] uppercase tracking-widest">
-                <span>Достава до адреса</span>
+                <span>{t.footer.shipping}</span>
                 {cartTotalMKD >= 3000 ? (
-                  <span className="text-black font-bold text-[10px]">БЕСПЛАТНА</span>
+                  <span className="text-black font-bold text-[10px]">{t.checkout.free}</span>
                 ) : (
                   <Price amount={150} className="font-bold text-black" />
                 )}
@@ -721,13 +732,13 @@ export const CheckoutPage: React.FC = () => {
 
               <div className="pt-8 mt-4 border-t border-black/5">
                 <div className="flex justify-between items-center text-xl font-display text-black uppercase tracking-widest">
-                  <span>Вкупно</span>
+                  <span>{t.cart.total}</span>
                   <Price as="span" amount={cartTotalMKD + (cartTotalMKD >= 3000 ? 0 : 150)} />
                 </div>
               </div>
               <div className="mt-8 p-6 bg-white rounded-2xl flex items-center">
                 <p className="text-[10px] uppercase tracking-widest text-black/40 leading-relaxed text-center font-bold">
-                  Доставата се врши во рок од <strong>3-5 работни дена</strong>.
+                  {t.checkout.deliveryTimelineNote}
                 </p>
               </div>
             </div>
@@ -735,7 +746,7 @@ export const CheckoutPage: React.FC = () => {
 
           {/* ── SECURITY BADGE ── */}
           {/* <div className="p-8 rounded-[2rem] border-2 border-dashed border-stone-200 dark:border-stone-800 flex items-center gap-6 bg-stone-50/30 dark:bg-transparent transition-colors hover:bg-stone-50 dark:hover:bg-stone-900/10">
-            <div className="w-16 h-16 rounded-2xl bg-green-500/10 flex items-center justify-center shrink-0 shadow-inner">
+            <div className="w-16 h-16 rounded-2xl bg-green-500/10 flex items-center justify-center shrink-0">
               <ShieldCheck className="w-8 h-8 text-green-500" />
             </div>
             <div className="space-y-1.5">
@@ -748,7 +759,7 @@ export const CheckoutPage: React.FC = () => {
               disabled={!canPlaceOrder || isPlacingOrder}
               onClick={(e) => { e.preventDefault(); void handlePlaceOrder() }}
             >
-              ПОТВРДИ НАРАЧКА — <Price as="span" amount={cartTotalMKD + (cartTotalMKD >= 3000 ? 0 : 150)} />
+              {t.checkout.confirmOrder} — <Price as="span" amount={cartTotalMKD + (cartTotalMKD >= 3000 ? 0 : 150)} />
             </button>
           </div>
         </div>

@@ -15,12 +15,14 @@ import { cn } from '@/utilities/cn'
 import { UserIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
 import { usePathname, useSearchParams } from 'next/navigation'
+import { useLocale } from '@/providers/Locale'
 
 type Props = {
   header: Header
 }
 
 export function HeaderClient({ header }: Props) {
+  const { dict } = useLocale()
   const menu = header.navItems || []
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -102,6 +104,43 @@ export function HeaderClient({ header }: Props) {
               <Search />
             </Suspense>
             <div className="flex items-center gap-1 md:gap-2">
+              {/* Language Toggler */}
+              {(() => {
+                const segments = pathname.split('/')
+                const hasLocale = segments[1] === 'en' || segments[1] === 'mk'
+                const currentLocale = hasLocale ? segments[1] : 'en'
+                const targetLocale = currentLocale === 'en' ? 'mk' : 'en'
+
+                // Create target URL
+                let toggleUrl = pathname
+                if (hasLocale) {
+                  segments[1] = targetLocale
+                  toggleUrl = segments.join('/')
+                } else {
+                  toggleUrl = `/${targetLocale}${pathname}`
+                }
+                if (searchParams.toString()) {
+                  toggleUrl += `?${searchParams.toString()}`
+                }
+
+                // Show current language flag
+                const currentFlag = currentLocale === 'en' ? 'gb' : 'mk'
+
+                return (
+                  <Link
+                    href={toggleUrl}
+                    className="w-4 h-4 md:w-5 md:h-5 rounded-full overflow-hidden flex items-center justify-center hover:scale-105 transition-transform border border-stone-200 shadow-sm shrink-0"
+                    title={dict.common.switchLanguage}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`https://flagcdn.com/w40/${currentFlag}.png`}
+                      alt={currentLocale}
+                      className="w-full h-full object-cover"
+                    />
+                  </Link>
+                )
+              })()}
               <Button
                 variant="nav"
                 size="clear"
