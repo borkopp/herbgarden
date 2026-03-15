@@ -2,9 +2,8 @@ import type { Block, Field } from 'payload'
 
 import {
   FixedToolbarFeature,
-  HeadingFeature,
   InlineToolbarFeature,
-  lexicalEditor,
+  lexicalEditor
 } from '@payloadcms/richtext-lexical'
 
 import { link } from '@/fields/link'
@@ -34,19 +33,45 @@ const columnFields: Field[] = [
     ],
   },
   {
+    name: 'type',
+    type: 'select',
+    defaultValue: 'text',
+    options: [
+      {
+        label: 'Text',
+        value: 'text',
+      },
+      {
+        label: 'Media',
+        value: 'media',
+      },
+    ],
+  },
+  {
     name: 'richText',
     type: 'richText',
+    admin: {
+      condition: (_, siblingData) => siblingData?.type === 'text',
+    },
     editor: lexicalEditor({
       features: ({ rootFeatures }) => {
         return [
           ...rootFeatures,
-          HeadingFeature({ enabledHeadingSizes: ['h2', 'h3', 'h4'] }),
           FixedToolbarFeature(),
           InlineToolbarFeature(),
         ]
       },
     }),
     label: false,
+  },
+  {
+    name: 'media',
+    type: 'upload',
+    relationTo: 'media',
+    required: true,
+    admin: {
+      condition: (_, siblingData) => siblingData?.type === 'media',
+    },
   },
   {
     name: 'enableLink',

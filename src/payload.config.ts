@@ -4,12 +4,16 @@ import { resendAdapter } from '@payloadcms/email-resend'
 import {
   BoldFeature,
   EXPERIMENTAL_TableFeature,
+  FixedToolbarFeature,
+  HeadingFeature,
   IndentFeature,
+  InlineToolbarFeature,
   ItalicFeature,
   LinkFeature,
   OrderedListFeature,
   UnderlineFeature,
   UnorderedListFeature,
+  UploadFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 import path from 'path'
@@ -95,6 +99,21 @@ export default buildConfig({
         }),
         IndentFeature(),
         EXPERIMENTAL_TableFeature(),
+        UploadFeature({
+          collections: {
+            media: {
+              fields: [
+                {
+                  name: 'caption',
+                  type: 'text',
+                },
+              ],
+            },
+          },
+        }),
+        HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+        FixedToolbarFeature(),
+        InlineToolbarFeature(),
       ]
     },
   }),

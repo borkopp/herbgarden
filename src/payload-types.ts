@@ -453,6 +453,7 @@ export interface ContentBlock {
   columns?:
     | {
         size?: ('oneThird' | 'half' | 'twoThirds' | 'full') | null;
+        type?: ('text' | 'media') | null;
         richText?: {
           root: {
             type: string;
@@ -468,6 +469,7 @@ export interface ContentBlock {
           };
           [k: string]: unknown;
         } | null;
+        media?: (string | null) | Media;
         enableLink?: boolean | null;
         link?: {
           type?: ('reference' | 'custom') | null;
@@ -507,7 +509,8 @@ export interface Page {
    */
   publishedOn?: string | null;
   hero: {
-    contentAlignment: 'left' | 'center' | 'right';
+    type: 'none' | 'highImpact' | 'lowImpactTitle';
+    contentAlignment?: ('left' | 'center' | 'right') | null;
     /**
      * The small text above the title
      */
@@ -1462,6 +1465,7 @@ export interface PagesSelect<T extends boolean = true> {
   hero?:
     | T
     | {
+        type?: T;
         contentAlignment?: T;
         subtitle?: T;
         title?: T;
@@ -1518,7 +1522,9 @@ export interface ContentBlockSelect<T extends boolean = true> {
     | T
     | {
         size?: T;
+        type?: T;
         richText?: T;
+        media?: T;
         enableLink?: T;
         link?:
           | T
@@ -2108,7 +2114,31 @@ export interface Header {
  */
 export interface Footer {
   id: string;
-  navItems?:
+  description?: string | null;
+  columns?:
+    | {
+        label: string;
+        navItems?:
+          | {
+              link: {
+                type?: ('reference' | 'custom') | null;
+                newTab?: boolean | null;
+                reference?: {
+                  relationTo: 'pages';
+                  value: string | Page;
+                } | null;
+                url?: string | null;
+                label: string;
+              };
+              icon?: ('none' | 'instagram' | 'facebook') | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  copyrightText?: string | null;
+  bottomNavItems?:
     | {
         link: {
           type?: ('reference' | 'custom') | null;
@@ -2155,7 +2185,30 @@ export interface HeaderSelect<T extends boolean = true> {
  * via the `definition` "footer_select".
  */
 export interface FooterSelect<T extends boolean = true> {
-  navItems?:
+  description?: T;
+  columns?:
+    | T
+    | {
+        label?: T;
+        navItems?:
+          | T
+          | {
+              link?:
+                | T
+                | {
+                    type?: T;
+                    newTab?: T;
+                    reference?: T;
+                    url?: T;
+                    label?: T;
+                  };
+              icon?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  copyrightText?: T;
+  bottomNavItems?:
     | T
     | {
         link?:

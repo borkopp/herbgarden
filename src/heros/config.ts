@@ -15,6 +15,27 @@ export const hero: Field = {
   localized: true,
   fields: [
     {
+      name: 'type',
+      type: 'select',
+      defaultValue: 'lowImpactTitle',
+      label: 'Type',
+      options: [
+        {
+          label: 'None',
+          value: 'none',
+        },
+        {
+          label: 'High Impact',
+          value: 'highImpact',
+        },
+        {
+          label: 'Low Impact (title)',
+          value: 'lowImpactTitle',
+        },
+      ],
+      required: true,
+    },
+    {
       name: 'contentAlignment',
       type: 'select',
       defaultValue: 'center',
@@ -36,6 +57,7 @@ export const hero: Field = {
       required: true,
       admin: {
         width: '50%',
+        condition: (_, siblingData) => siblingData?.type === 'highImpact',
       },
     },
     {
@@ -72,6 +94,7 @@ export const hero: Field = {
       admin: {
         description:
           'Changes the overall font color for the hero text. Used instead of rich text inline colors.',
+        condition: (_, siblingData) => siblingData?.type === 'highImpact',
       },
     },
     {
@@ -81,6 +104,7 @@ export const hero: Field = {
       defaultValue: 20,
       admin: {
         description: 'How dark the image should be (0-100). Higher is darker.',
+        condition: (_, siblingData) => siblingData?.type === 'highImpact',
       },
       min: 0,
       max: 100,
@@ -92,6 +116,7 @@ export const hero: Field = {
       required: false,
       admin: {
         description: 'Upload an image or a video for the hero background.',
+        condition: (_, siblingData) => siblingData?.type === 'highImpact',
       },
     },
   ],
