@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
-import { homeStaticData } from '@/endpoints/seed/home-static'
 import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import configPromise from '@payload-config'
@@ -45,17 +44,11 @@ type Args = {
 
 export default async function Page({ params }: Args) {
   const { slug = 'home', locale } = await params
-  const url = '/' + slug
 
-  let page = await queryPageBySlug({
+  const page = await queryPageBySlug({
     slug,
     locale: locale as Locale,
   })
-
-  // Remove this code once your website is seeded
-  if (!page && slug === 'home') {
-    page = homeStaticData() as Page
-  }
 
   if (!page) {
     return notFound()
