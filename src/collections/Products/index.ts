@@ -32,17 +32,19 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
     ...defaultCollection?.admin,
     defaultColumns: ['title', 'priceInMKD', 'inventory', '_status'],
     livePreview: {
-      url: ({ data, req }) =>
+      url: ({ data, locale, req }) =>
         generatePreviewPath({
           slug: data?.slug,
           collection: 'products',
+          locale,
           req,
         }),
     },
-    preview: (data, { req }) =>
+    preview: (data, { locale, req }) =>
       generatePreviewPath({
         slug: data?.slug as string,
         collection: 'products',
+        locale,
         req,
       }),
     useAsTitle: 'title',

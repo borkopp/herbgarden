@@ -2,11 +2,11 @@ import type { CollectionConfig } from 'payload'
 
 import { adminOnly } from '@/access/adminOnly'
 import { adminOrPublishedStatus } from '@/access/adminOrPublishedStatus'
+import { CallToAction } from '@/blocks/CallToAction/config'
 import { Content } from '@/blocks/Content/config'
 import { FormBlock } from '@/blocks/Form/config'
-import { Instagram } from '@/blocks/Instagram/config'
-import { CallToAction } from '@/blocks/CallToAction/config'
 import { HowItWorks } from '@/blocks/HowItWorks/config'
+import { Instagram } from '@/blocks/Instagram/config'
 import { ProductFeature } from '@/blocks/ProductFeature/config'
 import { ProductVariantsFeature } from '@/blocks/ProductVariantsFeature/config'
 import { hero } from '@/heros/config'
@@ -39,17 +39,19 @@ export const Pages: CollectionConfig = {
     description: 'Управувајте со статични страници на веб-сајтот (на пр. Почетна, За нас, Контакт).',
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
-      url: ({ data, req }) =>
+      url: ({ data, locale, req }) =>
         generatePreviewPath({
           slug: data?.slug,
           collection: 'pages',
+          locale,
           req,
         }),
     },
-    preview: (data, { req }) =>
+    preview: (data, { locale, req }) =>
       generatePreviewPath({
         slug: data?.slug as string,
         collection: 'pages',
+        locale,
         req,
       }),
     useAsTitle: 'title',

@@ -110,10 +110,11 @@ const generateTitle: GenerateTitle<Product | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Herb Garden` : 'Herb Garden'
 }
 
-const generateURL: GenerateURL<Product | Page> = ({ doc }) => {
+const generateURL: GenerateURL<Product | Page> = ({ doc, locale }) => {
   const url = getServerSideURL()
+  const path = doc?.slug ? `/${doc.slug}` : ''
 
-  return doc?.slug ? `${url}/${doc.slug}` : url
+  return `${url}${locale ? `/${locale}` : ''}${path}`
 }
 
 export const plugins: Plugin[] = [
