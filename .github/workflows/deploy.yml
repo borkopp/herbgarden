@@ -61,5 +61,6 @@ jobs:
           script: |
             cd /root/herbgarden
             
-            # Restart the app (PM2 will read the newly copied ecosystem.config.cjs)
-            pm2 reload herbgarden || pm2 start ecosystem.config.cjs
+            # Use startOrReload to ensure PM2 picks up any changes in ecosystem.config.cjs
+            pm2 startOrReload ecosystem.config.cjs
+            pm2 save
