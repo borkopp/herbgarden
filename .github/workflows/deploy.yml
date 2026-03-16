@@ -23,6 +23,10 @@ jobs:
 
       - name: Build Standalone
         # This is where the 400% CPU happens (on GitHub, not your VPS!)
+        env:
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
         run: |
           pnpm install
           pnpm build
