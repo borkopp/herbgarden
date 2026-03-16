@@ -563,6 +563,7 @@ export interface Page {
     | CallToActionBlock
     | HowItWorksBlock
     | ProductVariantsFeatureBlock
+    | TrustBlock
   )[];
   meta?: {
     title?: string | null;
@@ -917,6 +918,46 @@ export interface ProductVariantsFeatureBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'productVariantsFeature';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TrustBlock".
+ */
+export interface TrustBlock {
+  tag?: string | null;
+  title?: string | null;
+  text?: string | null;
+  image: string | Media;
+  badges?:
+    | {
+        icon: 'lab' | 'gmp' | 'pure' | 'safe';
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  alignment?: ('image-left' | 'image-right') | null;
+  links?:
+    | {
+        link: {
+          type?: ('reference' | 'custom') | null;
+          newTab?: boolean | null;
+          reference?: {
+            relationTo: 'pages';
+            value: string | Page;
+          } | null;
+          url?: string | null;
+          label: string;
+          /**
+           * Choose how the link should be rendered.
+           */
+          appearance?: ('default' | 'outline') | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'trust';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1499,6 +1540,7 @@ export interface PagesSelect<T extends boolean = true> {
         callToAction?: T | CallToActionBlockSelect<T>;
         howItWorks?: T | HowItWorksBlockSelect<T>;
         productVariantsFeature?: T | ProductVariantsFeatureBlockSelect<T>;
+        trust?: T | TrustBlockSelect<T>;
       };
   meta?:
     | T
@@ -1651,6 +1693,41 @@ export interface ProductVariantsFeatureBlockSelect<T extends boolean = true> {
   highlightColor?: T;
   priceLabel?: T;
   customPrice?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TrustBlock_select".
+ */
+export interface TrustBlockSelect<T extends boolean = true> {
+  tag?: T;
+  title?: T;
+  text?: T;
+  image?: T;
+  badges?:
+    | T
+    | {
+        icon?: T;
+        label?: T;
+        id?: T;
+      };
+  alignment?: T;
+  links?:
+    | T
+    | {
+        link?:
+          | T
+          | {
+              type?: T;
+              newTab?: T;
+              reference?: T;
+              url?: T;
+              label?: T;
+              appearance?: T;
+            };
+        id?: T;
+      };
   id?: T;
   blockName?: T;
 }
