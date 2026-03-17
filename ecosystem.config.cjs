@@ -2,7 +2,8 @@ module.exports = {
     apps: [
         {
             name: 'herbgarden',
-            script: './server.js',
+            script: 'server.js',
+            interpreter: 'node',
             cwd: '/root/herbgarden',
             instances: 1,
             exec_mode: 'fork',
