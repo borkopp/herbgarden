@@ -35,48 +35,47 @@ jobs:
         run: |
           pnpm install
           pnpm build
-          
-          # Prepare the deployment folder
-          # Next.js standalone doesn't automatically copy public and static files
-          cp -r public .next/standalone/ 2>/dev/null || true
-          cp -r .next/static .next/standalone/.next/ 2>/dev/null || true
+
+          # Copy public and static into standalone (Next.js doesn't do this automatically)
+          cp -r public .next/standalone/
+          cp -r .next/static .next/standalone/.next/
           cp ecosystem.config.cjs .next/standalone/
 
-      - name: Cleanup VPS Directory
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOST }}
-          username: root
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            # Create dir if not exists
-            mkdir -p /root/herbgarden
-            # Clean everything but preserve .env and logs
-            # We use a more robust way to delete
-            cd /root/herbgarden
-            ls -A | grep -vE '^(.env|logs)$' | xargs rm -rf 2>/dev/null || true
+          # Bundle everything into a single tar archive (preserves hidden folders like .next)
+          cd .next/standalone
+          tar -czf /tmp/herbgarden-deploy.tar.gz .
 
-      - name: Clean & Sync to VPS
+      - name: Upload archive to VPS
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
           username: root
           key: ${{ secrets.SSH_KEY }}
-          # CRITICAL: We need the .next folder (which is hidden) 
-          # so we use a more inclusive glob or multiple sources
-          source: ".next/standalone/*, .next/standalone/.next/*"
-          target: "/root/herbgarden"
+          source: "/tmp/herbgarden-deploy.tar.gz"
+          target: "/tmp"
           strip_components: 2
 
-      - name: Finalize & Reload PM2
+      - name: Deploy on VPS
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: root
           key: ${{ secrets.SSH_KEY }}
           script: |
+            # Wipe old deployment (preserve .env and logs)
             cd /root/herbgarden
-            
-            # Use startOrReload to ensure PM2 picks up any changes in ecosystem.config.cjs
-            pm2 startOrReload ecosystem.config.cjs
+            ls -A | grep -vE '^(.env|logs)$' | xargs rm -rf || true
+
+            # Extract fresh build (tar handles hidden folders perfectly)
+            tar -xzf /tmp/herbgarden-deploy.tar.gz -C /root/herbgarden
+            rm /tmp/herbgarden-deploy.tar.gz
+
+            # Verify critical files exist
+            echo "--- Deployment contents ---"
+            ls -la /root/herbgarden
+            echo "--- .next contents ---"
+            ls -la /root/herbgarden/.next
+
+            # Restart with PM2
+            pm2 startOrReload /root/herbgarden/ecosystem.config.cjs
             pm2 save
