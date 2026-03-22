@@ -30,8 +30,6 @@ jobs:
         env:
           PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           DATABASE_URL: mongodb://127.0.0.1:27017/build-db
-          # FIX 1: Use real secret, not dummy — NEXT_PUBLIC_* is baked into
-          # the bundle at build time and cannot be overridden at runtime
           NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
         run: |
           pnpm install
@@ -40,23 +38,24 @@ jobs:
           cp -r public .next/standalone/
           cp -r .next/static .next/standalone/.next/
           cp ecosystem.config.cjs .next/standalone/
-
-          # FIX 2: Create the logs dir so PM2 doesn't fail on first start
           mkdir -p .next/standalone/logs
 
-          cd .next/standalone
-          tar -czf /tmp/herbgarden-deploy.tar.gz .
+          # FIX: No manual tar — move the standalone folder to a known path
+          # and let appleboy/scp-action handle the transfer itself
+          mv .next/standalone /tmp/herbgarden
 
-      - name: Upload archive to VPS
+      - name: Upload to VPS
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.HOST }}
           username: root
           key: ${{ secrets.SSH_KEY }}
-          source: "/tmp/herbgarden-deploy.tar.gz"
+          # FIX: Upload the folder directly, not a pre-made tar.
+          # scp-action will tar it, scp it, and extract it at the target.
+          # It will land as /tmp/herbgarden/ on the VPS.
+          source: "/tmp/herbgarden"
           target: "/tmp"
-          # FIX 3: strip_components: 2 was stripping the filename itself,
-          # causing the file to not land at /tmp on the VPS. Removed entirely.
+          strip_components: 2
 
       - name: Deploy on VPS
         uses: appleboy/ssh-action@master
@@ -65,21 +64,28 @@ jobs:
           username: root
           key: ${{ secrets.SSH_KEY }}
           script: |
+            set -e
+
+            echo "--- Verifying upload landed correctly ---"
+            ls -la /tmp/herbgarden/
+
+            echo "--- Swapping deployment ---"
             cd /root/herbgarden
 
             # Preserve .env and logs, wipe everything else
             ls -A | grep -vE '^(.env|logs)$' | xargs rm -rf || true
 
-            tar -xzf /tmp/herbgarden-deploy.tar.gz -C /root/herbgarden
-            rm /tmp/herbgarden-deploy.tar.gz
+            # FIX: Move files from where scp-action actually put them
+            mv /tmp/herbgarden/* /root/herbgarden/
+            mv /tmp/herbgarden/.[!.]* /root/herbgarden/ 2>/dev/null || true
+            rm -rf /tmp/herbgarden
 
-            # Verify critical files exist before restarting
             echo "--- Deployment contents ---"
             ls -la /root/herbgarden
-            echo "--- .next/static check ---"
-            ls -la /root/herbgarden/.next/static
             echo "--- server.js check ---"
             ls -la /root/herbgarden/server.js
+            echo "--- .next/static check ---"
+            ls -la /root/herbgarden/.next/static/
 
             pm2 startOrReload /root/herbgarden/ecosystem.config.cjs
             pm2 save
