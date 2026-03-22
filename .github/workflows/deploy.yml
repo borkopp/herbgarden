@@ -27,21 +27,23 @@ jobs:
           cache: 'pnpm'
 
       - name: Build Standalone
-        # This is where the 400% CPU happens (on GitHub, not your VPS!)
         env:
-          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET || 'dummy-secret-for-build' }}
+          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
           DATABASE_URL: mongodb://127.0.0.1:27017/build-db
-          NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000' }}
+          # FIX 1: Use real secret, not dummy — NEXT_PUBLIC_* is baked into
+          # the bundle at build time and cannot be overridden at runtime
+          NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
         run: |
           pnpm install
           pnpm build
 
-          # Copy public and static into standalone (Next.js doesn't do this automatically)
           cp -r public .next/standalone/
           cp -r .next/static .next/standalone/.next/
           cp ecosystem.config.cjs .next/standalone/
 
-          # Bundle everything into a single tar archive (preserves hidden folders like .next)
+          # FIX 2: Create the logs dir so PM2 doesn't fail on first start
+          mkdir -p .next/standalone/logs
+
           cd .next/standalone
           tar -czf /tmp/herbgarden-deploy.tar.gz .
 
@@ -53,7 +55,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           source: "/tmp/herbgarden-deploy.tar.gz"
           target: "/tmp"
-          strip_components: 2
+          # FIX 3: strip_components: 2 was stripping the filename itself,
+          # causing the file to not land at /tmp on the VPS. Removed entirely.
 
       - name: Deploy on VPS
         uses: appleboy/ssh-action@master
@@ -62,20 +65,21 @@ jobs:
           username: root
           key: ${{ secrets.SSH_KEY }}
           script: |
-            # Wipe old deployment (preserve .env and logs)
             cd /root/herbgarden
+
+            # Preserve .env and logs, wipe everything else
             ls -A | grep -vE '^(.env|logs)$' | xargs rm -rf || true
 
-            # Extract fresh build (tar handles hidden folders perfectly)
             tar -xzf /tmp/herbgarden-deploy.tar.gz -C /root/herbgarden
             rm /tmp/herbgarden-deploy.tar.gz
 
-            # Verify critical files exist
+            # Verify critical files exist before restarting
             echo "--- Deployment contents ---"
             ls -la /root/herbgarden
-            echo "--- .next contents ---"
-            ls -la /root/herbgarden/.next
+            echo "--- .next/static check ---"
+            ls -la /root/herbgarden/.next/static
+            echo "--- server.js check ---"
+            ls -la /root/herbgarden/server.js
 
-            # Restart with PM2
             pm2 startOrReload /root/herbgarden/ecosystem.config.cjs
             pm2 save
