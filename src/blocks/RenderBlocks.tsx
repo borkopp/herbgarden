@@ -6,6 +6,7 @@ import { InstagramBlock } from '@/blocks/Instagram/Component'
 import { ProductFeatureBlock } from '@/blocks/ProductFeature/Component'
 import { ProductVariantsFeatureBlock } from '@/blocks/ProductVariantsFeature/Component'
 import { TrustBlock } from '@/blocks/Trust/Component'
+import { TrustBadgesBlock } from '@/blocks/TrustBadges/Component'
 import { toKebabCase } from '@/utilities/toKebabCase'
 import React, { Fragment } from 'react'
 
@@ -20,6 +21,7 @@ const blockComponents = {
   callToAction: CallToActionBlockComponent,
   howItWorks: HowItWorksBlockComponent,
   trust: TrustBlock,
+  trustBadges: TrustBadgesBlock,
 }
 
 export const RenderBlocks: React.FC<{

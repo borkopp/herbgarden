@@ -518,6 +518,88 @@ const en = {
         orderMetadataDesc: 'Check the status of your order #',
         contactLabel: 'CONTACT:',
     },
+
+    quality: {
+        title: 'Tested. Verified. Guaranteed.',
+        subtitle: 'Every Herb Garden batch is independently tested for alkaloid content, heavy metals, and microbial purity before it reaches you. We publish the results.',
+        stats: {
+            tests: { value: '6', label: 'Tests per batch' },
+            additives: { value: '0', label: 'Additives or fillers' },
+            heavyMetals: { value: 'ND', label: 'Heavy metals' },
+            published: { value: '100%', label: 'Batches published' }
+        },
+        panel: {
+            title: 'Test panel — per batch',
+            subtitle: 'Run by a third-party ISO-accredited laboratory. Results linked to each product page.',
+            mitragynine: 'Mitragynine',
+            hydroxy: '7-Hydroxymitragynine',
+            total: 'Total alkaloids',
+            quantified: 'Quantified',
+            lead: 'Lead / arsenic / mercury',
+            cadmium: 'Cadmium',
+            salmonella: 'Salmonella / E. coli',
+            nd: 'ND',
+            notDetected: 'Not detected'
+        },
+        process: {
+            title: 'How every batch is tested',
+            subtitle: 'From harvest to your order — the steps that happen before anything ships.',
+            step1: {
+                title: 'Harvest & dry',
+                desc: 'Leaves are hand-picked from mature trees in West Kalimantan. Dried indoors away from UV light.'
+            },
+            step2: {
+                title: 'Batch sampling',
+                desc: 'A sample from every production batch is pulled and sent to an independent laboratory before milling.'
+            },
+            step3: {
+                title: 'Lab analysis',
+                desc: 'HPLC-MS alkaloid quantification + ICP-MS heavy metal screening + microbiological panel.'
+            },
+            step4: {
+                title: 'CoA published',
+                desc: 'Certificate of Analysis is uploaded and linked to the product page. Batches that fail are rejected.'
+            },
+            step5: {
+                title: 'Sealed & shipped',
+                desc: 'Passed batches are micro-milled, nitrogen-flushed, and sealed in foil sachets.'
+            }
+        },
+        coa: {
+            title: 'Certificates of analysis',
+            subtitle: 'Download the full lab report for any batch. Batch code printed on every sachet.',
+            button: 'PDF',
+            footer: 'New batches added as products launch',
+            crispApple: 'Crisp Apple — Green Maeng Da',
+            crispAppleBatch: 'Batch #HG-2025-04 · Apr 2025',
+            wildMelon: 'Wild Melon — Red Bali',
+            wildMelonBatch: 'Batch #HG-2025-03 · Mar 2025'
+        },
+        guarantee: {
+            title: 'Our purity guarantee',
+            subtitle: 'What we promise on every order:',
+            items: [
+                'No fillers, binders, or flowing agents',
+                'No artificial colouring or flavouring in kratom',
+                'Heavy metals below EU food safety limits',
+                'Batch-traceable to lab certificate',
+                'Satisfaction guarantee — contact us within 14 days'
+            ],
+            badge: 'Guaranteed'
+        },
+        faq: {
+            title: 'Common questions',
+            subtitle: '3–5 short Q&A items. Suggested topics:',
+            items: [
+                { q: 'What does "ND" mean in the heavy metals results?', a: 'ND stands for Not Detected. It means the levels are below the laboratory\'s limit of detection, ensuring absolute safety.' },
+                { q: 'How do I find my batch number?', a: 'Your batch number is printed directly on the back of your kratom sachet, near the expiration date.' },
+                { q: 'What is mitragynine and why does the percentage matter?', a: 'Mitragynine is the primary active alkaloid in kratom. Knowing the exact percentage helps you dose accurately and consistently.' },
+                { q: 'Are your products tested in a European lab?', a: 'Yes, all our independent testing is conducted by ISO-accredited laboratories operating within the European Union.' },
+                { q: 'What happens if a batch fails testing?', a: 'Any batch that fails to meet our strict standards for purity or alkaloid content is immediately rejected and destroyed.' }
+            ]
+        }
+    },
+
 } as const
 
 type DeepStringify<T> = {

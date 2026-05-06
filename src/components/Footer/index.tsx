@@ -42,14 +42,14 @@ export async function Footer({ locale }: { locale: Locale }) {
             <Link href={`/${locale}`} className="block">
               <Image
                 src="/logo-vertical.png"
-                alt="VERA & VIGOR"
+                alt="HerbGarden"
                 width={180}
                 height={200}
                 className="h-32 w-auto object-contain brightness-0"
               />
             </Link>
             <p className="max-w-xs text-stone-500 text-sm leading-relaxed font-normal normal-case">
-              {footer.description || dict.footer.officialStore}
+              {footer.description || dict.footer.officialStore}asd
             </p>
           </div>
 
@@ -82,11 +82,19 @@ export async function Footer({ locale }: { locale: Locale }) {
           ))}
         </div>
 
+
+
         {/* Bottom Bar */}
         <div className="mt-24 pt-8 border-t border-stone-100 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-[9px] font-bold tracking-[0.15em] text-stone-400 uppercase not-italic">
             © {currentYear} HERB GARDEN. {footer.copyrightText || dict.footer.allRightsReserved}
           </p>
+
+          {footer.complianceNote && (
+            <p className="text-[9px] font-bold tracking-[0.15em] text-stone-400 uppercase not-italic">
+              {footer.complianceNote}
+            </p>
+          )}
           <div className="flex gap-10">
             {bottomNavItems.map((item, index) => (
               <Link

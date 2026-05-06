@@ -564,6 +564,7 @@ export interface Page {
     | HowItWorksBlock
     | ProductVariantsFeatureBlock
     | TrustBlock
+    | TrustBadgesBlock
   )[];
   meta?: {
     title?: string | null;
@@ -958,6 +959,23 @@ export interface TrustBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'trust';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TrustBadgesBlock".
+ */
+export interface TrustBadgesBlock {
+  badges?:
+    | {
+        icon: 'lab' | 'pure' | 'origin' | 'sealed' | 'no-additives' | 'gmp' | 'safe';
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  backgroundColor?: ('white' | 'light-green' | 'dark') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'trustBadges';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1541,6 +1559,7 @@ export interface PagesSelect<T extends boolean = true> {
         howItWorks?: T | HowItWorksBlockSelect<T>;
         productVariantsFeature?: T | ProductVariantsFeatureBlockSelect<T>;
         trust?: T | TrustBlockSelect<T>;
+        trustBadges?: T | TrustBadgesBlockSelect<T>;
       };
   meta?:
     | T
@@ -1728,6 +1747,22 @@ export interface TrustBlockSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TrustBadgesBlock_select".
+ */
+export interface TrustBadgesBlockSelect<T extends boolean = true> {
+  badges?:
+    | T
+    | {
+        icon?: T;
+        label?: T;
+        id?: T;
+      };
+  backgroundColor?: T;
   id?: T;
   blockName?: T;
 }
@@ -2192,6 +2227,10 @@ export interface Header {
 export interface Footer {
   id: string;
   description?: string | null;
+  /**
+   * A short one-liner to increase trust (e.g., "All products are independently tested...")
+   */
+  complianceNote?: string | null;
   columns?:
     | {
         label: string;
@@ -2263,6 +2302,7 @@ export interface HeaderSelect<T extends boolean = true> {
  */
 export interface FooterSelect<T extends boolean = true> {
   description?: T;
+  complianceNote?: T;
   columns?:
     | T
     | {

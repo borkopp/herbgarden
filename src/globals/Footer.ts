@@ -15,6 +15,15 @@ export const Footer: GlobalConfig = {
       label: 'Footer Description',
     },
     {
+      name: 'complianceNote',
+      type: 'textarea',
+      localized: true,
+      label: 'Compliance & Transparency Note',
+      admin: {
+        description: 'A short one-liner to increase trust (e.g., "All products are independently tested...")',
+      },
+    },
+    {
       name: 'columns',
       type: 'array',
       localized: true,
