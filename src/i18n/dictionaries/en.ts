@@ -521,7 +521,9 @@ const en = {
 
     quality: {
         title: 'Tested. Verified. Guaranteed.',
+        sourcing: 'Sourced via bigtrea B.V., Netherlands, EU-regulated supply chain.',
         subtitle: 'Every Herb Garden batch is independently tested for alkaloid content, heavy metals, and microbial purity before it reaches you. We publish the results.',
+        tag: 'PURITY ISN\'T A PROMISE - IT\'S ON PAPER.',
         stats: {
             tests: { value: '6', label: 'Tests per batch' },
             additives: { value: '0', label: 'Additives or fillers' },
@@ -529,6 +531,8 @@ const en = {
             published: { value: '100%', label: 'Batches published' }
         },
         panel: {
+            processing: 'Processing Standards',
+            processingItems: 'Stainless steel equipment, no pesticides, clean facilities, responsible handling.',
             title: 'Test panel — per batch',
             subtitle: 'Run by a third-party ISO-accredited laboratory. Results linked to each product page.',
             mitragynine: 'Mitragynine',
@@ -566,6 +570,7 @@ const en = {
             }
         },
         coa: {
+            traceabilityTitle: 'Traceable Certificates of Analysis',
             title: 'Certificates of analysis',
             subtitle: 'Download the full lab report for any batch. Batch code printed on every sachet.',
             button: 'PDF',
@@ -587,6 +592,7 @@ const en = {
             ],
             badge: 'Guaranteed'
         },
+        ekaInfo: 'We actively support the European Kratom Alliance (EKA), working toward science-based regulation and fair legal frameworks.',
         faq: {
             title: 'Common questions',
             subtitle: '3–5 short Q&A items. Suggested topics:',

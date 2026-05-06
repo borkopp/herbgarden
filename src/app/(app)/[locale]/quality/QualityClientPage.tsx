@@ -1,23 +1,24 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
 import type { Dictionary } from '@/i18n/dictionaries/en';
-import { 
-    FileText, 
-    ChevronDown, 
-    CheckCircle2, 
-    FlaskConical, 
-    ShieldCheck, 
-    Search, 
-    Microscope, 
-    Dna, 
+import { AnimatePresence, motion } from 'framer-motion';
+import {
+    ArrowRight,
+    CheckCircle2,
+    ChevronDown,
+    Dna,
     Droplets,
-    Wind,
+    FileText,
+    FlaskConical,
+    Globe,
     Leaf,
+    Microscope,
     PackageCheck,
-    ArrowRight
+    Search,
+    ShieldCheck,
+    Wind
 } from 'lucide-react';
+import { useState } from 'react';
 
 type QualityDict = Dictionary['quality'];
 
@@ -54,7 +55,7 @@ export default function QualityClientPage({ dict }: { dict: QualityDict }) {
                     className="text-center md:text-left"
                 >
                     <span className="text-[10px] font-bold tracking-[0.2em] uppercase text-[#8BA888] mb-6 block">
-                        UNCOMPROMISING STANDARDS
+                        {dict.tag}
                     </span>
                     <h1 className="font-display text-5xl md:text-7xl lg:text-8xl leading-[0.85] tracking-tighter text-black uppercase mb-8">
                         {dict.title.split('.').map((part, i) => {
@@ -67,11 +68,15 @@ export default function QualityClientPage({ dict }: { dict: QualityDict }) {
                             );
                         })}
                     </h1>
-                    <p className="text-black/60 text-sm md:text-base leading-relaxed max-w-xl font-medium">
+                    <p className="text-black/60 text-sm md:text-base leading-relaxed max-w-xl font-medium mb-6">
                         {dict.subtitle}
                     </p>
+                    <div className="flex items-center gap-3 text-[10px] font-bold uppercase tracking-widest text-[#8BA888]">
+                        <Globe size={14} />
+                        {dict.sourcing}
+                    </div>
                 </motion.div>
-                
+
                 {/* Decorative element */}
                 <div className="absolute top-20 right-0 -z-10 opacity-5 hidden lg:block">
                     <FlaskConical size={400} strokeWidth={0.5} />
@@ -81,7 +86,7 @@ export default function QualityClientPage({ dict }: { dict: QualityDict }) {
             {/* AT-A-GLANCE STATS */}
             <section className="py-12 bg-[#f6f6f6]">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div 
+                    <motion.div
                         variants={containerVariants}
                         initial="hidden"
                         whileInView="visible"
@@ -103,7 +108,7 @@ export default function QualityClientPage({ dict }: { dict: QualityDict }) {
             {/* WHAT WE TEST FOR - PANEL */}
             <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
@@ -121,7 +126,7 @@ export default function QualityClientPage({ dict }: { dict: QualityDict }) {
                         </div>
                     </motion.div>
 
-                    <motion.div 
+                    <motion.div
                         variants={containerVariants}
                         initial="hidden"
                         whileInView="visible"
@@ -136,8 +141,8 @@ export default function QualityClientPage({ dict }: { dict: QualityDict }) {
                             { label: dict.panel.cadmium, val: dict.panel.nd, icon: FlaskConical },
                             { label: dict.panel.salmonella, val: dict.panel.notDetected, icon: Wind },
                         ].map((item, i) => (
-                            <motion.div 
-                                key={i} 
+                            <motion.div
+                                key={i}
                                 variants={itemVariants}
                                 className="bg-white border border-black/5 p-6 rounded-2xl flex flex-col justify-between hover:border-[#8BA888]/30 transition-colors"
                             >
@@ -152,6 +157,28 @@ export default function QualityClientPage({ dict }: { dict: QualityDict }) {
                                 <span className="text-xs font-bold uppercase tracking-tight text-black">{item.label}</span>
                             </motion.div>
                         ))}
+                        {/* Processing Standards Row */}
+                        <motion.div
+                            variants={itemVariants}
+                            className="sm:col-span-2 bg-white border border-black/5 p-6 rounded-2xl flex flex-col md:flex-row md:items-center justify-between hover:border-[#8BA888]/30 transition-colors gap-4"
+                        >
+                            <div className="flex items-center gap-4">
+                                <div className="p-2 rounded-lg bg-[#f6f6f6] text-black/40">
+                                    <PackageCheck size={18} strokeWidth={1.5} />
+                                </div>
+                                <div>
+                                    <span className="text-xs font-bold uppercase tracking-tight text-black block mb-1">
+                                        {dict.panel.processing}
+                                    </span>
+                                    <p className="text-[10px] font-medium text-black/40 uppercase tracking-wide">
+                                        {dict.panel.processingItems}
+                                    </p>
+                                </div>
+                            </div>
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-[#8BA888] px-3 py-1 bg-[#8BA888]/5 rounded w-fit">
+                                CERTIFIED
+                            </span>
+                        </motion.div>
                     </motion.div>
                 </div>
             </section>
@@ -181,7 +208,7 @@ export default function QualityClientPage({ dict }: { dict: QualityDict }) {
                             { num: '04', ...dict.process.step4, icon: FileText },
                             { num: '05', ...dict.process.step5, icon: PackageCheck },
                         ].map((step, i) => (
-                            <motion.div 
+                            <motion.div
                                 key={i}
                                 initial={{ opacity: 0, y: 20 }}
                                 whileInView={{ opacity: 1, y: 0 }}
@@ -211,7 +238,7 @@ export default function QualityClientPage({ dict }: { dict: QualityDict }) {
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-8 border-b border-black/5 pb-12">
                     <div className="max-w-xl">
                         <h2 className="text-4xl md:text-5xl font-display tracking-tighter uppercase text-black mb-4">
-                            {dict.coa.title}
+                            {dict.coa.traceabilityTitle}
                         </h2>
                         <p className="text-black/60 text-sm leading-relaxed">
                             {dict.coa.subtitle}
@@ -227,9 +254,9 @@ export default function QualityClientPage({ dict }: { dict: QualityDict }) {
                         { title: dict.coa.crispApple, subtitle: dict.coa.crispAppleBatch, href: '#' },
                         { title: dict.coa.wildMelon, subtitle: dict.coa.wildMelonBatch, href: '#' },
                     ].map((doc, i) => (
-                        <motion.a 
-                            href={doc.href} 
-                            key={i} 
+                        <motion.a
+                            href={doc.href}
+                            key={i}
                             whileHover={{ y: -5 }}
                             className="flex items-center justify-between p-8 rounded-[2rem] bg-[#f6f6f6] group transition-all hover:bg-[#8BA888] hover:text-white"
                         >
@@ -281,9 +308,12 @@ export default function QualityClientPage({ dict }: { dict: QualityDict }) {
 
                         {/* FAQ */}
                         <div className="bg-white rounded-[2.5rem] p-8 md:p-12 shadow-sm border border-black/5">
-                            <h3 className="text-2xl font-display uppercase tracking-tighter text-black mb-8">
+                            <h3 className="text-2xl font-display uppercase tracking-tighter text-black mb-4">
                                 {dict.faq.title}
                             </h3>
+                            <p className="text-black/40 text-[10px] font-bold uppercase tracking-[0.1em] mb-8 leading-relaxed">
+                                {dict.ekaInfo}
+                            </p>
                             <div className="space-y-4">
                                 {dict.faq.items.map((faq, i) => {
                                     const isOpen = openFaq === i;
