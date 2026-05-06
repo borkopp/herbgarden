@@ -17,6 +17,7 @@ import {
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
 import { DefaultDocumentIDType, slugField, Where } from 'payload'
+import { revalidateCollection, revalidateDelete } from '@/hooks/revalidateCollection'
 
 export const ProductsCollection: CollectionOverride = ({ defaultCollection }) => ({
   ...defaultCollection,
@@ -27,6 +28,8 @@ export const ProductsCollection: CollectionOverride = ({ defaultCollection }) =>
   hooks: {
     ...defaultCollection?.hooks,
     beforeChange: [...(defaultCollection?.hooks?.beforeChange || []), formatSlugCollectionHook('title')],
+    afterChange: [...(defaultCollection?.hooks?.afterChange || []), revalidateCollection],
+    afterDelete: [...(defaultCollection?.hooks?.afterDelete || []), revalidateDelete],
   },
   admin: {
     ...defaultCollection?.admin,

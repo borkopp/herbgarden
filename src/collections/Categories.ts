@@ -1,6 +1,7 @@
 import { formatSlugCollectionHook } from '@/hooks/formatSlug'
 import type { CollectionConfig } from 'payload'
 import { slugField } from 'payload'
+import { revalidateCollection, revalidateDelete } from '@/hooks/revalidateCollection'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
@@ -17,6 +18,8 @@ export const Categories: CollectionConfig = {
   },
   hooks: {
     beforeChange: [formatSlugCollectionHook('title')],
+    afterChange: [revalidateCollection],
+    afterDelete: [revalidateDelete],
   },
   fields: [
     {
