@@ -1,38 +1,44 @@
-name: Global Build & Deploy (Standalone)
+name: Build & Deploy
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
+
+env:
+  NODE_VERSION: '22'
+  PNPM_VERSION: '10'
+  DEPLOY_PATH: /root/herbgarden
+  PM2_APP_NAME: herbgarden
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    services:
-      mongodb:
-        image: mongo:latest
-        ports:
-          - 27017:27017
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v3
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
         with:
-          version: 8
+          version: ${{ env.PNPM_VERSION }}
 
-      - name: Setup Node
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ env.NODE_VERSION }}
           cache: 'pnpm'
 
-      - name: Build Standalone
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
         env:
-          PAYLOAD_SECRET: ${{ secrets.PAYLOAD_SECRET }}
-          DATABASE_URL: mongodb://127.0.0.1:27017/build-db
-          PAYLOAD_PUBLIC_SERVER_URL: ${{ secrets.PAYLOAD_PUBLIC_SERVER_URL }}
+          DATABASE_URL: mongodb://dummy:dummy@localhost:27017/dummy
+          PAYLOAD_SECRET: dummy-secret-for-build
           NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
-          PREVIEW_SECRET: ${{ secrets.PREVIEW_SECRET }}
+          PAYLOAD_PUBLIC_SERVER_URL: ${{ secrets.PAYLOAD_PUBLIC_SERVER_URL }}
+          PREVIEW_SECRET: dummy-preview-secret
           COMPANY_NAME: ${{ secrets.COMPANY_NAME }}
           SITE_NAME: ${{ secrets.SITE_NAME }}
           RESEND_API_KEY: ""
@@ -48,57 +54,75 @@ jobs:
           NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
           NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
           INSTAGRAM_ACCESS_TOKEN: ""
+
+      - name: Prepare deployment package
         run: |
-          pnpm install
-          pnpm build
+          mkdir -p deploy
+          cp -r .next/standalone/. deploy/
+          cp -r .next/static deploy/.next/static
+          cp -r public deploy/public
+          cp ecosystem.config.cjs deploy/ecosystem.config.cjs
+          mkdir -p deploy/logs
 
-          cp -r public .next/standalone/
-          cp -r .next/static .next/standalone/.next/
-          cp ecosystem.config.cjs .next/standalone/
-          mkdir -p .next/standalone/logs
-
-          mv .next/standalone /tmp/herbgarden
-
-      - name: Upload to VPS
-        uses: appleboy/scp-action@master
+      - name: Copy files to VPS
+        uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.HOST }}
           username: root
           key: ${{ secrets.SSH_KEY }}
-          source: "/tmp/herbgarden"
-          target: "/tmp"
-          strip_components: 2
+          source: 'deploy/*'
+          target: ${{ env.DEPLOY_PATH }}
+          strip_components: 1
+          overwrite: true
 
       - name: Deploy on VPS
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}
           username: root
           key: ${{ secrets.SSH_KEY }}
           script: |
-            set -e
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 
-            echo "--- Verifying upload ---"
-            ls -la /tmp/
+            cd ${{ env.DEPLOY_PATH }}
 
-            echo "--- Swapping deployment ---"
-            cd /root/herbgarden
-            ls -A | grep -vE '^(.env|logs)$' | xargs rm -rf || true
+            # Write .env file (never overwritten by deploy, only on explicit redeploy)
+            cat > .env << 'ENVEOF'
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            PAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}
+            NEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}
+            PAYLOAD_PUBLIC_SERVER_URL=${{ secrets.PAYLOAD_PUBLIC_SERVER_URL }}
+            PREVIEW_SECRET=${{ secrets.PREVIEW_SECRET }}
+            COMPANY_NAME=${{ secrets.COMPANY_NAME }}
+            SITE_NAME=${{ secrets.SITE_NAME }}
+            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+            RESEND_DEFAULT_FROM_ADDRESS=${{ secrets.RESEND_DEFAULT_FROM_ADDRESS }}
+            RESEND_DEFAULT_ADMIN_EMAIL=${{ secrets.RESEND_DEFAULT_ADMIN_EMAIL }}
+            RESEND_DEFAULT_FROM_NAME=${{ secrets.RESEND_DEFAULT_FROM_NAME }}
+            S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}
+            S3_BUCKET=${{ secrets.S3_BUCKET }}
+            S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }}
+            S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}
+            S3_REGION=${{ secrets.S3_REGION }}
+            NEXT_PUBLIC_POSTHOG_KEY=${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
+            NEXT_PUBLIC_POSTHOG_HOST=${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
+            NEXT_PUBLIC_GA_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
+            INSTAGRAM_ACCESS_TOKEN=${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+            NODE_ENV=production
+            ENVEOF
 
-            cp /tmp/server.js .
-            cp /tmp/package.json .
-            cp /tmp/ecosystem.config.cjs .
-            cp -r /tmp/public .
-            cp -r /tmp/.next .
-            cp -r /tmp/node_modules . 2>/dev/null || true
-            cp -r /tmp/src . 2>/dev/null || true
-
-            rm -rf /tmp/herbgarden 2>/dev/null || true
-
+            # Verify key files exist
             echo "--- Verifying deployment ---"
-            ls -la /root/herbgarden
-            ls -la /root/herbgarden/server.js
-            ls -la /root/herbgarden/.next/static/
+            ls -la ${{ env.DEPLOY_PATH }}/server.js
+            ls -la ${{ env.DEPLOY_PATH }}/.next/static/
 
-            pm2 startOrReload /root/herbgarden/ecosystem.config.cjs
+            # Restart or start PM2 app
+            pm2 describe ${{ env.PM2_APP_NAME }} > /dev/null 2>&1
+            if [ $? -eq 0 ]; then
+              pm2 restart ${{ env.PM2_APP_NAME }}
+            else
+              pm2 start ecosystem.config.cjs --only ${{ env.PM2_APP_NAME }}
+            fi
+
             pm2 save
