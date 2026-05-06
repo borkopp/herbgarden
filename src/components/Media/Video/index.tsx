@@ -4,6 +4,7 @@ import { cn } from '@/utilities/cn'
 import React, { useRef } from 'react'
 
 import type { Props as MediaProps } from '../types'
+import { getClientSideURL } from '@/utilities/getURL'
 
 export const Video: React.FC<MediaProps> = (props) => {
   const { onClick, resource, videoClassName, fill } = props
@@ -13,7 +14,7 @@ export const Video: React.FC<MediaProps> = (props) => {
   if (resource && typeof resource === 'object') {
     const { filename, url } = resource
 
-    const src = url || `${process.env.NEXT_PUBLIC_SERVER_URL}/media/${filename}`
+    const src = url || `${getClientSideURL()}/media/${filename}`
 
     return (
       <video

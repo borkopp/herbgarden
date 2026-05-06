@@ -12,6 +12,7 @@ import React, { Fragment, useCallback, useEffect, useRef, useState } from 'react
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { useLocale } from '@/providers/Locale'
+import { getClientSideURL } from '@/utilities/getURL'
 
 type FormData = {
   email: string
@@ -41,7 +42,7 @@ export const AccountForm: React.FC = () => {
   const onSubmit = useCallback(
     async (data: FormData) => {
       if (user) {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/${user.id}`, {
+        const response = await fetch(`${getClientSideURL()}/api/users/${user.id}`, {
           // Make sure to include cookies with fetch
           body: JSON.stringify(data),
           credentials: 'include',

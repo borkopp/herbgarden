@@ -13,6 +13,7 @@ import posthog from 'posthog-js'
 import React, { useCallback, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useLocale } from '@/providers/Locale'
+import { getClientSideURL } from '@/utilities/getURL'
 
 type FormData = {
   email: string
@@ -41,7 +42,7 @@ export const CreateAccountForm: React.FC = () => {
 
   const onSubmit = useCallback(
     async (data: FormData) => {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users`, {
+      const response = await fetch(`${getClientSideURL()}/api/users`, {
         body: JSON.stringify(data),
         headers: {
           'Content-Type': 'application/json',
