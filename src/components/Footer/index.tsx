@@ -49,7 +49,7 @@ export async function Footer({ locale }: { locale: Locale }) {
               />
             </Link>
             <p className="max-w-xs text-stone-500 text-sm leading-relaxed font-normal normal-case">
-              {footer.description || dict.footer.officialStore}asd
+              {footer.description || dict.footer.officialStore}
             </p>
           </div>
 
