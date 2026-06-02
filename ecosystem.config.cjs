@@ -4,13 +4,13 @@ module.exports = {
             name: 'herbgarden',
             script: 'server.js',
             interpreter: 'node',
-            cwd: '/root/herbgarden',
+            cwd: '/var/www/herbgarden',
             instances: 1,
             exec_mode: 'fork',
             env: {
                 NODE_ENV: 'production',
                 PORT: 3004,
-                HOSTNAME: '0.0.0.0',
+                HOSTNAME: '127.0.0.1',
                 // Still good to keep these for safety
                 NODE_OPTIONS: '--max-old-space-size=2048 --no-deprecation',
             },

@@ -7,7 +7,7 @@ on:
 env:
   NODE_VERSION: '22'
   PNPM_VERSION: '10'
-  DEPLOY_PATH: /root/herbgarden
+  DEPLOY_PATH: /var/www/herbgarden
   PM2_APP_NAME: herbgarden
 
 jobs:
@@ -68,7 +68,7 @@ jobs:
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.HOST }}
-          username: root
+          username: deploy
           key: ${{ secrets.SSH_KEY }}
           source: 'deploy/*'
           target: ${{ env.DEPLOY_PATH }}
@@ -79,7 +79,7 @@ jobs:
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.HOST }}
-          username: root
+          username: deploy
           key: ${{ secrets.SSH_KEY }}
           script: |
             export NVM_DIR="$HOME/.nvm"
