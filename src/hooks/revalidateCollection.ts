@@ -5,7 +5,7 @@ export const revalidateCollection: CollectionAfterChangeHook = ({ doc, collectio
   if (doc._status === 'published') {
     const tag = `${collection.slug}_${doc.slug}`
     payload.logger.info(`Revalidating document: ${tag}`)
-    revalidateTag(tag)
+    revalidateTag(tag, { expire: 0 })
   }
   return doc
 }
@@ -13,6 +13,6 @@ export const revalidateCollection: CollectionAfterChangeHook = ({ doc, collectio
 export const revalidateDelete: CollectionAfterDeleteHook = ({ doc, collection, req: { payload } }) => {
   const tag = `${collection.slug}_${doc?.slug}`
   payload.logger.info(`Revalidating deleted document: ${tag}`)
-  revalidateTag(tag)
+  revalidateTag(tag, { expire: 0 })
   return doc
 }

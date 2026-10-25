@@ -1,128 +1,123 @@
 name: Build & Deploy
-
 on:
   push:
     branches: [main]
-
-env:
-  NODE_VERSION: '22'
-  PNPM_VERSION: '10'
-  DEPLOY_PATH: /var/www/herbgarden
-  PM2_APP_NAME: herbgarden
-
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: herbgarden-production
+  cancel-in-progress: false
 jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    services:
+      mongodb:
+        image: mongo:8.0
+        ports: ['27017:27017']
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.runCommand({ ping: 1 })'"
+          --health-interval 10s --health-timeout 5s --health-retries 10
+    env:
+      NODE_OPTIONS: --no-deprecation --max-old-space-size=4096
+      NEXT_TELEMETRY_DISABLED: '1'
+      DATABASE_URL: mongodb://127.0.0.1:27017/security-validation
+      DATABASE_URI: mongodb://127.0.0.1:27017/security-validation
+      PAYLOAD_SECRET: isolated-ci-build-only-secret
+      RESEND_API_KEY: re_ci_build_only
+      EMAIL_DELIVERY_ENABLED: 'false'
+      CPAY_ENABLED: 'false'
+      NEKSIO_STOCK_SYNC_ENABLED: 'false'
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          version: ${{ env.PNPM_VERSION }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+          persist-credentials: false
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'pnpm'
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Build
-        run: pnpm build:ci
+          version: '10.34.8'
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22.23.4'
+          cache: pnpm
+      - name: Load public build settings
         env:
-          DATABASE_URL: mongodb://dummy:dummy@localhost:27017/dummy
-          PAYLOAD_SECRET: dummy-secret-for-build
-          NEXT_PUBLIC_SERVER_URL: ${{ secrets.NEXT_PUBLIC_SERVER_URL }}
-          PAYLOAD_PUBLIC_SERVER_URL: ${{ secrets.PAYLOAD_PUBLIC_SERVER_URL }}
-          PREVIEW_SECRET: dummy-preview-secret
-          COMPANY_NAME: ${{ secrets.COMPANY_NAME }}
-          SITE_NAME: ${{ secrets.SITE_NAME }}
-          RESEND_API_KEY: ""
-          RESEND_DEFAULT_FROM_ADDRESS: ${{ secrets.RESEND_DEFAULT_FROM_ADDRESS }}
-          RESEND_DEFAULT_ADMIN_EMAIL: ${{ secrets.RESEND_DEFAULT_ADMIN_EMAIL }}
-          RESEND_DEFAULT_FROM_NAME: ${{ secrets.RESEND_DEFAULT_FROM_NAME }}
-          S3_ENDPOINT: ${{ secrets.S3_ENDPOINT }}
-          S3_BUCKET: ${{ secrets.S3_BUCKET }}
-          S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
-          S3_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
-          S3_REGION: ${{ secrets.S3_REGION }}
-          NEXT_PUBLIC_POSTHOG_KEY: ""
-          NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
-          NEXT_PUBLIC_GA_MEASUREMENT_ID: ${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
-          INSTAGRAM_ACCESS_TOKEN: ""
-
-      - name: Prepare deployment package
+          PUBLIC_SETTINGS: ${{ secrets.VPS_BUILD_PUBLIC_ENV }}
         run: |
-          mkdir -p deploy
-          cp -r .next/standalone/. deploy/
-          cp -r .next/static deploy/.next/static
-          cp -r public deploy/public
-          cp ecosystem.config.cjs deploy/ecosystem.config.cjs
-          mkdir -p deploy/logs
-
-      - name: Copy files to VPS
-        uses: appleboy/scp-action@v0.1.7
+          python3 - <<'PYCODE'
+          import json, os, re
+          values = json.loads(os.environ['PUBLIC_SETTINGS'])
+          with open(os.environ['GITHUB_ENV'], 'a') as f:
+              for key, value in values.items():
+                  assert re.fullmatch(r'(NEXT_PUBLIC_[A-Z0-9_]+|S3_(PUBLIC_URL|ENDPOINT|BUCKET|REGION|KEY_PREFIX|FORCE_PATH_STYLE))', key)
+                  assert '\n' not in value and '\r' not in value
+                  f.write(key + '=' + value + '\n')
+          PYCODE
+      - run: pnpm install --frozen-lockfile
+      - name: Generate route types and check TypeScript
+        run: |
+          pnpm exec next typegen
+          pnpm exec tsc --noEmit --incremental false
+      - name: Integration tests against disposable database
+        run: pnpm test:int
+      - name: Production build
+        run: pnpm exec next build --webpack --experimental-build-mode compile
+      - name: Package verified Linux release
+        run: |
+          set -euo pipefail
+          test -f .next/standalone/server.js
+          mkdir -p .next/standalone/.next .next/standalone/public
+          cp -a .next/static .next/standalone/.next/
+          cp -a public/. .next/standalone/public/
+          if test -d deploy; then cp -a deploy .next/standalone/; fi
+          rm -f .next/standalone/.env .next/standalone/.env.*
+          printf '%s\n' "$GITHUB_SHA" > .next/standalone/public/deployment.txt
+          tar -C .next/standalone -czf "$RUNNER_TEMP/release.tar.gz" .
+          sha256sum "$RUNNER_TEMP/release.tar.gz" > "$RUNNER_TEMP/release.tar.gz.sha256"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
         with:
-          host: ${{ secrets.HOST }}
-          username: deploy
-          key: ${{ secrets.SSH_KEY }}
-          source: 'deploy/*'
-          target: ${{ env.DEPLOY_PATH }}
-          strip_components: 1
-          overwrite: true
-
-      - name: Deploy on VPS
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.HOST }}
-          username: deploy
-          key: ${{ secrets.SSH_KEY }}
-          script: |
-            export NVM_DIR="$HOME/.nvm"
-            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-
-            cd ${{ env.DEPLOY_PATH }}
-
-            # Write .env file (never overwritten by deploy, only on explicit redeploy)
-            cat > .env << 'ENVEOF'
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
-            PAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}
-            NEXT_PUBLIC_SERVER_URL=${{ secrets.NEXT_PUBLIC_SERVER_URL }}
-            PAYLOAD_PUBLIC_SERVER_URL=${{ secrets.PAYLOAD_PUBLIC_SERVER_URL }}
-            PREVIEW_SECRET=${{ secrets.PREVIEW_SECRET }}
-            COMPANY_NAME=${{ secrets.COMPANY_NAME }}
-            SITE_NAME=${{ secrets.SITE_NAME }}
-            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
-            RESEND_DEFAULT_FROM_ADDRESS=${{ secrets.RESEND_DEFAULT_FROM_ADDRESS }}
-            RESEND_DEFAULT_ADMIN_EMAIL=${{ secrets.RESEND_DEFAULT_ADMIN_EMAIL }}
-            RESEND_DEFAULT_FROM_NAME=${{ secrets.RESEND_DEFAULT_FROM_NAME }}
-            S3_ENDPOINT=${{ secrets.S3_ENDPOINT }}
-            S3_BUCKET=${{ secrets.S3_BUCKET }}
-            S3_ACCESS_KEY_ID=${{ secrets.S3_ACCESS_KEY_ID }}
-            S3_SECRET_ACCESS_KEY=${{ secrets.S3_SECRET_ACCESS_KEY }}
-            S3_REGION=${{ secrets.S3_REGION }}
-            NEXT_PUBLIC_POSTHOG_KEY=${{ secrets.NEXT_PUBLIC_POSTHOG_KEY }}
-            NEXT_PUBLIC_POSTHOG_HOST=${{ secrets.NEXT_PUBLIC_POSTHOG_HOST }}
-            NEXT_PUBLIC_GA_MEASUREMENT_ID=${{ secrets.NEXT_PUBLIC_GA_MEASUREMENT_ID }}
-            INSTAGRAM_ACCESS_TOKEN=${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
-            NODE_ENV=production
-            ENVEOF
-
-            # Verify key files exist
-            echo "--- Verifying deployment ---"
-            ls -la ${{ env.DEPLOY_PATH }}/server.js
-            ls -la ${{ env.DEPLOY_PATH }}/.next/static/
-
-            # Restart or start PM2 app
-            pm2 describe ${{ env.PM2_APP_NAME }} > /dev/null 2>&1
-            if [ $? -eq 0 ]; then
-              pm2 restart ${{ env.PM2_APP_NAME }}
-            else
-              pm2 start ecosystem.config.cjs --only ${{ env.PM2_APP_NAME }}
-            fi
-
-            pm2 save
+          name: linux-production-release
+          retention-days: 14
+          path: |
+            ${{ runner.temp }}/release.tar.gz
+            ${{ runner.temp }}/release.tar.gz.sha256
+      - name: Configure deployment SSH
+        env:
+          DEPLOY_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          set -euo pipefail
+          test -n "$DEPLOY_KEY"
+          umask 077
+          mkdir -p ~/.ssh
+          printf '%s\n' "$DEPLOY_KEY" > "$RUNNER_TEMP/deploy-key"
+          printf '%s\n' '46.224.68.239 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO19f5xd63CQq8C6JwZQ/NTFR0GmjzaJ0TatGKrT81BI' > ~/.ssh/known_hosts
+          cat > ~/.ssh/config <<EOF
+          Host herbgarden-vps
+            HostName 46.224.68.239
+            User deploy
+            IdentityFile $RUNNER_TEMP/deploy-key
+            IdentitiesOnly yes
+            BatchMode yes
+            StrictHostKeyChecking yes
+            ConnectTimeout 15
+          EOF
+      - name: Upload and activate with rollback
+        run: |
+          set -euo pipefail
+          release_id="${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${GITHUB_SHA}"
+          scp "$RUNNER_TEMP/release.tar.gz" "herbgarden-vps:/tmp/herbgarden-$release_id.tar.gz"
+          ssh herbgarden-vps bash -s -- "$release_id" "$GITHUB_SHA" <<'REMOTE'
+          set -euo pipefail
+          app=/var/www/herbgarden-runtime
+          release="$app/releases/$1"
+          archive="/tmp/herbgarden-$1.tar.gz"
+          test -r "$app/shared/.env"
+          mkdir "$release"
+          tar -xzf "$archive" -C "$release"
+          rm -f "$archive"
+          install -m 600 "$release/deploy/ecosystem.config.cjs" "$app/ecosystem.config.cjs"
+          bash "$release/deploy/activate-release.sh" "$release" "$2"
+          REMOTE
+      - name: Remove temporary key
+        if: always()
+        run: rm -f "$RUNNER_TEMP/deploy-key"

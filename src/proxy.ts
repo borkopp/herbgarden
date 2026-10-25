@@ -9,7 +9,7 @@ function getLocaleFromPathname(pathname: string): Locale | undefined {
     return locales.find((l) => l === potentialLocale)
 }
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl
 
     // Skip locale handling for:
