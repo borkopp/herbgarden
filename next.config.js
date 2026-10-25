@@ -8,6 +8,8 @@ const NEXT_PUBLIC_SERVER_URL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://loc
 const nextConfig = {
   output: 'standalone',
   images: {
+    qualities: [75, 90, 100],
+    localPatterns: [{ pathname: '/**' }],
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
         const url = new URL(item)
@@ -18,9 +20,6 @@ const nextConfig = {
         }
       }),
     ],
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   },
   reactStrictMode: true,
   redirects,

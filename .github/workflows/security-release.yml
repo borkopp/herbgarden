@@ -1,0 +1,83 @@
+name: Security release validation
+on:
+  push:
+    branches: [codex/vps-security-20261025]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: security-release-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    services:
+      mongodb:
+        image: mongo:8.0
+        ports: ['27017:27017']
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.runCommand({ ping: 1 })'"
+          --health-interval 10s --health-timeout 5s --health-retries 10
+    env:
+      NODE_OPTIONS: --no-deprecation --max-old-space-size=4096
+      NEXT_TELEMETRY_DISABLED: '1'
+      DATABASE_URL: mongodb://127.0.0.1:27017/security-validation
+      DATABASE_URI: mongodb://127.0.0.1:27017/security-validation
+      PAYLOAD_SECRET: isolated-ci-build-only-secret
+      RESEND_API_KEY: re_ci_build_only
+      EMAIL_DELIVERY_ENABLED: 'false'
+      CPAY_ENABLED: 'false'
+      NEKSIO_STOCK_SYNC_ENABLED: 'false'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6.0.9
+        with:
+          version: '10.34.8'
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: '22.23.4'
+          cache: pnpm
+      - name: Load public build settings
+        env:
+          PUBLIC_SETTINGS: ${{ secrets.VPS_BUILD_PUBLIC_ENV }}
+        run: |
+          python3 - <<'PYCODE'
+          import json, os, re
+          values = json.loads(os.environ['PUBLIC_SETTINGS'])
+          with open(os.environ['GITHUB_ENV'], 'a') as f:
+              for key, value in values.items():
+                  assert re.fullmatch(r'(NEXT_PUBLIC_[A-Z0-9_]+|S3_(PUBLIC_URL|ENDPOINT|BUCKET|REGION|KEY_PREFIX|FORCE_PATH_STYLE))', key)
+                  assert '\n' not in value and '\r' not in value
+                  f.write(key + '=' + value + '\n')
+          PYCODE
+      - run: pnpm install --frozen-lockfile
+      - name: Generate route types and check TypeScript
+        run: |
+          pnpm exec next typegen
+          pnpm exec tsc --noEmit --incremental false
+      - name: Integration tests against disposable database
+        run: pnpm test:int
+      - name: Production build
+        run: pnpm exec next build --webpack --experimental-build-mode compile
+      - name: Package verified Linux release
+        run: |
+          set -euo pipefail
+          test -f .next/standalone/server.js
+          mkdir -p .next/standalone/.next .next/standalone/public
+          cp -a .next/static .next/standalone/.next/
+          cp -a public/. .next/standalone/public/
+          if test -d deploy; then cp -a deploy .next/standalone/; fi
+          rm -f .next/standalone/.env .next/standalone/.env.*
+          printf '%s\n' "$GITHUB_SHA" > .next/standalone/public/deployment.txt
+          tar -C .next/standalone -czf "$RUNNER_TEMP/release.tar.gz" .
+          sha256sum "$RUNNER_TEMP/release.tar.gz" > "$RUNNER_TEMP/release.tar.gz.sha256"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: linux-production-release
+          retention-days: 14
+          path: |
+            ${{ runner.temp }}/release.tar.gz
+            ${{ runner.temp }}/release.tar.gz.sha256
