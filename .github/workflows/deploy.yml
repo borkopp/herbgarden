@@ -71,6 +71,8 @@ jobs:
           cp -a public/. .next/standalone/public/
           if test -d deploy; then cp -a deploy .next/standalone/; fi
           rm -f .next/standalone/.env .next/standalone/.env.*
+          node --test deploy/finalize-public-env.test.cjs
+          node deploy/finalize-public-env.cjs .next/standalone
           printf '%s\n' "$GITHUB_SHA" > .next/standalone/public/deployment.txt
           tar -C .next/standalone -czf "$RUNNER_TEMP/release.tar.gz" .
           sha256sum "$RUNNER_TEMP/release.tar.gz" > "$RUNNER_TEMP/release.tar.gz.sha256"
